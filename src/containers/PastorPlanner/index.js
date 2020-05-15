@@ -8,9 +8,9 @@ import Tab from "../../components/Tab/Tab";
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 
+
 const useStyles = makeStyles(theme => ({
   root: {
-   
     padding: theme.spacing(4)
   },
   title: {
@@ -103,25 +103,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+
 const PastorPlanner = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Paper style={{ height: '80vh',}} >
+      <Paper style={{ height: '80vh' }} >
       <div className={classes.header}>
         <Typography className={classes.headerTitle} >
-            Pastor Planner
+          Pastor Planner
         </Typography>
         <div className={classes.subHeader} >
           <div>   
             <Typography className={classes.weekTitle} color="textSecondary" gutterBottom>
-                All Tasks
+              All Tasks
             </Typography>
           </div>
           <div>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
-                Church Staff
+              Church Staff
             </Typography>
           </div>
         </div>
@@ -160,7 +162,6 @@ const PastorPlanner = () => {
             <Typography style={{textAlign: 'center'}}> Mon </Typography>
             <Paper className={classes.paper}>27</Paper>
           </Grid>
-    
         </Grid>
       </div>
       </Paper>

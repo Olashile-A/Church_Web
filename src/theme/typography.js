@@ -2,6 +2,7 @@ import palette from './palette';
 
 export default {
   fontFamily: [
+    "Lato",
     "Poppins",
     // "Roboto",
     "Raleway",
