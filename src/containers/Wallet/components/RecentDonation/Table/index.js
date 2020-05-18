@@ -12,20 +12,21 @@ const useStyles = makeStyles({
   table: {
     // minWidth: 650,
     width: 'inherit',
-    height: 205
+    height: 325
   },
 });
 
-function createData( date, donor, donation, amount) {
-  return { date, donor, donation, amount };
+function createData( date, donor, amount) {
+  return { date, donor, amount };
 }
 
 
 const rows = [
-  createData('7th Aug, 2020', 'Musa Saka', 'CardPayment,Exhault Church', '4,000.00'),
-  createData('7th Aug, 2020', 'Musa Saka', 'CardPayment,Exhault Church', '4,000.00'),
-  createData('7th Aug, 2020', 'Musa Saka', 'CardPayment,Exhault Church', '4,000.00'),
-  createData('7th Aug, 2020', 'Musa Saka', 'CardPayment,Exhault Church', '4,000.00'),
+  createData('7th Aug, 2020', 'Musa Saka', '4,000.00'),
+  createData('7th Aug, 2020', 'Musa Saka', '4,000.00'),
+  createData('7th Aug, 2020', 'Musa Saka', '4,000.00'),
+  createData('7th Aug, 2020', 'Musa Saka', '4,000.00'),
+  createData('7th Aug, 2020', 'Musa Saka', '4,000.00'),
 ];
 
 export default function DenseTable() {
@@ -36,10 +37,9 @@ export default function DenseTable() {
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">Date</TableCell>
+            <TableCell align="left">Date</TableCell>
             <TableCell align="center">Donor</TableCell>
-            <TableCell align="center">Donation</TableCell>
-            <TableCell align="right">Amount&nbsp;(₦)</TableCell>
+            <TableCell align="center">Amount&nbsp;(₦)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -49,7 +49,6 @@ export default function DenseTable() {
                 {row.date}
               </TableCell>
               <TableCell align="right">{row.donor}</TableCell>
-              <TableCell align="right">{row.donation}</TableCell>
               <TableCell align="center">{row.amount}</TableCell>
             </TableRow>
           ))}

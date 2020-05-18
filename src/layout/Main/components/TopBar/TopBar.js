@@ -23,11 +23,11 @@ const drawerWidth = 250;
 const useStyles = makeStyles(theme => ({
   root: {
     boxShadow: "none",
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
         width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
     },
-    background: 'white'
+    background: '#FFFFFF 0% 0% no-repeat padding-box',
+    height: 62
   },
   flexGrow: {
     flexGrow: 1
@@ -65,11 +65,13 @@ const useStyles = makeStyles(theme => ({
     color: '#8D8D8D'
   },
   Icon: {
-    color: '#8D8D8D'
+    color: '#8D8D8D',
+    width:  20,
+    height: 20
   },
   imageIcon: {
-      width: 30,
-      height: 30,
+      width: 28,
+      height: 28,
       borderRadius: '50%'
   },
   inputRoot: {
@@ -132,8 +134,8 @@ const Topbar = props => {
         <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={0} color="secondary">
-              <div className={classes.Icon}>
-                <NotificationsIcon />
+              <div >
+                <NotificationsIcon className={classes.Icon}/>
               </div>
               </Badge>
             </IconButton>
@@ -154,8 +156,8 @@ const Topbar = props => {
           </IconButton>
         {/* </Hidden> */}
         <Hidden lgUp>
-          <IconButton color="inherit" onClick={onSidebarOpen}>
-            <MenuIcon />
+          <IconButton className={classes.Icon} onClick={onSidebarOpen}>
+            <MenuIcon  />
           </IconButton>
         </Hidden>
       </Toolbar>

@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import MainLayout from "../src/layout/Main";
-import PastorPlannerLayout from "../src/containers/PastorPlanner";
+import PrayerRequestLayout from "../src/containers/PrayerRequest";
 
-class PastorPlanner extends Component {
+class PrayerRequest extends Component {
 
  
   render() {
     return (
       <MainLayout>
-        <PastorPlannerLayout />
+        <PrayerRequestLayout />
       </MainLayout>
     );
   }
 }
 
-export default PastorPlanner;
+export default PrayerRequest;

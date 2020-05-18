@@ -50,30 +50,30 @@ const Sidebar = props => {
   const pages = [
     {
       title: "Dashboard",
-      href: "/dashboard",
+      href: "/dashboard/in",
       icon: <DashboardIcon />
     },
     {
       title: "Pastor Planner",
-      href: "/pastorplanner",
+      href: "/dashboard/pastorplanner",
       icon: <FormatAlignCenterIcon />
 
     },
     {
       title: "Event Planner",
-      href: "/dashboard/in",
+      href: "/dashboard/eventplanner",
       icon: <ImportContactsIcon />
 
     },
     {
       title: "Prayer Request",
-      href: "/dashboard/in",
+      href: "/dashboard/prayerrequest",
       icon: <EventNoteIcon />
 
     },
     {
       title: "Live Stream",
-      href: "/dashboard/in",
+      href: "/dashboard/livestream",
       icon: <AirplayIcon />
 
     },
@@ -97,7 +97,7 @@ const Sidebar = props => {
     },
     {
         title: "Wallet",
-        href: "/dashboard/in",
+        href: "/dashboard/wallet",
         icon: <AccountBalanceWalletIcon />
   
     },
@@ -122,7 +122,7 @@ const Sidebar = props => {
       classes={{ paper: classes.drawer }}
       onClose={onClose}
       open={open}
-      variant="permanent"
+      variant={variant}
     >
       <div
         {...rest}

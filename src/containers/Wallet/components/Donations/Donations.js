@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     // minWidth: 275,
     // width: 467,
-    height: 279,
+    height: 206,
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     border: '1px solid #E2E2E2',
     borderRadius: 5,
@@ -84,12 +84,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: theme.spacing(2)
+    padding: theme.spacing(1)
   },
   footer: {
     display: 'flex',
     flexDirection: 'row',
-    padding: theme.spacing(2,9)
+    padding: theme.spacing(1,8),
+    marginTop: 5
     // justifyContent: 'center',
   },
   icon: {
@@ -134,67 +135,44 @@ export default function Donations(props) {
   const classes = useStyles();
   const {className} = props
 
-  const bull = <span className={classes.bullet}>•</span>;
-
   return (
     <Paper className={classes.root}>
-        <div className={classes.header}>
-            <Typography className={classes.headerTitle} >
-                Donations
-            </Typography>
-            <div className={classes.subHeader} >
-                <div>   
-                    <Typography className={classes.weekTitle} color="textSecondary" gutterBottom>
-                        Week
-                    </Typography>
-                </div>
-                <div>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        Month
-                    </Typography>
-                </div>
-                {/* <Divider /> */}
-            </div>
+      <div className={classes.bodyContainer}>
+        <div className={classes.body}>
+          <PaymentIcon className={classes.icon}/>
+          <div className={classes.textContainer}>
+            <Typography className={classes.text}> TRANSACTIONS </Typography>
+            <Typography className={classes.number}> 234 </Typography>
+          </div>
         </div>
-        <div className={classes.bodyContainer}>
-            <div className={classes.body}>
-                <PaymentIcon className={classes.icon}/>
-                <div className={classes.textContainer}>
-                    <Typography className={classes.text}> TRANSACTIONS </Typography>
-                    <Typography className={classes.number}> 234 </Typography>
-                </div>
-            </div>
-            
-
-            <div className={classes.body}>
-                <Icon className={classes.nairaIcon}>₦</Icon>
-                <div className={classes.textContainer2}>
-                    <Typography className={classes.text}> AMOUNT </Typography>
-                    <Typography className={classes.number}> 3,000,000 </Typography>
-                </div>
-            </div>
-        </div>
-       
-        <div className={classes.footer}>
-            <CallMadeIcon className={classes.icon}/>
-            <div className={classes.textContainer2}>
-                <Typography className={classes.text}> SPEND CHANNELS </Typography>
-                <div className={classes.textAndIconContainer}>
-                    <FiberManualRecordIcon className={classes.footerIconOne}/>
-                    <Typography className={classes.text}> Tithe </Typography>
-                    <FiberManualRecordIcon className={classes.footerIconTwo}/>
-                    <Typography className={classes.text}> Offering </Typography>
-                    <FiberManualRecordIcon className={classes.footerIconThree}/>
-                    <Typography className={classes.text}> Others </Typography>
-                </div>
-               
-            </div>
-        </div>
-            <div >
-                <CustomisedProgressBar />
-            </div>
         
 
+        <div className={classes.body}>
+          <Icon className={classes.nairaIcon}>₦</Icon>
+          <div className={classes.textContainer2}>
+            <Typography className={classes.text}> AMOUNT </Typography>
+            <Typography className={classes.number}> 3,000,000 </Typography>
+          </div>
+        </div>
+      </div>
+      
+      <div className={classes.footer}>
+        <CallMadeIcon className={classes.icon}/>
+        <div className={classes.textContainer}>
+          <Typography className={classes.text}> SPEND CHANNELS </Typography>
+          <div className={classes.textAndIconContainer}>
+              <FiberManualRecordIcon className={classes.footerIconOne}/>
+              <Typography className={classes.text}> Tithe </Typography>
+              <FiberManualRecordIcon className={classes.footerIconTwo}/>
+              <Typography className={classes.text}> Offering </Typography>
+              <FiberManualRecordIcon className={classes.footerIconThree}/>
+              <Typography className={classes.text}> Others </Typography>
+          </div>
+        </div>
+      </div>
+      <div className={classes.progress}>
+        <CustomisedProgressBar />
+      </div>
     </Paper>
   );
 }

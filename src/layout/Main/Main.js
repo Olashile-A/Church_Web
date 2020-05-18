@@ -54,44 +54,6 @@ const Main = props => {
 
   const [openSidebar, setOpenSidebar] = useState(false);
 
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     let token = sessionStorage.getItem("token");
-  //     if (token) {
-  //       try {
-  //         const user = await Axios.get(config.getUser, { headers: { "x-auth-token": token } });  
-  //         console.log("user", user);
-
-  //         setUserDetails(user.data);
-
-  //       } catch (error) {
-  //         console.log("error", error);
-  //         Router.push("/");
-  //         console.log("error", error.response); 
-  //       }
-  //     } else {
-  //       Router.push("/");
-  //     }
-
-  //     const requestId = uuid();
-  //     const userName = uuid();
-
-  //     let currencyRates = await Axios.post(config.currencyRate, 
-  //       {
-  //         requestId,
-  //         userName
-  //       }
-  //     );
-
-  //     console.log('currencyRates', currencyRates);
-
-  //     setCurrencyRates(currencyRates.data);
-  //   }
-
-  //   fetchData();
-  // }, [])
-
   const handleSidebarOpen = () => {
     setOpenSidebar(true);
   };
@@ -100,51 +62,9 @@ const Main = props => {
     setOpenSidebar(false);
   };
 
-
-  const [ modal, modalVisible ] = React.useState(false);
-
-  const handleClickOpen = () => {
-    modalVisible( true );
-  };
-
-  const handleModalClose = () => {
-    modalVisible( false );
-  };
-
-  const [ value, setValue ] = React.useState({
-    password: "",
-    confirmPassword: '',
-    err: '',
-    msg: ''
-  });
-
   const handleChange = name => event => {
     setValue({ ...value, [name]: event.target.value });
   };
-
-  
-  const handleModalOk = () => {
-
-    if ( value.password === '') {
-      setValue({
-        err: 'password',
-        msg: 'password can not be empty'
-      })
-      return;
-    }
-
-    if ( value.password !== value.confirmPassword) {
-      setValue({
-        err: 'confirmPassword',
-        msg: 'password does not match'
-      })
-      return;
-    }
-    
-    modalVisible( false )
-
-  }
-
   
   
   const shouldOpenSidebar = isDesktop ? true : openSidebar;

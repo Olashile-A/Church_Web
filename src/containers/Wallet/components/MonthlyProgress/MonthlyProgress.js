@@ -7,7 +7,7 @@ import BarChart from '../../../../components/Chart/Chart.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 325,
+    height: 340,
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     border: '1px solid #E2E2E2',
     borderRadius: 5,

@@ -23,7 +23,10 @@ const useStyles = makeStyles(theme => ({
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     borderRadius: 4,
     opacity: 1,
-    padding: 0
+    padding: 0,
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#101424'
   }
 }));
 

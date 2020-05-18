@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#616781',
     textTransform: 'capitalize',
     opacity: 1,
+    fontSize: 12,
     marginLeft: theme.spacing(2)
   },
   active: {

@@ -18,10 +18,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from "@material-ui/core/Link";
 
-
-
-
-
 const useStyles = makeStyles(theme => ({
   root: {
     height: "100vh"
@@ -195,7 +191,7 @@ const Login = ({  }) => {
       return;
     }
 
-    if (password === "") {
+    if (value.password === "") {
       setAlert({
         err: "password",
         msg: "Paasword can't be empty",
@@ -269,8 +265,8 @@ const Login = ({  }) => {
           margin="normal"
           variant="outlined"
           className={classes.textField}
-          error={alert.err === "pass"}
-          helperText={alert.err === "pass" && alert.msg}
+          error={alert.err === "password"}
+          helperText={alert.err === "password" && alert.msg}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

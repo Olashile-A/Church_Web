@@ -3,12 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Table from '../../../../components/Table/Table';
+import Table from './Table';
 
 const useStyles = makeStyles( (theme) =>({
   root: {
     // width: 467,
-    height: 279,
+    height: 340,
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     border: '1px solid #E2E2E2',
     borderRadius: 5,
