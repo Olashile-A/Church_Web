@@ -10,9 +10,7 @@ import Icon from '@material-ui/core/Icon';
 import Divider from '@material-ui/core/Divider';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CallMadeIcon from '@material-ui/icons/CallMade';
-import CustomisedProgressBar from '../../../../components/ProgressBar/ProgressBar';
 import { Button } from '@material-ui/core';
-import  { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -129,19 +127,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: theme.spacing(2, 0),
-    cursor: 'pointer'
+    padding: theme.spacing(2, 0)
   }
 }));
 
 export default function Donations(props) {
   const classes = useStyles();
-  const {className} = props;
-  const router = useRouter();
-
-  const handleView = () => {
-    router.push('/dashboard/wallet/all-wallet-view')
-  }
+  const {className} = props
 
   return (
     <Paper className={classes.root}>
@@ -162,24 +154,6 @@ export default function Donations(props) {
             <Typography className={classes.number}> 3,000,000 </Typography>
           </div>
         </div>
-      </div>
-      
-      <div className={classes.footer}>
-        <CallMadeIcon className={classes.icon}/>
-        <div className={classes.textContainer}>
-          <Typography className={classes.text}> SPEND CHANNELS </Typography>
-          <div className={classes.textAndIconContainer} onClick={handleView}>
-              <FiberManualRecordIcon className={classes.footerIconOne}/>
-              <Button className={classes.text}> Tithe </Button>
-              <FiberManualRecordIcon className={classes.footerIconTwo}/>
-              <Button className={classes.text}> Offering </Button>
-              <FiberManualRecordIcon className={classes.footerIconThree}/>
-              <Button className={classes.text}> Others </Button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.progress}>
-        <CustomisedProgressBar />
       </div>
     </Paper>
   );

@@ -12,17 +12,8 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import SwipeableViews from 'react-swipeable-views';
 import { withRouter } from "next/router";
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import SearchIcon from '@material-ui/icons/Search';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import InputBase from '@material-ui/core/InputBase';
-import WalletTab from '../WalletTab'
-import LinkAccount from '../LinkAccont';
-import Transfer from '../Transfer';
-import Withdrawal from '../Withdrawal';
-import Transactions from '../Transactions';
-import { connect } from 'react-redux';
-import { setReset } from '../../../store/actions'
+import Audio from '../Auddio';
+import Video from '../Viddeo';
 
 
 const count = [
@@ -44,9 +35,6 @@ const count = [
   },
 ];
 
-const mapDispatchToProps ={
-  setReset
-};
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -90,23 +78,30 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     background: '#FFFFFF',
     boxShadow: 'none',
-    borderBottom: '1px solid grey'
+    borderBottom: '1px solid #E2E2E2',
+
   },
   headerTitle: {
     color: '#101424',
     opacity: 1,
     fontSize: 17,
     fontWeight: 'bold',
-    padding: theme.spacing(2),
+    padding: theme.spacing(1)
   },
-  headerTwo: {
+  container:{
+    border: '1px solid #E2E2E2',
+    borderRadius: 5,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    height: 600,
+    weidth: '100%',
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: theme.spacing(1, 3, 1, 1 ),
-    borderBottom: '1px solid grey',
-    background: '#FCFCFC 0% 0% no-repeat padding-box'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
+  card: {
+    width: '100%'
+  }
 }));
 
 function SimpleTabs(props) {
@@ -114,36 +109,28 @@ function SimpleTabs(props) {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  const handleReset = () => {
-    const { setReset } = props;
-    setReset()
-  }
   
   const handleChangeIndex = (index) => {
     setValue(index);
   };
-
-
+ 
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Typography className={classes.headerTitle} >
-          Wallet
+          Resources
         </Typography>
         <Tabs value={value} onChange={handleChange} indicatorColor="primary"
           textColor="primary" aria-label="simple tabs example" centered >
-          <Tab label="Wallet" {...a11yProps(0)}  />
-          <Tab label="Link Acount" {...a11yProps(1)} onClick={handleReset}/>
-          <Tab label="Transfer" {...a11yProps(2)} />
-          <Tab label="Withdrawal" {...a11yProps(3)} />
-          <Tab label="Transaction" {...a11yProps(4)} />
+          <Tab label="Audio" {...a11yProps(0)} />
+          <Tab label="Video" {...a11yProps(1)} />
+          {/* <Tab label="Replied" {...a11yProps(2)} /> */}
         </Tabs>
       </AppBar>
-      
       <div className={classes.card}>
         <Card className={classes.container}>
         <SwipeableViews
@@ -152,19 +139,10 @@ function SimpleTabs(props) {
           onChangeIndex={handleChangeIndex}
         >
             <TabPanel value={value} index={0} >
-              <WalletTab />
+              <Audio />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <LinkAccount />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              <Transfer />
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-              <Withdrawal />
-            </TabPanel>
-            <TabPanel value={value} index={4}>
-              <Transactions />
+              <Video />
             </TabPanel>
         </SwipeableViews>
         </Card>
@@ -174,4 +152,4 @@ function SimpleTabs(props) {
   );
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(SimpleTabs))
+export default withRouter(SimpleTabs)

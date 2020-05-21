@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: 0,
     width: '100%',
     height: 38,
-    marginLeft: theme.spacing(3.5)
+    marginLeft: theme.spacing(3.5),
+    '&: hover': {
+      color: theme.palette.primary.main
+    },
   },
   icon: {
     color: theme.palette.icon,
@@ -49,10 +52,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     fontWeight: theme.typography.fontWeightMedium,
     '& $icon': {
-      color: theme.palette.primary.main
+      color: '#FD0E31'
     },
     '& $title': {
-      color: theme.palette.primary.contrastText,
+      color: '#FFFFFF',
       fontWeight: theme.typography.fontWeightMedium,
     },
     borderRight: '3px solid #FD0E31',
