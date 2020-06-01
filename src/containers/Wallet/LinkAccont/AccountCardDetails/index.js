@@ -11,8 +11,9 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { setWalletRoute } from "../../../../store/actions"
+import { setLinkRoute } from "../../../../store/actions"
 import { connect } from 'react-redux';
+import Flow from '../../../../components/Flow'
 
 const country = [
     {
@@ -53,7 +54,7 @@ const city = [
 ];
 
 const mapDispatchToProps ={
-  setWalletRoute
+  setLinkRoute
 };
 
 const useStyles = makeStyles(theme => ({
@@ -118,17 +119,15 @@ const AccountCardDetails = (props) => {
   };
 
   const handleLink = () => {
-    const { setWalletRoute } = props;
-    setWalletRoute("confirmation");
+    const { setLinkRoute } = props;
+    setLinkRoute("confirmation");
   };
 
   return (
     <div className={classes.root}>
-      <Button className={classes.backButton} startIcon={<ArrowBackIcon />}>
-          Back
-      </Button>
+     
       <div>
-
+      
       </div>
       <Container maxWidth="sm">
         <Card className={classes.card}>

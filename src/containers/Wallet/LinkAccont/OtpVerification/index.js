@@ -6,11 +6,11 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Warning from "@material-ui/icons/Warning";
 import { connect } from 'react-redux';
-import { setWalletRoute } from "../../../../store/actions"
+import { setLinkRoute } from "../../../../store/actions"
 
 
 const mapDispatchToProps ={
-  setWalletRoute
+  setLinkRoute
 };
 
 const useStyles = makeStyles(theme => ({
@@ -104,8 +104,8 @@ const OtpVerification = (props) => {
   const classes = useStyles();
 
  const handleVerify = () => {
-    const { setWalletRoute } = props;
-    setWalletRoute('complete');
+    const { setLinkRoute } = props;
+    setLinkRoute('complete');
   }
 
   return (

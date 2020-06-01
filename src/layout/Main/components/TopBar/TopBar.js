@@ -109,6 +109,14 @@ const Topbar = props => {
     Router.push("/");
   }
 
+  const handleProfile = () => {
+    Router.push("/dashboard/user-profile");
+  }
+
+  const handleNotification = () => {
+    Router.push("/dashboard/notifications");
+  }
+
   const docs = {
     // name: account.userDetails && account.userDetails.firstName + " " + account.userDetails.lastName,
     img: "/static/images/signUp_background.png",
@@ -135,7 +143,7 @@ const Topbar = props => {
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={0} color="secondary">
               <div >
-                <NotificationsIcon className={classes.Icon}/>
+                <NotificationsIcon className={classes.Icon} onClick={handleNotification}/>
               </div>
               </Badge>
             </IconButton>
@@ -145,7 +153,7 @@ const Topbar = props => {
               aria-haspopup="true"
               color="inherit"
             >
-                <div>
+                <div onClick={handleProfile}>
                   <img src={docs.img} className={classes.imageIcon}/>
                 </div>
             </IconButton>

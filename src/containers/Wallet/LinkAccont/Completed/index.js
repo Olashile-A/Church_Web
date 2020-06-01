@@ -4,11 +4,11 @@ import { Grid, Container, Typography, Card, CardContent } from '@material-ui/cor
 import Button from "@material-ui/core/Button";
 import Warning from "@material-ui/icons/Warning";
 import { connect } from 'react-redux';
-import { setWalletRoute } from "../../../../store/actions"
+import { setLinkRoute } from "../../../../store/actions"
 
 
 const mapDispatchToProps ={
-  setWalletRoute
+  setLinkRoute
 };
 
 const useStyles = makeStyles(theme => ({
@@ -76,8 +76,8 @@ const Completed = (props) => {
   const classes = useStyles();
 
   const handleGoToWallet = () => {
-    const {setWalletRoute } = props;
-    setWalletRoute('details')
+    const {setLinkRoute } = props;
+    setLinkRoute('details')
   }
   return (
     <div className={classes.root}>

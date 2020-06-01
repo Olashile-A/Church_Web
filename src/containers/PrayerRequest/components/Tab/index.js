@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {fade, makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -11,6 +11,14 @@ import SwipeableViews from 'react-swipeable-views';
 import { withRouter } from "next/router";
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+import InboxView from '../InboxView'
+import InboxReply from '../InboxView'
+import { endpoint } from '../../../../../endpoint';
+import { config } from '../../../../../config';
+import { connect } from 'react-redux';
+import {setPrayerRequest} from '../../../../store/actions'
+import axios from 'axios';
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -170,6 +178,8 @@ function SimpleTabs(props) {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
+  const {allPrayer, inboxPrayer, repliedPrayer, handleViewMessage} = props
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -178,9 +188,15 @@ function SimpleTabs(props) {
     setValue(index);
   };
 
-  const handleViewMessage = () => {
-    const { router } = props;
-    router.push('/prayerrequest/inboxview')
+  const getInitials = (name) => {
+    var parts = name.split(' ')
+    var initials = ''
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i].length > 0 && parts[i] != '') {
+        initials += parts[i][0]
+      }
+    }
+    return initials
   }
 
   return (
@@ -210,327 +226,74 @@ function SimpleTabs(props) {
         </div>
       </AppBar>
       <div className={classes.card}>
-      <Card className={classes.container}>
-      <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-          <TabPanel value={value} index={0} >
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-         
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-          <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-          <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-            <div className={classes.bodyContainer} onClick={handleViewMessage} >
-              
-              <div className={classes.body} >  
-                <div className={classes.circle}  gutterBottom>
-                  <Typography className={classes.initials}>M A</Typography>
-                </div>
-                <Typography className={classes.name} color="textSecondary" gutterBottom>
-                  Mayowa Adebowale
-                </Typography>
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  Your Google Account was just signed in to from a new windows device.
-                </Typography>
-              </div>
-              <Typography className={classes.time} color="textSecondary" gutterBottom>
-                5:08 PM
-              </Typography>
-            </div>
-          </TabPanel>
-      </SwipeableViews>
-      </Card>
+        <Card className={classes.container}>
+          <SwipeableViews
+            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+            index={value}
+            onChangeIndex={handleChangeIndex}
+          >
+              <TabPanel value={value} index={0} >
+                {allPrayer.map((pray) => (
+                  <div className={classes.bodyContainer} key={pray._id} value={pray._id} onClick={handleViewMessage(pray._id, pray)} >
+                    <div className={classes.body} >  
+                      <div className={classes.circle}>
+                        <Typography className={classes.initials}>{getInitials(pray.memberId.fullName)}</Typography>
+                      </div>
+                      <Typography className={classes.name} color="textSecondary" gutterBottom>
+                        {pray.memberId.fullName}
+                      </Typography>
+                      <Typography className={classes.content} noWrap color="textSecondary" gutterBottom>
+                        {pray.body.substr(0,100)}...
+                      </Typography>
+                    </div>
+                    <Typography className={classes.time} color="textSecondary" gutterBottom>
+                      {pray.createdAt}
+                    </Typography>
+                  </div>
+                ))}
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                {inboxPrayer.map((pray) => (
+                  <div className={classes.bodyContainer} key={pray._id} value={pray._id} onClick={handleViewMessage(pray._id, pray)} >
+                    <div className={classes.body} >  
+                      <div className={classes.circle}>
+                        <Typography className={classes.initials}>{getInitials(pray.memberId.fullName)}</Typography>
+                      </div>
+                      <Typography className={classes.name} color="textSecondary" gutterBottom>
+                        {pray.memberId.fullName}
+                      </Typography>
+                      <Typography className={classes.content} noWrap color="textSecondary" gutterBottom>
+                        {pray.body.substr(0,100)}...
+                      </Typography>
+                    </div>
+                    <Typography className={classes.time} color="textSecondary" gutterBottom>
+                      {pray.createdAt}
+                    </Typography>
+                  </div>
+                ))}
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                {repliedPrayer.map((pray) => (
+                  <div className={classes.bodyContainer} key={pray._id} value={pray._id} onClick={handleViewMessage(pray._id, pray)} >
+                    <div className={classes.body} >  
+                      <div className={classes.circle}>
+                        <Typography className={classes.initials}>{getInitials(pray.memberId.fullName)}</Typography>
+                      </div>
+                      <Typography className={classes.name} color="textSecondary" gutterBottom>
+                        {pray.memberId.fullName}
+                      </Typography>
+                      <Typography className={classes.content} noWrap color="textSecondary" gutterBottom>
+                        {pray.body.substr(0,100)}...
+                      </Typography>
+                    </div>
+                    <Typography className={classes.time} color="textSecondary" gutterBottom>
+                      {pray.createdAt}
+                    </Typography>
+                  </div>
+                ))}
+              </TabPanel>
+          </SwipeableViews>
+        </Card>
       </div>
     </div>
   );

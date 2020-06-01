@@ -65,9 +65,9 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function LinkBank(props) {
+export default function CreateWallet(props) {
   const classes = useStyles();
-  const {className} = props
+  const {className, handleGetStarted} = props
 
   return (
     <Paper className={classes.root}
@@ -79,7 +79,7 @@ export default function LinkBank(props) {
       }}>
       <div className={classes.container}>
         <div className={classes.bodyContainer}>
-            <Typography gutterBottom className={classes.text1}> Link Bank Account</Typography>
+            <Typography gutterBottom className={classes.text1}> Create Wallet</Typography>
             <Typography className={classes.text2}> 
                     Easily made withdrawals by connecting your bank 
                     account to your profile, by following these simple steps.
@@ -87,7 +87,7 @@ export default function LinkBank(props) {
             </div>
         
             <div className={classes.buttonContainer} >
-                <Button className={classes.button}>
+                <Button className={classes.button} onClick={handleGetStarted}>
                     Get Started
                 </Button>
             </div>

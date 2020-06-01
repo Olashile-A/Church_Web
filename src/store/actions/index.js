@@ -1,9 +1,9 @@
-import { WALLET_ROUTE, TRANSFER_ROUTE, WITHDRAW_ROUTE, RESET } from '../types'
+import { LINK_ROUTE, TRANSFER_ROUTE, WITHDRAW_ROUTE, RESET, PRAYER_REQUEST, WALLET } from '../types'
 
 // set all wallet route 
-export const setWalletRoute = (route) =>  {
+export const setLinkRoute = (route) =>  {
     return {
-        type: WALLET_ROUTE,
+        type: LINK_ROUTE,
         payload: route
     };
        
@@ -29,6 +29,22 @@ export const setReset = (route) =>  {
     return {
         type: RESET,
         payload: route
+    };
+       
+}
+
+export const setPrayerRequest = (request) =>  {
+    return {
+        type: PRAYER_REQUEST,
+        payload: request
+    };
+       
+}
+
+export const setWallet = (request) =>  {
+    return {
+        type: WALLET,
+        payload: request
     };
        
 }

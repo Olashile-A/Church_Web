@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import {config} from "../../../config";
+import {endpoint} from "../../../endpoint";
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Typography from "@material-ui/core/Typography";
 import { blue } from '@material-ui/core/colors';
@@ -17,6 +18,9 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from "@material-ui/core/Link";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import axios from 'axios';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -120,6 +124,10 @@ const useStyles = makeStyles(theme => ({
     opacity: 1,
     marginBottom: theme.spacing(2)
   },
+  progress: {
+    background: 'transparent',
+    color: '#FFFFFF'
+  },
   logoTitle: {
     fontSize: 10
   },
@@ -152,13 +160,16 @@ const Login = ({  }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState({
     email: "",
-    password: ""
+    password: "",
+    showPassword: false
   });
   const [alert, setAlert] = React.useState({
     err: "",
     msg: "",
+    others: "",
+    isLoading: false
   });
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = React.useState();
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
@@ -173,35 +184,66 @@ const Login = ({  }) => {
   };
 
   const handleClickShowPassword = () => {
-    setShow(!show);
+    setValue({ ...value, showPassword: !value.showPassword });
   };
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
 
-    if (!isEmail(value.email)) {
-      setAlert({
-        err: "email",
-        msg: "Invalid email address",
-      });
-      return;
-    }
+    setAlert({
+      err: "",
+      msg: "",
+      others: "",
+      isLoading: true
+    })
 
-    if (value.password === "") {
+    try {
+      if (!isEmail(value.email)) {
+        setAlert({
+          err: "email",
+          msg: "Invalid email address",
+        });
+        return;
+      }
+  
+      if (value.password === "") {
+        setAlert({
+          err: "password",
+          msg: "Paasword can't be empty",
+        });
+        return;
+      }
+      const request ={
+        email: value.email,
+        password: value.password
+      }
+      let headers = {'publicToken' : config.publicToken}
+      let user = await axios.post(endpoint.login, request,
+        {"headers" : headers}
+      );
+      console.log('user', user);
+      let token = user.headers['x-auth-token'];
+      sessionStorage.setItem('token', token);
+      router.push("/dashboard");
       setAlert({
-        err: "password",
-        msg: "Paasword can't be empty",
+        isLoading: false,
       });
-      return;
+    
+    } catch (error) {
+      console.log("error", error);
+      setAlert({
+        err: "others",
+        msg: error.response.data,
+        isLoading: false
+      })
+      console.log("error", error.response);
     }
-
-    router.push("/dashboard");
+    
   };
-
     
   return (
     <div className={classes.paper}>
@@ -216,9 +258,8 @@ const Login = ({  }) => {
       <Typography component="h1" variant="h4" className={classes.header2}>
         Welcome to the Exalt Church
       </Typography>
-
-
       <form className={classes.form} onSubmit={handleLogin} noValidate>
+       {alert.err === "others" && <Alert severity="warning">{alert.msg}</Alert>}
         <TextField
           variant="outlined"
           margin="normal"
@@ -259,7 +300,7 @@ const Login = ({  }) => {
           id="outlined-password-input"
           label="Password"
           fullWidth
-          type={show ? 'text' : 'password'}
+          type={value.showPassword ? 'text' : 'password'}
           value={value.password}
           onChange={handleChange("password")}
           margin="normal"
@@ -297,11 +338,11 @@ const Login = ({  }) => {
           type="submit"
           fullWidth
           variant="contained"
-          disabled={loading}
+          disabled={alert.isLoading}
           onClick={handleLogin}
           className={classes.loginSubmit}
         >
-          Login
+          {alert.isLoading ? <CircularProgress className={classes.progress}/> : 'Login'} 
         </Button>
       <div>
         <Link href='/'  variant="body2" className={classes.link}>

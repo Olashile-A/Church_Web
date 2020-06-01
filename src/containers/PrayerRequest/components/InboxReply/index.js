@@ -2,13 +2,9 @@ import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
-import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import { Paper, IconButton } from '@material-ui/core';
+import { Paper, IconButton, TextField, CircularProgress } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ReplyIcon from '@material-ui/icons/Reply';
 import SendIcon from '@material-ui/icons/Send';
@@ -17,6 +13,15 @@ import AttachFileIcon from '@material-ui/icons/AttachFile';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import {useRouter} from 'next/router';
+import {connect} from 'react-redux';
+import axios from 'axios';
+import {config} from '../../../../../config';
+import {endpoint} from '../../../../../endpoint';
+
+const mapStateToProps = state => ({
+  prayerRequest: state.prayerRequest 
+})
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -123,9 +128,7 @@ const useStyles = makeStyles(theme => ({
     padding: 3
   },
   cardContent: {
-    width: 467,
-    height: 330,
-    padding: theme.spacing(2)
+    padding: theme.spacing(2,2,0,2)
   },
   bodyContainer: {
     display: 'flex',
@@ -142,7 +145,8 @@ const useStyles = makeStyles(theme => ({
     height: 18,
   },
   footerContainer: {
-    marginTop: theme.spacing(8)
+    marginTop: theme.spacing(3)
+    
   },
   topBack: {
     display: 'flex',
@@ -166,20 +170,91 @@ const useStyles = makeStyles(theme => ({
     height: 36,
     fontSize: 14,
     color: '#101424'
+  },
+  progress: {
+    background: 'transparent',
+    color: '#FFFFFF'
+  },
+  textField: {
+    border: 'none'
   }
 }));
 
 
-const InboxReply = () => {
+const InboxReply = (props) => {
   const classes = useStyles();
+  const router = useRouter();
+  const {prayerRequest, handleReplyBack} = props;
+  const [value, setValue] = React.useState({
+    body: ""
+  });
+  const [alert, setAlert] = React.useState({
+    err: "",
+    msg: "",
+    isLoading: false
+  });
 
+  const handleChange = name => e => {
+    setValue({
+      ...value,
+      [name]: e.target.value,
+    });
+    
+  };
+
+  const handleSend = async () => {
+    const {prayerRequest} = props
+    let token = sessionStorage.getItem('token')
+
+    setAlert({
+      err: "",
+      msg: "",
+      isLoading: true
+    })
+      
+    if (token) {
+      try {
+        if (value.body === "") {
+          setAlert({
+            err: "body",
+            msg: "Body cannot be empty",
+            isLoading: false
+          })
+          return
+        }
+        let headers = {
+          'publicToken' : config.publicToken,
+          'x-auth-token': token
+        }
+        let id = prayerRequest.requestDetail._id
+        let send = await axios.put(endpoint.replyPrayerRequest + '/' + id, 
+          {"headers" : headers}
+        )
+        console.log('send', send);
+        
+        router.reload()
+
+        setAlert({
+          isLoading: false
+        })
+      } catch (error) {
+        console.log('error', error);
+        console.log('error', error.response);
+        setAlert({
+          err: "",
+          msg: "",
+          isLoading: false
+        })
+      }
+    }
+  }
   return (
     <div className={classes.root}>
         
         <Container className={classes.cardGrid} maxWidth="sm">
           <div className={classes.topBack}>
               
-            <Button className={classes.backButton} startIcon={<ArrowBackIcon />}>
+            <Button className={classes.backButton} onclick={handleReplyBack} startIcon={<ArrowBackIcon />}>
               Back
             </Button>
             <Button className={classes.inboxButton}>
@@ -196,7 +271,7 @@ const InboxReply = () => {
               </div>
               <div className={classes.user}>
                 <Typography className={classes.content}  gutterBottom>
-                  mayowaadebowale@gmail.com
+                {prayerRequest.requestDetail.memberId.email}
                 </Typography>
               </div>
             </div>
@@ -204,71 +279,61 @@ const InboxReply = () => {
               + Cc
             </Typography>
           </div>
-            <div className={classes.cardContent}>
-              <Typography gutterBottom className={classes.text}>
-                Hello  Mayowa,
-              </Typography>
-              <Typography gutterBottom  className={classes.text}>
-                We will be having an online meetup for IDF Lagos tomorrow, 
-                Friday 15th May, at 12pm (noon) Nigerian Time/West African Time Zone.
-                This will be hosted by one of our members, Richard Tamunotonye.
-              </Typography>
-              <Typography gutterBottom className={classes.text}>
-                If you are able to join us, please do. The meeting will be held on Zoom. 
-                Details are below:
-              </Typography>
-              <Typography className={classes.text}>
-                Time: 12pm (noon)
-              </Typography><Typography gutterBottom className={classes.text}>
-                Zoom Link: https://us02web.zoom.us/j/82871107907
-              </Typography>
-              <Typography gutterBottom className={classes.text}>
-                Discussion Thread: https://www.interaction-design.org/events/idf-ux-meetups/becoming-a-world-class-designer-may-15th-2020-1
-              </Typography>
-              <Typography gutterBottom className={classes.text}>
-                Best regards, Mayowa
-              </Typography>
-            </div>
-            <div className={classes.footerContainer}>
-              <div className={classes.attach}>
-                <div className={classes.button}>
-                  <PictureAsPdfIcon /> 
-                  <Typography className={classes.bibleText}>Bible verse</Typography>
-                </div>
-                <div className={classes.button}>
-                  <Typography className={classes.bibleText}>
-                    123KB
-                  </Typography>
-                  <DeleteIcon className={classes.icon} />
-                  
-                </div>
+          <div className={classes.cardContent}>
+            <TextField 
+              fullWidth
+              multiline
+              rows={20}
+              variant="outlined"
+              value={value.body}
+              onChange={handleChange('body')}
+              className={classes.textField}
+              error={alert.err === "body"}
+              helperText={alert.err === "body" && alert.msg}
+            />
+          </div>
+          <div className={classes.footerContainer}>
+            <div className={classes.attach}>
+              <div className={classes.button}>
+                <PictureAsPdfIcon /> 
+                <Typography className={classes.bibleText}>Bible verse</Typography>
+              </div>
+              <div className={classes.button}>
+                <Typography className={classes.bibleText}>
+                  123KB
+                </Typography>
+                <DeleteIcon className={classes.icon} />
                 
               </div>
-              <div className={classes.cardAction}>
-                <div className={classes.button}>
-                  <Button
-                   className={classes.replyButton}
-                   startIcon={<SendIcon />}
-                   >
-                      Send
-                  </Button>
-                  <IconButton className={classes.iconButton}>
-                    <ImageIcon  />
-                  </IconButton>
-                  <IconButton  className={classes.iconButton}>
-                      <AttachFileIcon  />
-                  </IconButton>
-                </div>
-                <IconButton className={classes.icon}>
-                  <DeleteIcon />
+              
+            </div>
+            <div className={classes.cardAction}>
+              <div className={classes.button}>
+                <Button
+                  className={classes.replyButton}
+                  startIcon={<SendIcon />}
+                  disabled={alert.isLoading}
+                  onClick={handleSend}
+                  >
+                  {alert.isLoading ? <CircularProgress className={classes.progress}/> : "SEND"}
+                </Button>
+                <IconButton className={classes.iconButton}>
+                  <ImageIcon  />
+                </IconButton>
+                <IconButton  className={classes.iconButton}>
+                    <AttachFileIcon  />
                 </IconButton>
               </div>
+              <IconButton className={classes.icon}>
+                <DeleteIcon />
+              </IconButton>
             </div>
+          </div>
            
-          </Card>
-        </Container>
+        </Card>
+      </Container>
     </div>
   );
 };
 
-export default InboxReply;
+export default connect(mapStateToProps)(InboxReply);

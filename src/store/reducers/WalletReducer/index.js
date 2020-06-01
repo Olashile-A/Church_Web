@@ -1,18 +1,15 @@
-import { WALLET_ROUTE, RESET } from "../../types";
+import { WALLET } from "../../types";
 
 const initialstate = {
-  route: "details",
+  walletDetail: {},
 }
 
 export default (state = initialstate, action) => {
   switch (action.type) {
-    case WALLET_ROUTE:
+    case WALLET:
       return Object.assign({}, state, {
-        route: action.payload
+        walletDetail: action.payload
       });
-    case RESET:
-
-    return initialstate
     default:
       return state;
   }

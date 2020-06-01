@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     // minWidth: 275,
     // width: 467,
-    height: 206,
+    height: 100,
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     border: '1px solid #E2E2E2',
     borderRadius: 5,

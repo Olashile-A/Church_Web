@@ -7,11 +7,11 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Warning from "@material-ui/icons/Warning";
 import { connect } from 'react-redux';
-import { setWalletRoute } from "../../../../store/actions"
+import { setLinkRoute } from "../../../../store/actions"
 
 
 const mapDispatchToProps ={
-  setWalletRoute
+  setLinkRoute
 };
 
 const useStyles = makeStyles(theme => ({
@@ -82,8 +82,8 @@ const DetailsConfirmation = (props) => {
   const classes = useStyles();
 
   const handleConfirm = () => {
-    const { setWalletRoute } = props;
-    setWalletRoute("verification");
+    const { setLinkRoute } = props;
+    setLinkRoute("verification");
   };
 
   return (

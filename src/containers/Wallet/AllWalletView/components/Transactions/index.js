@@ -8,7 +8,7 @@ import Table from './Table';
 const useStyles = makeStyles( (theme) =>({
   root: {
     // width: 467,
-    height: 340,
+    // height: 340,
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     border: '1px solid #E2E2E2',
     borderRadius: 5,

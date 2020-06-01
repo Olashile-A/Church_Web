@@ -9,7 +9,8 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import { Paper } from '@material-ui/core';
-
+import { useRouter } from 'next/router';
+import Radio from '@material-ui/core/Radio';
 
 
 const useStyles = makeStyles(theme => ({
@@ -55,9 +56,11 @@ const useStyles = makeStyles(theme => ({
     height: 78,
     alignItems: 'center'
   },
-  cardGrid: {
-    // paddingTop: theme.spacing(8),
-    // paddingBottom: theme.spacing(8),
+  body: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%'
   },
   card: {
     height: 469,
@@ -97,12 +100,24 @@ const useStyles = makeStyles(theme => ({
     fontSize: 12,
     fontWeight: 'regular',
     color: '#000000',
-    marginLeft: 16
+    marginLeft: 16,
+    padding: theme.spacing(1)
+  },
+  content: {
+    textAlign: 'left',
+    fontSize: 12,
+    fontWeight: 'regular',
+    color: '#000000',
+    marginLeft: 16,
   },
   cardContent: {
     width: 399,
     height: 399
-  }
+  },
+  // radio: {
+  //   display: 'flex',
+  //   justifyContent: 'flex-end'
+  // }
 }));
 
 const cards = [1, 2];
@@ -110,6 +125,21 @@ const cards = [1, 2];
 
 const LiveStream = () => {
   const classes = useStyles();
+  const router = useRouter();
+
+  const [selectedValue, setSelectedValue] = React.useState('Facebook');
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  const handleContinue = () => {
+    router.push({
+      pathname: '/dashboard/livestream/livestreamform/',
+      query: { type: selectedValue }
+    })
+    
+  }
 
   const docs = {
     facebook: '/static/images/facebook.png',
@@ -133,28 +163,61 @@ const LiveStream = () => {
                     <Grid container spacing={1}>
                         <Grid item  xs={12} >
                             <Paper className={classes.paper}>
-                                <img src={docs.facebook} className={classes.img} />
+                              <img src={docs.facebook} className={classes.img} />
+                              <div className={classes.body}>
                                 <Typography className={classes.text}>Facebook LiveStream</Typography>
+                                <Radio
+                                  checked={selectedValue === 'Facebook'}
+                                  onChange={handleChange}
+                                  value="Facebook"
+                                  name="radio-button-demo"
+                                  inputProps={{ 'aria-label': 'Facebook' }}
+                                  color="primary"
+                                  className={classes.radio}
+                                />
+                              </div>
                             </Paper>
                         </Grid>
                         <Grid item  xs={12} >
                             <Paper className={classes.paper}>
-                                <img src={docs.youtube} className={classes.imgTube} />
+                              <img src={docs.youtube} className={classes.imgTube} />
+                              <div className={classes.body}>
                                 <Typography className={classes.text}>Youtube LiveStream</Typography>
+                                <Radio
+                                  checked={selectedValue === 'Youtube'}
+                                  onChange={handleChange}
+                                  value="Youtube"
+                                  name="radio-button-demo"
+                                  inputProps={{ 'aria-label': 'Youtube' }}
+                                  color="primary"
+                                  className={classes.radio}
+                                />
+                              </div>
                             </Paper>
                         </Grid>
                         <Grid item  xs={12}>
                             <Paper className={classes.paper}>
-                                <div className={classes.imgTubeAndInsta}>
-                                    <img src={docs.instagram} className={classes.imgInsta} />   
-                                </div>
+                              <div className={classes.imgTubeAndInsta}>
+                                  <img src={docs.instagram} className={classes.imgInsta} />   
+                              </div>
+                              <div className={classes.body}>
                                 <Typography className={classes.text}>Instagram LiveStream</Typography>
+                                <Radio
+                                  checked={selectedValue === 'Instagram'}
+                                  onChange={handleChange}
+                                  value="Instagram"
+                                  name="radio-button-demo"
+                                  inputProps={{ 'aria-label': 'Instagram' }}
+                                  color="primary"
+                                  className={classes.radio}
+                                />
+                              </div>
                             </Paper>
                         </Grid>
                     </Grid>
                   </CardContent>
                   <CardActions className={classes.button}>
-                    <Button size="medium" color="secondary" className={classes.continueButton}>
+                    <Button size="medium" color="secondary" className={classes.continueButton} onClick={handleContinue}>
                       Continue
                     </Button>
                   </CardActions>
@@ -168,31 +231,31 @@ const LiveStream = () => {
                     </Typography>
                   </div>
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom className={classes.text}>
+                    <Typography gutterBottom className={classes.content}>
                         Welcome to your live stream channel integration page. On this panel,
                         you will be guided on how to integrate your live streaming channel
                         to your Mobile and Web channel in your app.
                     </Typography>
-                    <Typography gutterBottom  className={classes.text}>
+                    <Typography gutterBottom  className={classes.content}>
                         1. Go to the Url page of the Social media page e.g https://www.facebook.com.
                     </Typography>
-                    <Typography gutterBottom className={classes.text}>
+                    <Typography gutterBottom className={classes.content}>
                         2. Login with your Username and password.
                     </Typography>
-                    <Typography gutterBottom className={classes.text}>
+                    <Typography gutterBottom className={classes.content}>
                         3. Simply follow the step for integration,  Select the social media channel you want to stream your services from.
                     </Typography>
-                    <Typography gutterBottom className={classes.text}>
+                    <Typography gutterBottom className={classes.content}>
                         4. Copy the Url channel link
                     </Typography>
-                    <Typography gutterBottom className={classes.text}>
+                    <Typography gutterBottom className={classes.content}>
                         5. Paste the copied Url link into the panel link on this dashboard
                     </Typography>
-                    <Typography gutterBottom className={classes.text}>
+                    <Typography gutterBottom className={classes.content}>
                         6. Once the like is copied and paste, Click the saved button, 
                     this will complete the process to stream directly to your application.
                     </Typography>
-                    <Typography gutterBottom className={classes.text}>
+                    <Typography gutterBottom className={classes.content}>
                         7. For assistance on setup contact support@techone.com or Call +234 90 8300 98.
                     </Typography>
                   </CardContent>

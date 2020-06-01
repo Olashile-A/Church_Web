@@ -11,7 +11,12 @@ import Button from '@material-ui/core/Button';
 import { Paper } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ReplyIcon from '@material-ui/icons/Reply';
+import {connect} from 'react-redux'
+import { useRouter } from 'next/router';
 
+const mapStateToProps = state => ({
+  prayerRequest: state.prayerRequest 
+})
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -124,8 +129,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const InboxView = () => {
+const InboxView = (props) => {
   const classes = useStyles();
+  const router = useRouter();
+  const {handleReplyMessage, prayerRequest} = props 
+
+  const getInitials = (name) => {
+    var parts = name.split(' ')
+    var initials = ''
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i].length > 0 && parts[i] != '') {
+        initials += parts[i][0]
+      }
+    }
+    return initials
+  }
 
   return (
     <div className={classes.root}>
@@ -136,14 +154,14 @@ const InboxView = () => {
               
             <div className={classes.body} >  
               <div className={classes.circle}  gutterBottom>
-                <Typography className={classes.initials}>M A</Typography>
+                <Typography className={classes.initials}>{getInitials(prayerRequest.requestDetail.memberId.fullName)}</Typography>
               </div>
               <div className={classes.user}>
                 <Typography className={classes.name} color="textSecondary" >
-                  Mayowa Adebowale
+                  {prayerRequest.requestDetail.memberId.fullName}
                 </Typography>
                 <Typography className={classes.content} color="textSecondary" gutterBottom>
-                  mayowaadebowale@gmail.com
+                  {prayerRequest.requestDetail.memberId.email}
                 </Typography>
               </div>
             </div>
@@ -157,31 +175,14 @@ const InboxView = () => {
           </div>
             <div className={classes.cardContent}>
               <Typography gutterBottom className={classes.text}>
-                Hello  Pastor,
+                Hello  {prayerRequest.requestDetail.memberId.fullName},
               </Typography>
               <Typography gutterBottom  className={classes.text}>
-                We will be having an online meetup for IDF Lagos tomorrow, 
-                Friday 15th May, at 12pm (noon) Nigerian Time/West African Time Zone.
-                This will be hosted by one of our members, Richard Tamunotonye.
-              </Typography>
-              <Typography gutterBottom className={classes.text}>
-                If you are able to join us, please do. The meeting will be held on Zoom. 
-                Details are below:
-              </Typography>
-              <Typography className={classes.text}>
-                Time: 12pm (noon)
-              </Typography><Typography gutterBottom className={classes.text}>
-                Zoom Link: https://us02web.zoom.us/j/82871107907
-              </Typography>
-              <Typography gutterBottom className={classes.text}>
-                Discussion Thread: https://www.interaction-design.org/events/idf-ux-meetups/becoming-a-world-class-designer-may-15th-2020-1
-              </Typography>
-              <Typography gutterBottom className={classes.text}>
-                Best regards, Mayowa
+                {prayerRequest.requestDetail.body}
               </Typography>
             </div>
             <CardActions className={classes.button}>
-              <Button className={classes.replyButton} startIcon={<ReplyIcon />}>
+              <Button className={classes.replyButton} onClick={handleReplyMessage} startIcon={<ReplyIcon />}>
                 
                 Reply
               </Button>
@@ -192,4 +193,4 @@ const InboxView = () => {
   );
 };
 
-export default InboxView;
+export default connect(mapStateToProps)(InboxView);

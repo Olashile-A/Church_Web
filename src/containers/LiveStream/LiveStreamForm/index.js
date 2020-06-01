@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -12,25 +12,29 @@ import { Paper } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { useRouter } from 'next/router';
+import { endpoint } from '../../../../endpoint';
+import { config } from '../../../../config';
+import axios from 'axios';
 
-const country = [
-    {
-      value: 'null',
-      label: 'Select',
-    },
-    {
-      value: '1',
-      label: 'Nigeria',
-    },
-    {
-      value: '2',
-      label: 'America',
-    },
-    {
-      value: '3',
-      label: 'Naija',
-    },
-];
+// const country = [
+//     {
+//       value: 'null',
+//       label: 'Select',
+//     },
+//     {
+//       value: '1',
+//       label: 'Nigeria',
+//     },
+//     {
+//       value: '2',
+//       label: 'America',
+//     },
+//     {
+//       value: '3',
+//       label: 'Naija',
+//     },
+// ];
 
 const state = [
     {
@@ -106,7 +110,7 @@ const useStyles = makeStyles(theme => ({
     margin: '9px 0px'
   },
   card: {
-    height: 440,
+    height: 500,
     width: 456,
     border: '1px solid #E2E2E2',
     borderRadius: 5
@@ -123,8 +127,8 @@ const useStyles = makeStyles(theme => ({
     color: '#101424',
     padding: theme.spacing(2)
   },
-  button: {
-    // padding: theme.spacing(3)
+  buttonContainer: {
+    padding: theme.spacing(3, 1)
   },
   continueButton: {
     margin: '8px 10px',
@@ -158,27 +162,127 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const docs = {
+  facebook: '/static/images/facebook.png',
+  youtube: '/static/images/youtube.png',
+  instagram: '/static/images/instagram.png'
+}
 
 const LiveStreamForm = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState({
-    country: null,
-    state: null,
-    city: null
+    selectedCountry: "",
+    city: "",
+    link: ""
   });
+  const [country, setCountry] = React.useState([])
+  const [state, setStates] = React.useState([])
+
+
+  const [alert, setAlert] = React.useState({
+    err: "",
+    msg: "",
+    others: "",
+    isLoading: false
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = sessionStorage.getItem('token')
+      
+      if (token) {
+        try {
+          let headers = {
+            'publicToken' : config.publicToken,
+          }
+          let countries = await axios.get(endpoint.getCountries, 
+            {"headers" : headers}
+          )
+          console.log('countries', countries);
+
+          setCountry(countries.data)
+          
+        } catch (error) {
+          console.log('error', error);
+          console.log('error', error.response);
+        }
+      }
+    }
+
+    fetchData();
+  }, [])
+  
+  const router = useRouter();
+  let type = router.query.type  
 
   const handleChange = name => e => {
     setValue({
       ...value,
       [name]: e.target.value,
     });
+    
   };
 
-  const docs = {
-    facebook: '/static/images/facebook.png',
-    youtube: '/static/images/youtube.png',
-    instagram: '/static/images/instagram.png'
+  const handleChanges = value => event => {
+    let countries = event.target.value
+    // setCountry(countries);
+    setValue({
+      selectedCountry: countries
+    })
+    
+    // handlegetState(countries)
+  };
+
+  const handlegetState = async(countryId) => {
+
+    let headers = {
+      'publicToken' : config.publicToken,
+    }
+    let states = await axios.get(endpoint.getCountries + '/' + countryId, 
+      {"headers" : headers}
+    )
+    console.log('states', states);
+
+    setStates(states.data)
   }
+
+  const handleConntinue = () => {
+    if (value.link === "") {
+      setAlert({
+        err: "link",
+        msg: "Link can't be empty",
+      });
+      return;
+    }
+
+    if (value.country === null) {
+      setAlert({
+        err: "country",
+        msg: "Country can't be empty",
+      });
+      return;
+    }
+
+    if (value.state === null) {
+      setAlert({
+        err: "state",
+        msg: "State can't be empty",
+      });
+      return;
+    }
+
+    if (value.city === null) {
+      setAlert({
+        err: "city",
+        msg: "City can't be empty",
+      });
+      return;
+    } 
+  }
+
+  console.log('value', value);
+  console.log('country', state);
+  
 
   return (
     <div className={classes.root}>
@@ -189,13 +293,15 @@ const LiveStreamForm = () => {
             </Button>
           <Card className={classes.card}>
             <div className={classes.header}>
-              <img src={docs.facebook} />
+              {type === 'Facebook' && <img src={docs.facebook} />}
+              {type === 'Youtube' && <img src={docs.youtube} />}
+              {type === 'Instagram' && <img src={docs.instagram} />}
               <Typography  className={classes.headerText} >
-                  Facebook Live Stream
+                {type} Live Stream
               </Typography>
             </div>
             <CardContent>   
-              <Grid container spacing={1}>
+              <Grid container spacing={2}>
                 <Grid item  xs={12} >
                 <TextField
                   required
@@ -204,8 +310,11 @@ const LiveStreamForm = () => {
                   label="URL Link"
                   fullWidth
                   variant="outlined"
-                  autoComplete="fname"
+                  value={value.link}
+                  onChange={handleChange('link')}
                   className={classes.textField}
+                  error={alert.err === "link"}
+                  helperText={alert.err === "link" && alert.msg}
                 />
                 </Grid>
                 <Grid item  xs={12} >
@@ -213,14 +322,17 @@ const LiveStreamForm = () => {
                   id="outlined-select-country"
                   select
                   label="Select Church Country"
-                  value={value.country}
-                  onChange={handleChange}
+                  placeholder="Select Church Country"
+                  value={value.selectedCountry}
+                  onChange={handleChanges('selectedCountry')}
                   className={classes.textField}
                   variant="outlined"
+                  error={alert.err === "selectedCountry"}
+                  helperText={alert.err === "selectedCountry" && alert.msg}
                   >
                   {country.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                      <MenuItem key={option._id} value={option._id}>
+                      {option.name}
                       </MenuItem>
                   ))}
                 </TextField>
@@ -231,14 +343,16 @@ const LiveStreamForm = () => {
                     id="outlined-select-state"
                     select
                     label="Select Church State"
-                    value={value.state}
-                    onChange={handleChange}
+                    value={value.selectedState}
+                    onChange={handleChange('selectedState')}
                     className={classes.textField}
                     variant="outlined"
+                    error={alert.err === "state"}
+                    helperText={alert.err === "state" && alert.msg}
                     >
                     {state.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                        {option.label}
+                        <MenuItem key={option.code} value={option.name}>
+                        {option.name}
                         </MenuItem>
                     ))}
                   </TextField>
@@ -249,9 +363,11 @@ const LiveStreamForm = () => {
                     select
                     label="Select Church City"
                     value={value.city}
-                    onChange={handleChange}
+                    onChange={handleChange('city')}
                     className={classes.textField}
                     variant="outlined"
+                    error={alert.err === "city"}
+                    helperText={alert.err === "city" && alert.msg}
                     >
                     {city.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -262,10 +378,10 @@ const LiveStreamForm = () => {
                 </Grid>
               </Grid>
             </CardContent>
-              <CardActions>
-              <Button size="medium" color="secondary" className={classes.continueButton}>
-                Continue Setup
-              </Button>
+              <CardActions className={classes.buttonContainer}>
+                <Button size="medium" color="secondary" onClick={handleConntinue} className={classes.continueButton}>
+                  Continue Setup
+                </Button>
               </CardActions>
               
           </Card>

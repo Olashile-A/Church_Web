@@ -91,7 +91,7 @@ const Sidebar = props => {
     },
     {
         title: "Push Notification",
-        href: "/dashboard/in",
+        href: "/dashboard/push-notification",
         icon: <NotificationsNoneOutlinedIcon />
   
     },
@@ -103,13 +103,13 @@ const Sidebar = props => {
     },
     {
         title: "Register User",
-        href: "/dashboard/in",
+        href: "/dashboard/register-user",
         icon: <PersonAddIcon />
   
     },
     {
         title: "Admin User",
-        href: "/dashboard/in",
+        href: "/dashboard/admin-user",
         icon: <AccountBoxIcon />
   
     },

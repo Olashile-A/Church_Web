@@ -1,13 +1,17 @@
 import { combineReducers } from 'redux';
-import WalletReducers from "../reducers/WalletReducer";
+import LinkReducers from "./LinkReducer";
 import TransferReducer from "../reducers/TransferReducer";
 import WithdrawReducer from "../reducers/WithdrawReducer";
+import PrayerRequestReduucer from "../reducers/PrayerRequest";
+import WalletReducer from "../reducers/WalletReducer";
 
 
 const appReducer = combineReducers({
-  wallet: WalletReducers,
+  link: LinkReducers,
   transfer: TransferReducer,
-  withdraw: WithdrawReducer
+  withdraw: WithdrawReducer,
+  prayerRequest: PrayerRequestReduucer,
+  wallet: WalletReducer
 });
 
 export default appReducer;
