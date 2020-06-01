@@ -102,4 +102,4 @@ const Completed = (props) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(Completed);
+export default Completed;

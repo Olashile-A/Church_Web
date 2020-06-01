@@ -129,4 +129,4 @@ const DetailsConfirmation = (props) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(DetailsConfirmation);
+export default DetailsConfirmation;

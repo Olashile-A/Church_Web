@@ -176,4 +176,4 @@ const OtpVerification = (props) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(OtpVerification);
+export default OtpVerification;
