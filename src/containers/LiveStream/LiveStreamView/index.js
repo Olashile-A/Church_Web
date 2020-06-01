@@ -13,7 +13,13 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import Divider from '@material-ui/core/Divider';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ReactPlayer from 'react-player'
+import axios from 'axios';
+import Alert from "@material-ui/lab/Alert";
+import {endpoint} from '../../../../endpoint';
+import {config} from '../../../../config';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -88,7 +94,8 @@ const useStyles = makeStyles(theme => ({
   view: {
     display: 'flex',
     justifyContent: 'center',
-    padding: 10
+    padding: 10,
+    height: 150
   },
   toggle: {
     display: 'flex',
@@ -100,6 +107,15 @@ const useStyles = makeStyles(theme => ({
 
 const LiveStreamView = (props) => {
   const classes = useStyles();
+  const router = useRouter();
+  const {link, country, states, city, handleViewback} = props;
+  console.log('props', router.query);
+  
+  const [alert, setAlert] = React.useState({
+    err: "",
+    msg: "",
+    isLoading: false
+  });
 
   const [state, setState] = React.useState({
     checkedA: true,
@@ -109,6 +125,53 @@ const LiveStreamView = (props) => {
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+
+  const handleSave = async () => {
+    const { link, country, states, city, name} = props;
+    let token = sessionStorage.getItem('token')
+
+    setAlert({
+      err: "",
+      msg: "",
+      isLoading: true
+    })
+      
+    if (token) {
+      try {
+        const request = {
+          type: router.query.type,
+          url: link,
+          country,
+          state: states,
+          city,
+          name
+        }
+        let headers = {
+          'publicToken' : config.publicToken,
+          'x-auth-token': token
+        }
+        let lives = await axios.post(endpoint.live,
+          request, 
+          {"headers" : headers}
+        )
+        console.log('send', lives);
+        
+        router.push('/dashboard/livestream')
+
+        setAlert({
+          isLoading: false
+        })
+      } catch (error) {
+        console.log('error', error);
+        console.log('error', error.response);
+        setAlert({
+          err: "others",
+          msg: error.response.data,
+          isLoading: false
+        })
+      }
+    }
+  }
 
   const docs = {
     facebook: '/static/images/facebook.png',
@@ -121,7 +184,7 @@ const LiveStreamView = (props) => {
     <div className={classes.root}>
         
         <Container className={classes.cardGrid} maxWidth="sm">
-            <Button className={classes.backButton} startIcon={<ArrowBackIcon />}>
+            <Button className={classes.backButton} onClick={handleViewback} startIcon={<ArrowBackIcon />}>
               Back
             </Button>
          
@@ -133,7 +196,13 @@ const LiveStreamView = (props) => {
                 </Typography>
               </div>
               <div className={classes.view}>
-                  <img src={docs.facebook} className={classes.image} />
+              <ReactPlayer
+                url={link}
+                className='react-player'
+                playing
+                width='100%'
+                height='100%'
+              />
               </div>
               <CardContent>   
                 
@@ -161,12 +230,13 @@ const LiveStreamView = (props) => {
                     
                 </div>
               </CardContent>
+                {alert.err === "others" && <Alert severity="warning">{alert.msg}</Alert>}
               <CardActions className={classes.button}>
-                <Button className={classes.buttonTwo}  color="primary" autoFocus>
+                <Button className={classes.buttonTwo} onClick={handleViewback}  color="primary" autoFocus>
                   Change Link
                 </Button>
-                <Button className={classes.continueButton}  autoFocus>
-                  Save & Exit
+                <Button disabled={alert.isLoading} className={classes.continueButton} onClick={handleSave} autoFocus>
+                {alert.isLoading ? <CircularProgress className={classes.progress}/> : "Save & Exit"}
                 </Button>   
               </CardActions>
             </Card>

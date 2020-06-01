@@ -222,12 +222,16 @@ const InboxReply = (props) => {
           })
           return
         }
+        const request = {
+          body: value.body
+        }
         let headers = {
           'publicToken' : config.publicToken,
           'x-auth-token': token
         }
         let id = prayerRequest.requestDetail._id
-        let send = await axios.put(endpoint.replyPrayerRequest + '/' + id, 
+        let send = await axios.put(endpoint.replyPrayerRequest + '/' + id,
+          request, 
           {"headers" : headers}
         )
         console.log('send', send);
@@ -254,7 +258,7 @@ const InboxReply = (props) => {
         <Container className={classes.cardGrid} maxWidth="sm">
           <div className={classes.topBack}>
               
-            <Button className={classes.backButton} onclick={handleReplyBack} startIcon={<ArrowBackIcon />}>
+            <Button className={classes.backButton} onClick={handleReplyBack} startIcon={<ArrowBackIcon />}>
               Back
             </Button>
             <Button className={classes.inboxButton}>

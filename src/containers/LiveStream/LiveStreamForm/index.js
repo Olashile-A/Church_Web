@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { endpoint } from '../../../../endpoint';
 import { config } from '../../../../config';
 import axios from 'axios';
+import LiveStreamView from '../LiveStreamView';
 
 // const country = [
 //     {
@@ -110,7 +111,7 @@ const useStyles = makeStyles(theme => ({
     margin: '9px 0px'
   },
   card: {
-    height: 500,
+    height: 550,
     width: 456,
     border: '1px solid #E2E2E2',
     borderRadius: 5
@@ -125,14 +126,14 @@ const useStyles = makeStyles(theme => ({
     fontSize: 17,
     fontWeight: 'bold',
     color: '#101424',
-    padding: theme.spacing(2)
+    padding: theme.spacing(1)
   },
   buttonContainer: {
     padding: theme.spacing(3, 1)
   },
   continueButton: {
     margin: '8px 10px',
-    width: 116,
+    width: 150,
     height: 36,
     background: '#FD0E31 0% 0% no-repeat padding-box',
     borderRadius: 4,
@@ -172,11 +173,17 @@ const LiveStreamForm = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState({
     selectedCountry: "",
+    selectedState: "",
     city: "",
-    link: ""
+    link: "",
+    name: ""
   });
   const [country, setCountry] = React.useState([])
   const [state, setStates] = React.useState([])
+  const [view, setView] = React.useState({
+    form: true,
+    views: false
+  })
 
 
   const [alert, setAlert] = React.useState({
@@ -230,7 +237,7 @@ const LiveStreamForm = () => {
       selectedCountry: countries
     })
     
-    // handlegetState(countries)
+    handlegetState(countries)
   };
 
   const handlegetState = async(countryId) => {
@@ -246,7 +253,7 @@ const LiveStreamForm = () => {
     setStates(states.data)
   }
 
-  const handleConntinue = () => {
+  const handleContinue = () => {
     if (value.link === "") {
       setAlert({
         err: "link",
@@ -255,7 +262,7 @@ const LiveStreamForm = () => {
       return;
     }
 
-    if (value.country === null) {
+    if (value.selectedCountry === "") {
       setAlert({
         err: "country",
         msg: "Country can't be empty",
@@ -263,7 +270,7 @@ const LiveStreamForm = () => {
       return;
     }
 
-    if (value.state === null) {
+    if (value.selectedState === "") {
       setAlert({
         err: "state",
         msg: "State can't be empty",
@@ -271,121 +278,157 @@ const LiveStreamForm = () => {
       return;
     }
 
-    if (value.city === null) {
+    if (value.city === "") {
       setAlert({
         err: "city",
         msg: "City can't be empty",
       });
       return;
     } 
+
+    if (value.city === "") {
+      setAlert({
+        err: "name",
+        msg: "name can't be empty",
+      });
+      return;
+    } 
+
+    setView({
+      form: false,
+      views: true
+    })
   }
 
+  const handleViewback = () => {
+    setView({
+      form: true,
+      views: false
+    })
+  }
+  
   console.log('value', value);
-  console.log('country', state);
   
 
   return (
     <div className={classes.root}>
-        
-        <Container className={classes.cardGrid} maxWidth="sm">
+        {view.form && 
+          <Container className={classes.cardGrid} maxWidth="sm">
             <Button className={classes.backButton} startIcon={<ArrowBackIcon />}>
               Back
             </Button>
-          <Card className={classes.card}>
-            <div className={classes.header}>
-              {type === 'Facebook' && <img src={docs.facebook} />}
-              {type === 'Youtube' && <img src={docs.youtube} />}
-              {type === 'Instagram' && <img src={docs.instagram} />}
-              <Typography  className={classes.headerText} >
-                {type} Live Stream
-              </Typography>
-            </div>
-            <CardContent>   
-              <Grid container spacing={2}>
-                <Grid item  xs={12} >
-                <TextField
-                  required
-                  id="firstName"
-                  name="firstName"
-                  label="URL Link"
-                  fullWidth
-                  variant="outlined"
-                  value={value.link}
-                  onChange={handleChange('link')}
-                  className={classes.textField}
-                  error={alert.err === "link"}
-                  helperText={alert.err === "link" && alert.msg}
-                />
-                </Grid>
-                <Grid item  xs={12} >
-                <TextField
-                  id="outlined-select-country"
-                  select
-                  label="Select Church Country"
-                  placeholder="Select Church Country"
-                  value={value.selectedCountry}
-                  onChange={handleChanges('selectedCountry')}
-                  className={classes.textField}
-                  variant="outlined"
-                  error={alert.err === "selectedCountry"}
-                  helperText={alert.err === "selectedCountry" && alert.msg}
-                  >
-                  {country.map((option) => (
-                      <MenuItem key={option._id} value={option._id}>
-                      {option.name}
-                      </MenuItem>
-                  ))}
-                </TextField>
-
-                </Grid>
-                <Grid item  xs={12} >
+            <Card className={classes.card}>
+              <div className={classes.header}>
+                {type === 'facebook' && <img src={docs.facebook} />}
+                {type === 'youtube' && <img src={docs.youtube} />}
+                {type === 'instagram' && <img src={docs.instagram} />}
+                <Typography  className={classes.headerText} >
+                  {type} Live Stream
+                </Typography>
+              </div>
+              <CardContent>   
+                <Grid container spacing={1}>
+                  <Grid item  xs={12} >
                   <TextField
-                    id="outlined-select-state"
+                    id="outlined-select-country"
                     select
-                    label="Select Church State"
-                    value={value.selectedState}
-                    onChange={handleChange('selectedState')}
+                    label="Select Church Country"
+                    placeholder="Select Church Country"
+                    value={value.selectedCountry}
+                    onChange={handleChanges('selectedCountry')}
                     className={classes.textField}
                     variant="outlined"
-                    error={alert.err === "state"}
-                    helperText={alert.err === "state" && alert.msg}
+                    error={alert.err === "selectedCountry"}
+                    helperText={alert.err === "selectedCountry" && alert.msg}
                     >
-                    {state.map((option) => (
-                        <MenuItem key={option.code} value={option.name}>
+                    {country.map((option) => (
+                        <MenuItem key={option._id} value={option._id}>
                         {option.name}
                         </MenuItem>
                     ))}
                   </TextField>
-                </Grid>
-                <Grid item  xs={12} >
+
+                  </Grid>
+                  <Grid item  xs={12} >
                   <TextField
-                    id="outlined-select-city"
-                    select
-                    label="Select Church City"
-                    value={value.city}
-                    onChange={handleChange('city')}
-                    className={classes.textField}
+                    required
+                    id="firstName"
+                    name="firstName"
+                    label="URL Link"
+                    fullWidth
                     variant="outlined"
-                    error={alert.err === "city"}
-                    helperText={alert.err === "city" && alert.msg}
-                    >
-                    {city.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                        </MenuItem>
-                    ))}
-                  </TextField>
+                    value={value.link}
+                    onChange={handleChange('link')}
+                    className={classes.textField}
+                    error={alert.err === "link"}
+                    helperText={alert.err === "link" && alert.msg}
+                  />
+                  </Grid>
+                  <Grid item  xs={12} >
+                    <TextField
+                      id="outlined-select-state"
+                      select
+                      label="Select Church State"
+                      value={value.selectedState}
+                      onChange={handleChange('selectedState')}
+                      className={classes.textField}
+                      variant="outlined"
+                      error={alert.err === "state"}
+                      helperText={alert.err === "state" && alert.msg}
+                      >
+                      {state.map((option) => (
+                          <MenuItem key={option.code} value={option.name}>
+                          {option.name}
+                          </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid item  xs={12} >
+                    <TextField
+                      id="outlined-select-city"
+                      label="Select Church City"
+                      value={value.city}
+                      onChange={handleChange('city')}
+                      className={classes.textField}
+                      variant="outlined"
+                      error={alert.err === "city"}
+                      helperText={alert.err === "city" && alert.msg}
+                    />
+                  </Grid>
+                  <Grid item  xs={12} >
+                    <TextField
+                      id="outlined-name"
+                      label="Select name"
+                      value={value.name}
+                      onChange={handleChange('name')}
+                      className={classes.textField}
+                      variant="outlined"
+                      error={alert.err === "name"}
+                      helperText={alert.err === "name" && alert.msg}
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
-            </CardContent>
-              <CardActions className={classes.buttonContainer}>
-                <Button size="medium" color="secondary" onClick={handleConntinue} className={classes.continueButton}>
-                  Continue Setup
-                </Button>
-              </CardActions>
-              
-          </Card>
-        </Container>
+              </CardContent>
+                <CardActions className={classes.buttonContainer}>
+                  <Button size="medium" color="secondary" onClick={handleContinue} className={classes.continueButton}>
+                    Continue Setup
+                  </Button>
+                </CardActions>
+                
+            </Card>
+          </Container>
+        }
+        {view.views && 
+          <LiveStreamView 
+            link={value.link}
+            country={value.selectedCountry}
+            states={value.selectedState}
+            city={value.city}
+            name={value.name}
+            handleViewback={handleViewback}
+          />
+          
+        }
     </div>
   );
 };

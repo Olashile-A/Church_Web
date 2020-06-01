@@ -127,7 +127,7 @@ const LiveStream = () => {
   const classes = useStyles();
   const router = useRouter();
 
-  const [selectedValue, setSelectedValue] = React.useState('Facebook');
+  const [selectedValue, setSelectedValue] = React.useState('facebook');
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -167,11 +167,11 @@ const LiveStream = () => {
                               <div className={classes.body}>
                                 <Typography className={classes.text}>Facebook LiveStream</Typography>
                                 <Radio
-                                  checked={selectedValue === 'Facebook'}
+                                  checked={selectedValue === 'facebook'}
                                   onChange={handleChange}
-                                  value="Facebook"
+                                  value="facebook"
                                   name="radio-button-demo"
-                                  inputProps={{ 'aria-label': 'Facebook' }}
+                                  inputProps={{ 'aria-label': 'facebook' }}
                                   color="primary"
                                   className={classes.radio}
                                 />
@@ -184,11 +184,11 @@ const LiveStream = () => {
                               <div className={classes.body}>
                                 <Typography className={classes.text}>Youtube LiveStream</Typography>
                                 <Radio
-                                  checked={selectedValue === 'Youtube'}
+                                  checked={selectedValue === 'youtube'}
                                   onChange={handleChange}
-                                  value="Youtube"
+                                  value="youtube"
                                   name="radio-button-demo"
-                                  inputProps={{ 'aria-label': 'Youtube' }}
+                                  inputProps={{ 'aria-label': 'youtube' }}
                                   color="primary"
                                   className={classes.radio}
                                 />
@@ -203,11 +203,11 @@ const LiveStream = () => {
                               <div className={classes.body}>
                                 <Typography className={classes.text}>Instagram LiveStream</Typography>
                                 <Radio
-                                  checked={selectedValue === 'Instagram'}
+                                  checked={selectedValue === 'instagram'}
                                   onChange={handleChange}
-                                  value="Instagram"
+                                  value="instagram"
                                   name="radio-button-demo"
-                                  inputProps={{ 'aria-label': 'Instagram' }}
+                                  inputProps={{ 'aria-label': 'instagram' }}
                                   color="primary"
                                   className={classes.radio}
                                 />

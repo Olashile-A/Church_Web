@@ -8,4 +8,5 @@ export const endpoint = {
   replyPrayerRequest: api + '/prayer-request/church',
   getCountries: api + '/country',
   getCurrencies: api + '/currency',
+  live: api + '/live'
 };

@@ -11,13 +11,8 @@ import SwipeableViews from 'react-swipeable-views';
 import { withRouter } from "next/router";
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import InboxView from '../InboxView'
-import InboxReply from '../InboxView'
-import { endpoint } from '../../../../../endpoint';
-import { config } from '../../../../../config';
-import { connect } from 'react-redux';
-import {setPrayerRequest} from '../../../../store/actions'
-import axios from 'axios';
+import moment from 'moment';
+
 
 
 function TabPanel(props) {
@@ -179,7 +174,6 @@ function SimpleTabs(props) {
   const [value, setValue] = React.useState(0);
 
   const {allPrayer, inboxPrayer, repliedPrayer, handleViewMessage} = props
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -187,6 +181,8 @@ function SimpleTabs(props) {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
+
+
 
   const getInitials = (name) => {
     var parts = name.split(' ')
@@ -198,6 +194,8 @@ function SimpleTabs(props) {
     }
     return initials
   }
+
+  const timeFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"
 
   return (
     <div className={classes.root}>
@@ -247,7 +245,7 @@ function SimpleTabs(props) {
                       </Typography>
                     </div>
                     <Typography className={classes.time} color="textSecondary" gutterBottom>
-                      {pray.createdAt}
+                      {moment(pray.createdAt).format('hh:mm')}
                     </Typography>
                   </div>
                 ))}
@@ -267,7 +265,7 @@ function SimpleTabs(props) {
                       </Typography>
                     </div>
                     <Typography className={classes.time} color="textSecondary" gutterBottom>
-                      {pray.createdAt}
+                     {moment(pray.createdAt).format('hh:mm')}
                     </Typography>
                   </div>
                 ))}
@@ -287,7 +285,7 @@ function SimpleTabs(props) {
                       </Typography>
                     </div>
                     <Typography className={classes.time} color="textSecondary" gutterBottom>
-                      {pray.createdAt}
+                      {moment(pray.createdAt).format('hh:mm')}
                     </Typography>
                   </div>
                 ))}
