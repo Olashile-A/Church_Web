@@ -40,7 +40,6 @@ const useStyles = makeStyles(theme => ({
     height: 249,
     background: '#000000 0% 0% no-repeat padding-box',
     borderRadius: 8,
-    opacity: 0.36
   },
   card: {
     height: 500,
@@ -198,7 +197,7 @@ const LiveStreamView = (props) => {
               <div className={classes.view}>
               <ReactPlayer
                 url={link}
-                className='react-player'
+                // className={classes.image}
                 playing
                 width='100%'
                 height='100%'

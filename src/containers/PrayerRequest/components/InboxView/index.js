@@ -182,7 +182,7 @@ const InboxView = (props) => {
               </Typography>
             </div>
             <CardActions className={classes.button}>
-              {prayerRequest.requestDetail.answered == true && 
+              {prayerRequest.requestDetail.answered == false && 
                 <Button className={classes.replyButton} onClick={handleReplyMessage} startIcon={<ReplyIcon />}>
                 
                   Reply
