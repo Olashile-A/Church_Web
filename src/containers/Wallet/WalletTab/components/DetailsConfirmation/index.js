@@ -7,8 +7,10 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Warning from "@material-ui/icons/Warning";
 import { connect } from 'react-redux';
-// import { setWalletRoute } from "../../../../../store/actions"
 
+const mapStateToProps = state => ({
+  wallet : state.wallet
+})
 const useStyles = makeStyles(theme => ({
   root: {
     // padding: theme.spacing(2)
@@ -22,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     width: 398,
-    height: 532,
+    height: 500,
     border: '1px solid #E2E2E2',
     borderRadius: 5,
   },
@@ -75,7 +77,7 @@ const useStyles = makeStyles(theme => ({
 
 const DetailsConfirmation = (props) => {
   const classes = useStyles();
-  const {handleConfirmContinue} = props
+  const {handleConfirmContinue, wallet} = props
 
  
   return (
@@ -89,28 +91,23 @@ const DetailsConfirmation = (props) => {
             <CardContent className={classes.cardContent}>
             <Grid container spacing={1}  direction='column'  justify="center" align="center">
               <Grid item xs={12} className={classes.grid}>
-                <Typography gutterBottom className={classes.textOne}> Account Type</Typography>
-                <Typography gutterBottom className={classes.textTwo}> Savings</Typography>
+                <Typography gutterBottom className={classes.textOne}> Wallet Currency</Typography>
+                <Typography gutterBottom className={classes.textTwo}> {wallet.walletDetail.currencyName}(₦)</Typography>
               </Grid>
               <Divider />
               <Grid item xs={12} className={classes.grid}>
-                <Typography gutterBottom className={classes.textOne}>Bank Name</Typography>
-                <Typography gutterBottom className={classes.textTwo}>Wema Bank</Typography>
+                <Typography gutterBottom className={classes.textOne}>Wallet Name</Typography>
+                <Typography gutterBottom className={classes.textTwo}>{wallet.walletDetail.name}</Typography>
               </Grid>
               <Divider />
               <Grid item xs={12} className={classes.grid}>
-                <Typography gutterBottom className={classes.textOne}> Bank Code</Typography>
-                <Typography gutterBottom className={classes.textTwo}>Default</Typography>
+                <Typography gutterBottom className={classes.textOne}> Church Code ID</Typography>
+                <Typography gutterBottom className={classes.textTwo}>{wallet.walletDetail.number}</Typography>
               </Grid>
               <Divider />
               <Grid item xs={12} className={classes.grid}>
-                <Typography gutterBottom className={classes.textOne}> Account Name</Typography>
-                <Typography gutterBottom className={classes.textTwo}>Randy Olashile</Typography>
-              </Grid>
-              <Divider />
-              <Grid item xs={12} className={classes.grid}>
-                <Typography gutterBottom className={classes.textOne}> Account Number</Typography>
-                <Typography gutterBottom className={classes.textTwo}>0241217564</Typography>
+                <Typography gutterBottom className={classes.textOne}> Church Country</Typography>
+                <Typography gutterBottom className={classes.textTwo}>{wallet.walletDetail.countryName}</Typography>
               </Grid>
               <Divider />
             </Grid>
@@ -129,4 +126,4 @@ const DetailsConfirmation = (props) => {
   );
 };
 
-export default DetailsConfirmation;
+export default connect(mapStateToProps)(DetailsConfirmation);

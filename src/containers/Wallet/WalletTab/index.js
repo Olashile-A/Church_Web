@@ -62,10 +62,6 @@ const WalletTab = () => {
     fetchData();
   }, [])
 
-  const validateForm = () => {
-    child.handleValidate()
-  }
-
   const [view, setView] = React.useState({
     main: true,
     wallet: false,
@@ -85,7 +81,6 @@ const WalletTab = () => {
   }
 
   const handleWalletDetailsContinue = () => {
-    validateForm();
     setView({
       main: false,
       wallet: false,
@@ -112,6 +107,16 @@ const WalletTab = () => {
       confirm: false,
       otp: false,
       complete: true,
+    })
+  }
+
+  const handleOtpBack = () => {
+    setView({
+      main: false,
+      wallet: false,
+      confirm: true,
+      otp: false,
+      complete: false,
     })
   }
 
@@ -145,7 +150,6 @@ const WalletTab = () => {
             {
               view.wallet && (
                 <WalletDetails 
-                  onRef={ref => (child = ref)}
                   country={country}
                   currency={currency}
                   handleWalletDetailsContinue={handleWalletDetailsContinue}
@@ -162,13 +166,14 @@ const WalletTab = () => {
               view.otp && (
               <OtpVerification 
                 handleOtpContinue={handleOtpContinue}
+                handleOtpBack={handleOtpBack}
               />
             )}
             {
               view.complete && (
               <Completed />
             )}
-          </Grid>>
+          </Grid>
         </Grid>
       }
       

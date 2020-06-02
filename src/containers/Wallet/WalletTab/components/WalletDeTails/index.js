@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, Container, Typography } from '@material-ui/core';
 import TextField from "@material-ui/core/TextField";
@@ -39,15 +39,15 @@ const city = [
       label: 'Select',
     },
     {
-      value: '1',
+      value: 'C1234',
       label: 'C1234',
     },
     {
-      value: '2',
+      value: 'C5484',
       label: 'C5484',
     },
     {
-      value: '3',
+      value: 'C589',
       label: 'C589',
     },
 ];
@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     width: 398,
-    height: 532,
+    height: 500,
     border: '1px solid #E2E2E2',
     borderRadius: 5
   },
@@ -111,6 +111,10 @@ const WalletDetails = (props) => {
     selectedNumber: "",
     name: "",
   });
+
+  const [countryName, setCountryName] = React.useState("")
+  const [currencyName, setCurrencyName] = React.useState("")
+
   const [ alert, setAlert ] = React.useState({
     err: "",
     msg: "",
@@ -122,9 +126,12 @@ const WalletDetails = (props) => {
       ...value,
       [name]: e.target.value,
     });
+    
   };
 
   const handleValidate = () => {
+  const {handleWalletDetailsContinue, setWallet} = props
+
     setAlert({
       err: "",
       msg: "",
@@ -158,15 +165,26 @@ const WalletDetails = (props) => {
       })
       return
     }
-    // let details = {
-    //   country: value.selectedCountry,
-    //   currency: value.selectedCurrency,
-    //   number: value.selectedNumber,
-    //   name: value.name
-    // }
-    // setWallet(details)
+    handleWalletDetailsContinue()
+    let details = {
+      country: value.selectedCountry,
+      currency: value.selectedCurrency,
+      number: value.selectedNumber,
+      name: value.name,
+      countryName: countryName,
+      currencyName: currencyName
+    }
+    setWallet(details)
   };
 
+  const handleCountryName = (event, name) => {
+    setCountryName(name)
+  }
+
+  const handleCurrencyName = (event, name) => {
+    setCurrencyName(name)
+  }
+  
   return (
     <div className={classes.root}>
      
@@ -175,7 +193,7 @@ const WalletDetails = (props) => {
       </div>
       <Container maxWidth="sm">
         <Card className={classes.card}>
-          <Typography className={classes.headerText}> Link Bank Account </Typography>
+          <Typography className={classes.headerText}> Create New Wallet </Typography>
           <CardContent>
             <Grid container spacing={1} justify='center'>
               <Grid item  xs={12} >
@@ -191,7 +209,7 @@ const WalletDetails = (props) => {
                   helperText={alert.err === "selectedCountry" && alert.msg}
                   >
                   {country.map((option) => (
-                      <MenuItem key={option._id} value={option._id}>
+                      <MenuItem key={option._id} value={option._id} onClick={(event) => handleCountryName(event, option.name)}>
                       {option.name}
                       </MenuItem>
                   ))}
@@ -201,7 +219,7 @@ const WalletDetails = (props) => {
                 <TextField
                   id="outlined-select-city"
                   select
-                  label="Select Bank"
+                  label="Select Currency"
                   value={value.selectedCurrency}
                   onChange={handleChange('selectedCurrency')}
                   className={classes.textField}
@@ -210,7 +228,7 @@ const WalletDetails = (props) => {
                   helperText={alert.err === "selectedCurrency" && alert.msg}
                   >
                   {currency.map((option) => (
-                      <MenuItem key={option.value} value={option._id}>
+                      <MenuItem key={option.value} value={option._id} onClick={(event) => handleCurrencyName(event, option.name)}>
                       {option.name}
                       </MenuItem>
                   ))}
@@ -252,7 +270,7 @@ const WalletDetails = (props) => {
                 />
               </Grid>
               <Grid item xs={12} >
-                <Button className={classes.button} onClick={handleWalletDetailsContinue}>
+                <Button className={classes.button} onClick={handleValidate}>
                   Continue
                 </Button>
               </Grid>

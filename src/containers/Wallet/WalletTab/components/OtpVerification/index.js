@@ -6,9 +6,14 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Warning from "@material-ui/icons/Warning";
 import { connect } from 'react-redux';
+import axios from 'axios'
+import {endpoint} from '../../../../../../endpoint'
+import {config} from '../../../../../../config'
 // import { setWalletRoute } from "../../../../../store/actions"
 
-
+const mapStateToProps = state => ({
+  wallet: state.wallet
+})
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     width: 398,
-    height: 532,
+    height: 500,
     border: '1px solid #E2E2E2',
     borderRadius: 5,
   },
@@ -99,8 +104,39 @@ const useStyles = makeStyles(theme => ({
 
 const OtpVerification = (props) => {
   const classes = useStyles();
-  const {handleOtpContinue} = props
+  const {handleOtpContinue, wallet,handleOtpBack} = props
+  console.log('props', props);
+  
 
+  const handleVerify = async () => {
+    const {wallet, handleOtpContinue} = props
+    let token = sessionStorage.getItem('token')
+      
+    if (token) {
+      try {
+        const request = {
+          name: wallet.walletDetail.name,
+          country: wallet.walletDetail.country,
+          currency: wallet.walletDetail.currency,
+        }
+        console.log('request', request);
+        
+        let headers = {
+          'publicToken' : config.publicToken,
+          'x-auth-token': token
+        }
+        let create = await axios.post(endpoint.wallet,
+          request, 
+          {"headers" : headers}
+        )
+        console.log('create', create);
+        handleOtpContinue()
+      } catch (error) {
+        console.log('error', error);
+        console.log('error', error.response);
+      }
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -163,10 +199,10 @@ const OtpVerification = (props) => {
             </div>
           </CardContent>
           <div className={classes.buttonContainer}>
-            <Button className={classes.goBackButton}  autoFocus>
+            <Button className={classes.goBackButton} onClick={handleOtpBack} autoFocus>
               Go back
             </Button>
-            <Button className={classes.VerifyButton} onClick={handleOtpContinue} color="primary" autoFocus>
+            <Button className={classes.VerifyButton} onClick={handleVerify} color="primary" autoFocus>
               Verify
             </Button>
           </div>
@@ -176,4 +212,4 @@ const OtpVerification = (props) => {
   );
 };
 
-export default OtpVerification;
+export default connect(mapStateToProps)(OtpVerification);

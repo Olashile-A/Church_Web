@@ -8,7 +8,7 @@ import Tab from './Tab';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(5)
+    padding: theme.spacing(1, 8)
   },
 
 }));
@@ -19,9 +19,11 @@ const Wallet = () => {
   const classes = useStyles();
 
   return (
-    <Container className={classes.root} maxWidth="lg">
-      <Tab />
-    </Container>
+    <div className={classes.root}>
+      <Container  maxWidth="lg">
+        <Tab />
+      </Container>
+    </div>
   );
 };
 
