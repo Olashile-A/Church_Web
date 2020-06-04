@@ -260,7 +260,7 @@ function SimpleTabs(props) {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Typography className={classes.headerTitle} >
-          Event Planner
+          Pastor Planner
         </Typography>
         <Tabs value={value} onChange={handleChange} indicatorColor="primary"
           textColor="primary" aria-label="simple tabs example" centered >
