@@ -1,20 +1,20 @@
-import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { Divider, Drawer } from '@material-ui/core';
-import DashboardIcon from '@material-ui/icons/Dashboard';
+import React from './node_modules/react';
+import clsx from './node_modules/clsx';
+import PropTypes from './node_modules/prop-types';
+import { makeStyles } from './node_modules/@material-ui/styles';
+import { Divider, Drawer } from './node_modules/@material-ui/core';
+import DashboardIcon from './node_modules/@material-ui/icons/Dashboard';
 import SideBarHeader from "../../../../components/Header/SidebarHeader"
-import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
-import ImportContactsIcon from '@material-ui/icons/ImportContacts';
-import AirplayIcon from '@material-ui/icons/Airplay';
-import HeadsetIcon from '@material-ui/icons/Headset';
-import EventNoteIcon from '@material-ui/icons/EventNote';
-import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
-import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import FormatAlignCenterIcon from './node_modules/@material-ui/icons/FormatAlignCenter';
+import ImportContactsIcon from './node_modules/@material-ui/icons/ImportContacts';
+import AirplayIcon from './node_modules/@material-ui/icons/Airplay';
+import HeadsetIcon from './node_modules/@material-ui/icons/Headset';
+import EventNoteIcon from './node_modules/@material-ui/icons/EventNote';
+import ChatBubbleOutlineOutlinedIcon from './node_modules/@material-ui/icons/ChatBubbleOutlineOutlined';
+import NotificationsNoneOutlinedIcon from './node_modules/@material-ui/icons/NotificationsNoneOutlined';
+import AccountBalanceWalletIcon from './node_modules/@material-ui/icons/AccountBalanceWallet';
+import PersonAddIcon from './node_modules/@material-ui/icons/PersonAdd';
+import AccountBoxIcon from './node_modules/@material-ui/icons/AccountBox';
 
 import { Profile, SidebarNav, GenerateReport } from './components';
 const drawerWidth = 250;
