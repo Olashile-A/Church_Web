@@ -4,20 +4,7 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
 import { withRouter }  from 'next/router'
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { SideBar, Topbar, Footer } from './components';
-// import uuid from 'uuid';
-// import Axios from 'axios';
-// import { config } from '../../../config';
-// import { setUserDetails, setCurrencyRates } from "../../actions/data"
-// import { connect } from 'react-redux';
-// import Router from "next/router";
 
 
 
@@ -38,10 +25,6 @@ const useStyles = makeStyles(theme => ({
   
 }));
 
-// const mapDispatchToProps = {
-//   setUserDetails,
-//   setCurrencyRates
-// };
 
 const Main = props => {
   const { children, setUserDetails, setCurrencyRates } = props;

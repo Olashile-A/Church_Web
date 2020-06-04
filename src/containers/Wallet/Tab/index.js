@@ -17,7 +17,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import InputBase from '@material-ui/core/InputBase';
 import WalletTab from '../WalletTab'
-import LinkAccount from '../LinkAccont';
+import LinkAccount from '../LinkAccount';
 import Transfer from '../Transfer';
 import Withdrawal from '../Withdrawal';
 import Transactions from '../Transactions';
