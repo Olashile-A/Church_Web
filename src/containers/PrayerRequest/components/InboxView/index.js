@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     width: 510,
-    height: 450,
+    height: 500,
     border: '1px solid #E2E2E2',
     borderRadius: 5
   },
@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       background: '#FD0E31 0% 0% no-repeat padding-box',
       color: '#EEEEE'
-    }
+    },
   },
   text: {
     textAlign: 'left',

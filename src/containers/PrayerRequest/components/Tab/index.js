@@ -174,6 +174,8 @@ function SimpleTabs(props) {
   const [value, setValue] = React.useState(0);
 
   const {allPrayer, inboxPrayer, repliedPrayer, handleViewMessage} = props
+  console.log('props', props);
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

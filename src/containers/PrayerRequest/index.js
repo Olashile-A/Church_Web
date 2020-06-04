@@ -85,14 +85,14 @@ const PrayerRequest = (props) => {
           let repliedPrayer = await axios.get(endpoint.repliedPrayerRequest, 
             {"headers" : headers}
           )
-          console.log('prayer', allPrayer);
+          console.log('allprayer', allPrayer);
           setallPrayer(allPrayer.data.pr)
           
-          console.log('prayer', inboxPrayer);
-          setinboxPrayer(allPrayer.data.pr)
+          console.log('inboxprayer', inboxPrayer);
+          setinboxPrayer(inboxPrayer.data.pr)
 
           console.log('prayer', repliedPrayer);
-          setrepliedPrayer(allPrayer.data.pr)
+          setrepliedPrayer(repliedPrayer.data.pr)
         } catch (error) {
           console.log('error', error);
           console.log('error', error.response);
