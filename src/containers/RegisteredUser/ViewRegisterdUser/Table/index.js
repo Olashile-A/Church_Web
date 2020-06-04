@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import moment from 'moment';
 
 const useStyles = makeStyles({
   table: {
@@ -33,29 +34,11 @@ const useStyles = makeStyles({
   }
 });
 
-function createData( number, date, reference, method, code, amount) {
-  return { number, date, reference, method, code, amount };
-}
-
-
-const rows = [
-  createData(1, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(2, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(3, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(4, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(5, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(6, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(7, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(8, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(8, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(8, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(8, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-  createData(8, '18th May 2020', 'CL001EXLT', 'CreditCard', 'EXLT23', '3,000'),
-];
-
-export default function DenseTable() {
+export default function DenseTable(props) {
   const classes = useStyles();
+  const {memerTransaction} = props;
 
+  let count = 0
   return (
     <TableContainer>
       <Table className={classes.table} size="small" aria-label="a dense table">
@@ -63,22 +46,22 @@ export default function DenseTable() {
           <TableRow>
             <TableCell align="left" className={classes.tableHeadCell}>S/N</TableCell>
             <TableCell align="center" className={classes.tableHeadCell}>Date</TableCell>
-            <TableCell align="right" className={classes.tableHeadCell}>Reference</TableCell>
+            <TableCell align="center" className={classes.tableHeadCell}>Reference</TableCell>
             <TableCell align="right" className={classes.tableHeadCell}>Payment Method</TableCell>
             <TableCell align="center" className={classes.tableHeadCell}>Authorization Code</TableCell>
             <TableCell align="center" className={classes.tableHeadCell}>Amount (N)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {memerTransaction.map((row) => (
             <TableRow key={row.name} >
               <TableCell className={classes.tableCell} component="th" scope="row">
-                {row.number}
+              {count = 0 ? count : count + 1 }
               </TableCell>
-              <TableCell align="right" className={classes.tableCell}>{row.date}</TableCell>
-              <TableCell align="right" className={classes.tableCell}>{row.reference}</TableCell>
-              <TableCell align="right" className={classes.tableCell}>{row.method}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.code}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{moment(row.date).format('DD MMM YYYY')}</TableCell>
+              <TableCell align="right" className={classes.tableCell}>XXXX{row.txRef.substr(24,29)}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{row.modeOfPayment}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{row.txId}</TableCell>
               <TableCell align="center" className={classes.tableCell}>{row.amount}</TableCell>
             </TableRow>
           ))}

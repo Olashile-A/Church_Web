@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, Container, Typography, Card } from '@material-ui/core';
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Warning from "@material-ui/icons/Warning";
+import OtpInput from 'react-otp-input';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import {endpoint} from '../../../../../../endpoint'
@@ -83,10 +84,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     color: '#FFFFFF'
   },
-  grid : {
+  inputContainer : {
     display: 'flex',
     flexDirection: 'row',
-    // justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   sentContainer: {
     display: 'flex',
@@ -100,10 +101,15 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     padding: theme.spacing(2, 0)
   },
+  input: {
+    padding: 8
+  }
 }));
 
 const OtpVerification = (props) => {
   const classes = useStyles();
+  const [msg, setMsg] = React.useState("")
+  const [otp, setOtp] = React.useState("")
   const {handleOtpContinue, wallet,handleOtpBack} = props
   console.log('props', props);
   
@@ -115,9 +121,7 @@ const OtpVerification = (props) => {
     if (token) {
       try {
         const request = {
-          name: wallet.walletDetail.name,
-          country: wallet.walletDetail.country,
-          currency: wallet.walletDetail.currency,
+          otpCode: otp
         }
         console.log('request', request);
         
@@ -125,19 +129,26 @@ const OtpVerification = (props) => {
           'publicToken' : config.publicToken,
           'x-auth-token': token
         }
-        let create = await axios.post(endpoint.wallet,
+        let id = wallet.walletDetail
+        let verify = await axios.put(endpoint.walletVerify + '/' + id,
           request, 
           {"headers" : headers}
         )
-        console.log('create', create);
-        handleOtpContinue()
+        console.log('verify', verify);
+        handleOtpContinue();
       } catch (error) {
         console.log('error', error);
+        setMsg(error.response.data)
         console.log('error', error.response);
       }
     }
   }
 
+  const handleOnChange = otp => {
+    setOtp(otp)
+  }
+  console.log(otp);
+  
   return (
     <div className={classes.root}>
       <div>
@@ -151,53 +162,23 @@ const OtpVerification = (props) => {
               <Typography className={classes.text}>Please Enter the code sent to</Typography>
               <Typography className={classes.text}> +235 811 385 2536</Typography>
             </div>
-            <Grid container spacing={0} justify="center" align='center'>
-              <Grid item  xs={12} sm={3}>
-                <TextField
-                  required
-                  id="firstName"
-                  type='number'
-                  name="firstName"
-                  variant="outlined"
-                  className={classes.textField}
+              <div className={classes.inputContainer}>
+                <OtpInput
+                  onChange={handleOnChange}
+                  value={otp}
+                  numInputs={4}
+                  inputStyle={{width: 63, height: 68, fontSize: 20}}
+                  containerStyle={classes.input}
+                  separator={<span> - </span>}
+                  isInputNum={true}
                 />
-            </Grid>
-              <Grid item  xs={12} sm={3}>
-                <TextField
-                  required
-                  id="firstName"
-                  name="firstName"
-                  type='number'
-                  variant="outlined"
-                  className={classes.textField}
-                />
-              </Grid>
-              <Grid item  xs={12} sm={3}>
-                <TextField
-                  required
-                  id="firstName"
-                  name="firstName"
-                  type='number'
-                  variant="outlined"
-                  className={classes.textField}
-                />
-              </Grid>
-              <Grid item  xs={12} sm={3}>
-                <TextField
-                  required
-                  id="firstName"
-                  name="firstName"
-                  type='number'
-                  variant="outlined"
-                  className={classes.textField}
-                />
-              </Grid>
-            </Grid>
+              </div>
             <div className={classes.resendContainer}>
               <Typography className={classes.textOne}>Didn't get code?</Typography>
               <Button className={classes.resendButton}>Click to resend</Button>
             </div>
           </CardContent>
+          <Typography className={classes.resendButton}>{msg}</Typography>
           <div className={classes.buttonContainer}>
             <Button className={classes.goBackButton} onClick={handleOtpBack} autoFocus>
               Go back

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, Container, Typography } from '@material-ui/core';
 import TextField from "@material-ui/core/TextField";
@@ -11,9 +11,12 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { setLinkRoute } from "../../../../store/actions"
+import { setLinkRoute, setLinkDetails } from "../../../../store/actions"
 import { connect } from 'react-redux';
 import Flow from '../../../../components/Flow'
+import axios from 'axios';
+import { endpoint } from '../../../../../endpoint';
+import { config } from '../../../../../config';
 
 const country = [
     {
@@ -54,7 +57,8 @@ const city = [
 ];
 
 const mapDispatchToProps ={
-  setLinkRoute
+  setLinkRoute,
+  setLinkDetails
 };
 
 const useStyles = makeStyles(theme => ({
@@ -105,11 +109,45 @@ const useStyles = makeStyles(theme => ({
 const AccountCardDetails = (props) => {
   const classes = useStyles();
 
+  const [bank, setBank] = React.useState([])
+  const [bankCode, SetBankCode] = React.useState("")
+
+  const [ alert, setAlert ] = React.useState({
+    err: "",
+    msg: "",
+    isLoading: false
+  })
+
   const [value, setValue] = React.useState({
-    country: '',
-    city: '',
-    type: 'one',
+    selectedBank: "",
+    accountNumber: "",
+    type: 'current',
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = sessionStorage.getItem('token')
+      
+      if (token) {
+        try {
+          let headers = {
+            'publicToken' : config.publicToken,
+            'x-auth-token': token
+          }
+          let banks = await axios.get(endpoint.getAllBanks, 
+            {"headers" : headers}
+          )
+          console.log('banks', banks);
+          setBank(banks.data)
+        }catch(error) {
+          console.log('error', error);
+          console.log('error', error.response);
+        }
+      }
+    }
+
+    fetchData();
+  }, [])
 
   const handleChange = name => e => {
     setValue({
@@ -119,9 +157,43 @@ const AccountCardDetails = (props) => {
   };
 
   const handleLink = () => {
-    const { setLinkRoute } = props;
+    const { setLinkRoute, setLinkDetails } = props;
+
+    setAlert({
+      err: "",
+      msg: "",
+      isLoading: true
+    })
+    if (value.selectedBank === "") {
+      setAlert({
+        err: "selectedBank",
+        msg: "bank can't be empty"
+      })
+      return
+    }
+    if (value.accountNumber === "") {
+      setAlert({
+        err: "accountNumber",
+        msg: "account Number can't be empty"
+      })
+      return
+    }
+    let details = {
+      accountNumber: value.accountNumber,
+      bankCode: bankCode,
+      bankName: value.selectedBank,
+      type: value.type,
+    }
+    setLinkDetails(details)
     setLinkRoute("confirmation");
   };
+
+  const handleSetBankCode = (event, code) => {
+    SetBankCode(code)
+  }
+  console.log('value', value);
+  console.log('bankcode', bankCode);
+  
 
   return (
     <div className={classes.root}>
@@ -133,7 +205,7 @@ const AccountCardDetails = (props) => {
         <Card className={classes.card}>
           <Typography className={classes.headerText}> Link Bank Account </Typography>
           <CardContent>
-            <Grid container spacing={1} justify='center' align='center'>
+            <Grid container spacing={1} justify='center'>
               <Grid item  xs={12} >
                 <FormControl component="fieldset" className={classes.formControlTwo}>
                   <RadioGroup
@@ -141,18 +213,18 @@ const AccountCardDetails = (props) => {
                     aria-label="position"
                     name="position"
                     value={value.type}
-                    // onChange={this.handleChanges("type")}
+                    onChange={handleChange("type")}
                     defaultValue="top"
                   >
                   <FormControlLabel
-                    value="one"
+                    value="current"
                     control={<Radio color="primary" />}
                     label="Current Account"
                     labelPlacement="start"
                   />
 
                   <FormControlLabel
-                    value="two"
+                    value="saving"
                     control={<Radio color="primary" />}
                     label="Savings Account"
                     labelPlacement="start"
@@ -163,37 +235,32 @@ const AccountCardDetails = (props) => {
               </Grid>
               <Grid item  xs={12} >
                 <TextField
-                  id="outlined-select-state"
-                  select
-                  label="Select Country"
-                  value={value.state}
-                  onChange={handleChange}
-                  className={classes.textField}
-                  variant="outlined"
-                  >
-                  {country.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                      </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item  xs={12} >
-                <TextField
                   id="outlined-select-city"
                   select
                   label="Select Bank"
-                  value={value.city}
-                  onChange={handleChange}
+                  value={value.selectedBank}
+                  onChange={handleChange('selectedBank')}
                   className={classes.textField}
                   variant="outlined"
+                  error={alert.err === "selectedBank"}
+                  helperText={alert.err === "selectedBank" && alert.msg}
                   >
-                  {city.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                  {bank.map((option) => (
+                      <MenuItem key={option.Id} value={option.Name} onClick={(event) => handleSetBankCode(event, option.Code)}>
+                      {option.Name}
                       </MenuItem>
                   ))}
                 </TextField>
+              </Grid> 
+              <Grid item  xs={12} >
+                <TextField
+                  id="outlined-select-city"
+                  disabled
+                  label="Bank Code"
+                  value={bankCode}
+                  className={classes.textField}
+                  variant="outlined"
+                />
               </Grid> 
               <Grid item  xs={12} >
                 <TextField
@@ -202,9 +269,13 @@ const AccountCardDetails = (props) => {
                   name="firstName"
                   label="Account Number"
                   fullWidth
+                  type="number"
                   variant="outlined"
-                  autoComplete="fname"
+                  value={value.accountNumber}
+                  onChange={handleChange('accountNumber')}
                   className={classes.textField}
+                  error={alert.err === "accountNumber"}
+                  helperText={alert.err === "accountNumber" && alert.msg}
                 />
               </Grid>
               <Grid item xs={12} >

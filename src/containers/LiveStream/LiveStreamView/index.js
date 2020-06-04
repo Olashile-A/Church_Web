@@ -36,8 +36,8 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 4,
   },
   image: {
-    width: 366,
-    height: 249,
+    // paddingTop: '2.25%',// Percentage ratio for 16:9
+    position: 'relative',
     background: '#000000 0% 0% no-repeat padding-box',
     borderRadius: 8,
   },
@@ -94,7 +94,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     padding: 10,
-    height: 150
+    width: 'auto',
+    height: '50%',
   },
   toggle: {
     display: 'flex',
@@ -108,6 +109,7 @@ const LiveStreamView = (props) => {
   const classes = useStyles();
   const router = useRouter();
   const {link, country, states, city, handleViewback} = props;
+  let type = router.query.type  
   console.log('props', router.query);
   
   const [alert, setAlert] = React.useState({
@@ -189,15 +191,17 @@ const LiveStreamView = (props) => {
          
             <Card className={classes.card}>
               <div className={classes.header}>
-                <img src={docs.facebook} />
+                {type === 'facebook' && <img src={docs.facebook} />}
+                {type === 'youtube' && <img src={docs.youtube} />}
+                {type === 'instagram' && <img src={docs.instagram} />}
                 <Typography  className={classes.headerText} >
-                    Facebook Live Stream Integration Complete
+                  {type} Live Stream
                 </Typography>
               </div>
               <div className={classes.view}>
               <ReactPlayer
                 url={link}
-                // className={classes.image}
+                className={classes.image}
                 playing
                 width='100%'
                 height='100%'

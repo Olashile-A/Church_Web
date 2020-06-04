@@ -6,7 +6,17 @@ import Divider from "@material-ui/core/Divider";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Warning from "@material-ui/icons/Warning";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Alert from "@material-ui/lab/Alert";
 import { connect } from 'react-redux';
+import { setWallet } from "../../../../../store/actions"
+import axios from 'axios'
+import {endpoint} from '../../../../../../endpoint'
+import {config} from '../../../../../../config'
+
+const mapDispatchToProps ={
+  setWallet
+};
 
 const mapStateToProps = state => ({
   wallet : state.wallet
@@ -72,13 +82,66 @@ const useStyles = makeStyles(theme => ({
   grid : {
     display: 'flex',
     flexDirection: 'row',
-  }
+  },
+  progress: {
+    background: 'transparent',
+    color: '#FFFFFF'
+  },
 }));
 
 const DetailsConfirmation = (props) => {
   const classes = useStyles();
-  const {handleConfirmContinue, wallet} = props
+  const {handleConfirmGoBack, wallet} = props
 
+  const [alert, setAlert] = React.useState({
+    err: "",
+    msg: "",
+    others: "",
+    isLoading: false
+  });
+
+  const handleConfirm = async () => {
+
+    setAlert({
+      err: "",
+      msg: "",
+      others: "",
+      isLoading: true
+    })
+    const {setWallet, wallet, handleConfirmContinue} = props;
+    let token = sessionStorage.getItem('token')
+      
+    if (token) {
+      try {
+        const request = {
+          name: wallet.walletDetail.name,
+          country: wallet.walletDetail.country,
+          currency: wallet.walletDetail.currency,
+        }
+        console.log('request', request);
+        
+        let headers = {
+          'publicToken' : config.publicToken,
+          'x-auth-token': token
+        }
+        let create = await axios.post(endpoint.wallet,
+          request, 
+          {"headers" : headers}
+        )
+        console.log('create', create);
+        setWallet(create.data.walletId)
+        handleConfirmContinue()
+      } catch (error) {
+        console.log('error', error);
+        setAlert({
+          err: "others",
+          msg: error.response.data,
+          isLoading: false
+        })
+        console.log('error', error.response);
+      }
+    }
+  };
  
   return (
     <div className={classes.root}>
@@ -112,12 +175,16 @@ const DetailsConfirmation = (props) => {
               <Divider />
             </Grid>
             </CardContent>
+            {alert.err === "others" && <Alert severity="warning">{alert.msg}</Alert>}
             <div className={classes.buttonContainer}>
-              <Button className={classes.buttonOne}>
+              <Button onClick={handleConfirmGoBack} className={classes.buttonOne}>
                 Go back
               </Button>
-              <Button className={classes.buttonTwo} onClick={handleConfirmContinue} color="primary" >
-                Confirm
+              <Button className={classes.buttonTwo}
+                disabled={alert.isLoading}
+               onClick={handleConfirm} color="primary" >
+              {alert.isLoading ? <CircularProgress className={classes.progress}/> : 'Confirm'} 
+
               </Button>
             </div>
           </Card>
@@ -126,4 +193,4 @@ const DetailsConfirmation = (props) => {
   );
 };
 
-export default connect(mapStateToProps)(DetailsConfirmation);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailsConfirmation);

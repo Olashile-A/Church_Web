@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import { useRouter } from 'next/router';
+import moment from 'moment'
 
 const useStyles = makeStyles({
   table: {
@@ -34,36 +35,25 @@ const useStyles = makeStyles({
   }
 });
 
-function createData( number, date, fullName, email, id, phone, lastSeen) {
-  return { number, date, fullName, email, id, phone, lastSeen };
-}
 
-
-const rows = [
-  createData(1, '18th May 2020', 'Musa Saka', 'm.saka@gmail.com', 'CL001EXLT', '+2348113862743', '2:00 AM (2 mins ago)'),
-  createData(2, '18th May 2020', 'Musa Saka', 'm.saka@gmail.com', 'CL001EXLT', '+2348113862743', '2:00 AM (2 mins ago)'),
-  createData(3, '18th May 2020', 'Musa Saka', 'm.saka@gmail.com', 'CL001EXLT', '+2348113862743', '2:00 AM (2 mins ago)'),
-  createData(4, '18th May 2020', 'Musa Saka', 'm.saka@gmail.com', 'CL001EXLT', '+2348113862743', '2:00 AM (2 mins ago)'),
-  createData(5, '18th May 2020', 'Musa Saka', 'm.saka@gmail.com', 'CL001EXLT', '+2348113862743', '2:00 AM (2 mins ago)'),
-  createData(6, '18th May 2020', 'Musa Saka', 'm.saka@gmail.com', 'CL001EXLT', '+2348113862743', '2:00 AM (2 mins ago)'),
-  createData(7, '18th May 2020', 'Musa Saka', 'm.saka@gmail.com', 'CL001EXLT', '+2348113862743', '2:00 AM (2 mins ago)'),
-  createData(8, '18th May 2020', 'Musa Saka', 'm.saka@gmail.com', 'CL001EXLT', '+2348113862743', '2:00 AM (2 mins ago)'),
-];
-
-export default function DenseTable() {
+export default function DenseTable(props) {
   const classes = useStyles();
   const router = useRouter();
+  const {members} = props
 
-  const handleView = () => {
-    router.push('/dashboard/register-user/registered-user-view/:id')
+  const handleView = id => () => {
+    router.push('/dashboard/register-user/registered-user-view/' + id)
+    
   }
+
+  let count = 0
   return (
     <TableContainer>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell align="left" className={classes.tableHeadCell}>S/N</TableCell>
-            <TableCell align="center" className={classes.tableHeadCell}>Date</TableCell>
+            <TableCell align="left" className={classes.tableHeadCell}>Date</TableCell>
             <TableCell align="right" className={classes.tableHeadCell}>Full Name</TableCell>
             <TableCell align="right" className={classes.tableHeadCell}>Email Address</TableCell>
             <TableCell align="center" className={classes.tableHeadCell}>User ID</TableCell>
@@ -73,19 +63,19 @@ export default function DenseTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name} >
+          {members.map((row) => (
+            <TableRow key={row._id} >
               <TableCell className={classes.tableCell} component="th" scope="row">
-                {row.number}
+                {count = 0 ? count : count + 1 }
               </TableCell>
-              <TableCell align="right" className={classes.tableCell}>{row.date}</TableCell>
+              <TableCell align="left" className={classes.tableCell}>{moment(row.date).format('DD MMM YYYY')}</TableCell>
               <TableCell align="right" className={classes.tableCell}>{row.fullName}</TableCell>
               <TableCell align="right" className={classes.tableCell}>{row.email}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.id}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.phone}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.lastSeen}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>XXXX{row._id.substr(19,24)}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{row.phoneNumber}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{moment(row.date).format('HH:MM')}</TableCell>
               <TableCell align="center" className={classes.tableCell}>
-                <Button onClick={handleView} className={classes.button}>
+                <Button onClick={handleView(row._id)} className={classes.button}>
                     View
                 </Button>
               </TableCell>

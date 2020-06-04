@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -7,11 +7,13 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import PaymentIcon from '@material-ui/icons/Payment';
 import Icon from '@material-ui/core/Icon';
-import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import CustomisedProgressBar from '../../../../components/ProgressBar/ProgressBar';
-
+import axios from 'axios';
+import { endpoint } from '../../../../../endpoint';
+import { config } from '../../../../../config';
 const useStyles = makeStyles((theme) => ({
   root: {
     // minWidth: 275,
@@ -31,20 +33,23 @@ const useStyles = makeStyles((theme) => ({
     color: '#616781',
     opacity: 1,
     fontSize: 17,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   title: {
     letterSpacing: 0.53,
     color: '#616781',
     opacity: 1,
     fontSize: 15,
+    background: 'none',
+    border: 'none'
   },
   weekTitle: {
-    letterSpacing: 0.53,
     color: '#616781',
     opacity: 1,
     fontSize: 15,
-    marginRight: theme.spacing(3)
+    marginRight: theme.spacing(3),
+    background: 'none',
+    border: 'none'
   },
   text: {
     letterSpacing: 0.53,
@@ -64,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: theme.spacing(3, 3, 1, 3 ),
+    padding: theme.spacing(2, 3, 1, 3 ),
     borderBottom: '1px solid grey'
   },
   subHeader: {
@@ -132,9 +137,66 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Donations(props) {
   const classes = useStyles();
-  const {className} = props
+  const {className} = props;
+  const [value, setValue] = React.useState({
+    totalTransaction: "",
+    totalAmount: ""
+  })
 
-  const bull = <span className={classes.bullet}>•</span>;
+  const [view, setView] = React.useState({
+    month: false,
+    week: true
+  })
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = sessionStorage.getItem('token')
+      
+      if (token) {
+        try {
+          let headers = {
+            'publicToken' : config.publicToken,
+            'x-auth-token': token
+          }
+          let month = await axios.get(endpoint.getTransactionByMonthInterval, 
+            {"headers" : headers}
+          )
+          let week = await axios.get(endpoint.getTransactionByWeekInterval, 
+            {"headers" : headers}
+          )
+          console.log('month', month);
+          setValue({
+            totalTransaction: month.data.total,
+            totalAmount: month.data.amount
+          })
+          console.log('week', week);
+          setValue({
+            totalTransaction: week.data.total,
+            totalAmount: week.data.amount
+          })
+        } catch (error) {
+          console.log('error', error);
+          console.log('error', error.response);
+        }
+      }
+    }
+
+    fetchData();
+  }, [])
+
+  const handleMonth = () => {
+    setView({
+      month: true,
+      week: false
+    })
+  }
+
+  const handleWeek = () => {
+    setView({
+      month: false,
+      week: true
+    })
+  }
 
   return (
     <Paper className={classes.root}>
@@ -144,24 +206,26 @@ export default function Donations(props) {
             </Typography>
             <div className={classes.subHeader} >
                 <div>   
-                    <Typography className={classes.weekTitle} color="textSecondary" gutterBottom>
-                        Week
-                    </Typography>
+                  <Button className={classes.weekTitle} onClick={handleMonth} color="textSecondary" gutterBottom>
+                    Week
+                  </Button>
                 </div>
                 <div>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        Month
-                    </Typography>
+                  <Button className={classes.title} onClick={handleWeek} color="textSecondary" gutterBottom>
+                    Month
+                  </Button>
                 </div>
                 {/* <Divider /> */}
             </div>
         </div>
-        <div className={classes.bodyContainer}>
+        {view.month && 
+          <>
+          <div className={classes.bodyContainer}>
             <div className={classes.body}>
                 <PaymentIcon className={classes.icon}/>
                 <div className={classes.textContainer}>
                     <Typography className={classes.text}> TRANSACTIONS </Typography>
-                    <Typography className={classes.number}> 234 </Typography>
+                    <Typography className={classes.number}> {value.totalTransaction} </Typography>
                 </div>
             </div>
             
@@ -170,31 +234,72 @@ export default function Donations(props) {
                 <Icon className={classes.nairaIcon}>₦</Icon>
                 <div className={classes.textContainer2}>
                     <Typography className={classes.text}> AMOUNT </Typography>
-                    <Typography className={classes.number}> 3,000,000 </Typography>
+                    <Typography className={classes.number}> {value.totalAmount} </Typography>
                 </div>
             </div>
-        </div>
+          </div>
        
-        <div className={classes.footer}>
-            <CallMadeIcon className={classes.icon}/>
-            <div className={classes.textContainer2}>
-                <Typography className={classes.text}> SPEND CHANNELS </Typography>
-                <div className={classes.textAndIconContainer}>
-                    <FiberManualRecordIcon className={classes.footerIconOne}/>
-                    <Typography className={classes.text}> Tithe </Typography>
-                    <FiberManualRecordIcon className={classes.footerIconTwo}/>
-                    <Typography className={classes.text}> Offering </Typography>
-                    <FiberManualRecordIcon className={classes.footerIconThree}/>
-                    <Typography className={classes.text}> Others </Typography>
+          <div className={classes.footer}>
+              <CallMadeIcon className={classes.icon}/>
+              <div className={classes.textContainer2}>
+                  <Typography className={classes.text}> SPEND CHANNELS </Typography>
+                  <div className={classes.textAndIconContainer}>
+                      <FiberManualRecordIcon className={classes.footerIconOne}/>
+                      <Typography className={classes.text}> Tithe </Typography>
+                      <FiberManualRecordIcon className={classes.footerIconTwo}/>
+                      <Typography className={classes.text}> Offering </Typography>
+                      <FiberManualRecordIcon className={classes.footerIconThree}/>
+                      <Typography className={classes.text}> Others </Typography>
+                  </div>
+                
+              </div>
+          </div>
+          <div >
+              <CustomisedProgressBar />
+          </div>
+          </>
+        }
+        {view.week && 
+          <>
+          <div className={classes.bodyContainer}>
+            <div className={classes.body}>
+                <PaymentIcon className={classes.icon}/>
+                <div className={classes.textContainer}>
+                    <Typography className={classes.text}> TRANSACTIONS </Typography>
+                    <Typography className={classes.number}> {value.totalTransaction} </Typography>
                 </div>
-               
             </div>
-        </div>
-            <div >
-                <CustomisedProgressBar />
-            </div>
-        
+            
 
+            <div className={classes.body}>
+                <Icon className={classes.nairaIcon}>₦</Icon>
+                <div className={classes.textContainer2}>
+                    <Typography className={classes.text}> AMOUNT </Typography>
+                    <Typography className={classes.number}> {value.totalAmount} </Typography>
+                </div>
+            </div>
+          </div>
+       
+          <div className={classes.footer}>
+              <CallMadeIcon className={classes.icon}/>
+              <div className={classes.textContainer2}>
+                  <Typography className={classes.text}> SPEND CHANNELS </Typography>
+                  <div className={classes.textAndIconContainer}>
+                      <FiberManualRecordIcon className={classes.footerIconOne}/>
+                      <Typography className={classes.text}> Tithe </Typography>
+                      <FiberManualRecordIcon className={classes.footerIconTwo}/>
+                      <Typography className={classes.text}> Offering </Typography>
+                      <FiberManualRecordIcon className={classes.footerIconThree}/>
+                      <Typography className={classes.text}> Others </Typography>
+                  </div>
+                
+              </div>
+          </div>
+          <div >
+              <CustomisedProgressBar />
+          </div>
+          </>
+        }
     </Paper>
   );
 }

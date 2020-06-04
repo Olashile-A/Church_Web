@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -9,6 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Table from './Table';
+import axios from 'axios';
+import { endpoint } from '../../../endpoint';
+import { config } from '../../../config';
 
 const count = [
     {
@@ -142,6 +145,32 @@ const RegisteredUser = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [drop, setDrop] = React.useState(5);
   const [open, setOpen] = React.useState(false);
+  const [members, setMembers] = React.useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = sessionStorage.getItem('token')
+      
+      if (token) {
+        try {
+          let headers = {
+            'publicToken' : config.publicToken,
+            'x-auth-token': token
+          }
+          let member = await axios.get(endpoint.getMembers, 
+            {"headers" : headers}
+          )
+          console.log('member', member);
+          setMembers(member.data)
+        } catch (error) {
+          console.log('error', error);
+          console.log('error', error.response);
+        }
+      }
+    }
+
+    fetchData();
+  }, [])
 
   const handleDownloadReport = () => {
     setIsOpen(true)
@@ -196,7 +225,9 @@ const RegisteredUser = () => {
             </div>
           </div>
         </div>
-        <Table />
+        <Table 
+          members={members}
+        />
       </Paper>
     </div>
   );

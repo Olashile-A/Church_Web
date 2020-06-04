@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import { Paper } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ReplyIcon from '@material-ui/icons/Reply';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {connect} from 'react-redux'
 import { useRouter } from 'next/router';
 
@@ -38,12 +39,13 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center'
   },
   cardGrid: {
-    display: 'flex',
+    display: 'grid',
     justifyContent: 'center',
+    flexDirection: 'column',
   },
   card: {
     width: 510,
-    height: 550,
+    height: 450,
     border: '1px solid #E2E2E2',
     borderRadius: 5
   },
@@ -125,14 +127,21 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
   },
-
+  backButton:{
+    background: 'none 0% 0% no-repeat padding-box',
+    borderRadius: 4,
+    width:  80,
+    height: 36,
+    fontSize: 14,
+    color: '#101424'
+  },
 }));
 
 
 const InboxView = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  const {handleReplyMessage, prayerRequest} = props 
+  const {handleReplyMessage, handleViewBack, prayerRequest} = props 
 
   const getInitials = (name) => {
     var parts = name.split(' ')
@@ -149,6 +158,11 @@ const InboxView = (props) => {
     <div className={classes.root}>
         
         <Container className={classes.cardGrid} maxWidth="md">
+          <div>
+          <Button className={classes.backButton} onClick={handleViewBack} startIcon={<ArrowBackIcon />}>
+            Back
+          </Button>
+          </div>
           <Card className={classes.card}>
           <div className={classes.bodyContainer} >
               

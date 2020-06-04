@@ -58,6 +58,14 @@ const PrayerRequest = (props) => {
     })
   }
 
+  const handleViewBack = () => {
+    setView({
+      general : true,
+      inboxView: false,
+      inboxReply: false
+    })
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       let token = sessionStorage.getItem('token')
@@ -106,6 +114,7 @@ const PrayerRequest = (props) => {
       {view.inboxView && 
         <InboxView
           handleReplyMessage={handleReplyMessage}
+          handleViewBack={handleViewBack}
         />
       }
       {view.inboxReply && 

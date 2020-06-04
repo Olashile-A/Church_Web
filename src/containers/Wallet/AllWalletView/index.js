@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, Container, Card, CardContent, Divider } from '@material-ui/core';
 import Paper from "@material-ui/core/Paper";
@@ -12,6 +12,9 @@ import Transactions from './components/Transactions'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Wallets from './components/wallets';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import { endpoint } from '../../../../endpoint';
+import { config } from '../../../../config';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -76,9 +79,48 @@ const titles = [
 const AllWalletView = (props) => {
   const classes = useStyles();
   const router = useRouter();
+  const [wallet, setWallet] = React.useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = sessionStorage.getItem('token')
+      
+      if (token) {
+        try {
+          let headers = {
+            'publicToken' : config.publicToken,
+            'x-auth-token': token
+          }
+          let wallets = await axios.get(endpoint.wallet, 
+            {"headers" : headers}
+          )
+          console.log('wallets', wallets);
+          setWallet(wallets.data)
+        } catch (error) {
+          console.log('error', error);
+          console.log('error', error.response);
+        }
+      }
+    }
+
+    fetchData();
+  }, [])
 
   const handleGoBack = () => {
     router.push('/dashboard/wallet')
+  }
+
+  const handleWalletSwitch = () => {
+    let data=[]
+    wallet.map(detail => {
+      data.push({ value: detail.name})
+    })
+
+    for (var i = 0; i < data.length; i++){
+     console.log('data', data[i]);
+    }
+
+    // if(data.[0] === 'offer' )
   }
 
   return (
@@ -93,22 +135,32 @@ const AllWalletView = (props) => {
         <div className={classes.container}>
           <Wallets 
             titles={titles}
+            wallet={wallet}
+            handleWalletSwitch={handleWalletSwitch}
           />
           <Container maxWidth="md">
-            <Grid container spacing={1}  direction='row'>
-              <Grid item sm={6} xs={12} >
-                <Donations />
+            {wallet.map((detail) => (
+              <Grid container spacing={1} key={detail._id}  direction='row'>
+                <Grid item sm={6} xs={12} >
+                  <Donations 
+                    total={detail.totalTx}
+                    amount={detail.amount}
+                    currency={detail.currency}
+                    name={detail.name}
+                  />
+                </Grid>
+                <Grid item sm={6} xs={12} >
+                  <PaymentTrend />
+                </Grid>
+                <Grid item xs={12} >
+                  <PaymentActivity />
+                </Grid>
+                <Grid item xs={12} >
+                  <Transactions />
+                </Grid>
               </Grid>
-              <Grid item sm={6} xs={12} >
-                <PaymentTrend />
-              </Grid>
-              <Grid item xs={12} >
-                <PaymentActivity />
-              </Grid>
-              <Grid item xs={12} >
-                <Transactions />
-              </Grid>
-            </Grid>
+            ))}
+           
           </Container>
         </div>
       </Paper>

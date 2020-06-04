@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: 150,
-    height: 155,
+    height: 200,
     border: '1px solid #D8D8D8',
     borderRadius: 8,
   },
@@ -52,29 +52,29 @@ const useStyles = makeStyles(theme => ({
 
 const Wallets = (props) => {
   const classes = useStyles();
-  const { titles, className } = props;
+  const { titles, handleWalletSwitch, wallet } = props;
 
   console.log('props', props);
   
 
   return (
-    <Paper className={classes.buttonContainer}>
-        {titles.map(tit => (
+    <Card className={classes.buttonContainer}>
+        {wallet.map(tit => (
             <div key={tit.val}>
-                <Button
+                <Button onClick={handleWalletSwitch}
                     className={clsx(classes.button, tit.title && classes.active)} 
                 >
                     <div>
                         <Typography className={classes.title}>
-                        {tit.title}
+                        {tit.name}
                         </Typography>
                     </div>
                     
                 </Button>
-                {tit.val < 3 ? <Divider /> : null}
+                <Divider />
             </div>
         ))}
-    </Paper>
+    </Card>
 
    
   );

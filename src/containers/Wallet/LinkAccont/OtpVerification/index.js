@@ -7,11 +7,18 @@ import TextField from "@material-ui/core/TextField";
 import Warning from "@material-ui/icons/Warning";
 import { connect } from 'react-redux';
 import { setLinkRoute } from "../../../../store/actions"
-
+import OtpInput from 'react-otp-input';
+import axios from 'axios'
+import {endpoint} from '../../../../../endpoint'
+import {config} from '../../../../../config'
 
 const mapDispatchToProps ={
   setLinkRoute
 };
+
+const mapStateToProps = state => ({
+  link: state.link
+})
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -98,16 +105,54 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     padding: theme.spacing(2, 0)
   },
+  inputContainer : {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 }));
 
 const OtpVerification = (props) => {
   const classes = useStyles();
+  const [otp, setOtp] = React.useState("")
+  const [msg, setMsg] = React.useState("")
 
- const handleVerify = () => {
-    const { setLinkRoute } = props;
-    setLinkRoute('complete');
+  
+ const handleVerify = async () => {
+    const { setLinkRoute, link } = props;
+
+    let token = sessionStorage.getItem('token')
+      
+    if (token) {
+      try {
+        const request = {
+          otpCode: otp
+        }
+        console.log('request', request);
+        
+        let headers = {
+          'publicToken' : config.publicToken,
+          'x-auth-token': token
+        }
+        let id = link.detail
+        let verify = await axios.put(endpoint.bankVerify + '/' + id,
+          request, 
+          {"headers" : headers}
+        )
+        console.log('verify', verify);
+        setLinkRoute('complete');
+      } catch (error) {
+        console.log('error', error);
+        setMsg(error.response.data)
+        console.log('error', error.response);
+      }
+    }
   }
 
+  const handleOnChange = otp => {
+    setOtp(otp)
+  }
+  console.log(otp);
   return (
     <div className={classes.root}>
       <div>
@@ -121,52 +166,22 @@ const OtpVerification = (props) => {
               <Typography className={classes.text}>Please Enter the code sent to</Typography>
               <Typography className={classes.text}> +235 811 385 2536</Typography>
             </div>
-            <Grid container spacing={0} justify="center" align='center'>
-              <Grid item  xs={12} sm={3}>
-                <TextField
-                  required
-                  id="firstName"
-                  type='number'
-                  name="firstName"
-                  variant="outlined"
-                  className={classes.textField}
+            <div className={classes.inputContainer}>
+                <OtpInput
+                  onChange={handleOnChange}
+                  value={otp}
+                  numInputs={4}
+                  inputStyle={{width: 63, height: 68, fontSize: 20}}
+                  containerStyle={classes.input}
+                  separator={<span> - </span>}
+                  isInputNum={true}
                 />
-            </Grid>
-              <Grid item  xs={12} sm={3}>
-                <TextField
-                  required
-                  id="firstName"
-                  name="firstName"
-                  type='number'
-                  variant="outlined"
-                  className={classes.textField}
-                />
-              </Grid>
-              <Grid item  xs={12} sm={3}>
-                <TextField
-                  required
-                  id="firstName"
-                  name="firstName"
-                  type='number'
-                  variant="outlined"
-                  className={classes.textField}
-                />
-              </Grid>
-              <Grid item  xs={12} sm={3}>
-                <TextField
-                  required
-                  id="firstName"
-                  name="firstName"
-                  type='number'
-                  variant="outlined"
-                  className={classes.textField}
-                />
-              </Grid>
-            </Grid>
+              </div>
             <div className={classes.resendContainer}>
               <Typography className={classes.textOne}>Didn't get code?</Typography>
               <Button className={classes.resendButton}>Click to resend</Button>
             </div>
+            <Typography className={classes.resendButton}>{msg}</Typography>
           </CardContent>
           <div className={classes.buttonContainer}>
             <Button className={classes.goBackButton}  autoFocus>
@@ -182,4 +197,4 @@ const OtpVerification = (props) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(OtpVerification);
+export default connect(mapStateToProps, mapDispatchToProps)(OtpVerification);

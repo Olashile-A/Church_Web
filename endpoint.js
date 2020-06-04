@@ -9,5 +9,17 @@ export const endpoint = {
   getCountries: api + '/country',
   getCurrencies: api + '/currency',
   live: api + '/live',
-  wallet: api + '/wallet'
+  wallet: api + '/wallet',
+  verifyWallet: api + '/wallet/verify/',
+  getMembers: api + '/member/all',
+  getAMember: api + '/member/get',
+  getTransactionByMonthInterval: api + '/transaction/interval/month',
+  getTransactionByWeekInterval: api + '/transaction/interval/week',
+  getRecentTransactions: api + '/transaction/recent',
+  getTransactionActivityYear: api + '/transaction/activity',
+  getTransactionByMember: api + '/transaction/member',
+  getAllBanks: api + '/transaction/bank/list',
+  linkBank: api + '/bank',
+  bankVerify: api + '/bank/verify',
+  walletVerify: api + '/wallet/verify'
 };

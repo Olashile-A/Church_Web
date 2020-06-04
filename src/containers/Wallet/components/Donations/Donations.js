@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -13,6 +13,9 @@ import CallMadeIcon from '@material-ui/icons/CallMade';
 import CustomisedProgressBar from '../../../../components/ProgressBar/ProgressBar';
 import { Button } from '@material-ui/core';
 import  { useRouter } from 'next/router';
+import axios from 'axios';
+import { endpoint } from '../../../../../endpoint';
+import { config } from '../../../../../config';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -138,6 +141,51 @@ export default function Donations(props) {
   const classes = useStyles();
   const {className} = props;
   const router = useRouter();
+  const [value, setValue] = React.useState({
+    totalTransaction: "",
+    totalAmount: ""
+  })
+
+  const [view, setView] = React.useState({
+    month: false,
+    week: true
+  })
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = sessionStorage.getItem('token')
+      
+      if (token) {
+        try {
+          let headers = {
+            'publicToken' : config.publicToken,
+            'x-auth-token': token
+          }
+          let month = await axios.get(endpoint.getTransactionByMonthInterval, 
+            {"headers" : headers}
+          )
+          let week = await axios.get(endpoint.getTransactionByWeekInterval, 
+            {"headers" : headers}
+          )
+          console.log('month', month);
+          setValue({
+            totalTransaction: month.data.total,
+            totalAmount: month.data.amount
+          })
+          console.log('week', week);
+          setValue({
+            totalTransaction: week.data.total,
+            totalAmount: week.data.amount
+          })
+        } catch (error) {
+          console.log('error', error);
+          console.log('error', error.response);
+        }
+      }
+    }
+
+    fetchData();
+  }, [])
 
   const handleView = () => {
     router.push('/dashboard/wallet/all-wallet-view')
@@ -150,7 +198,7 @@ export default function Donations(props) {
           <PaymentIcon className={classes.icon}/>
           <div className={classes.textContainer}>
             <Typography className={classes.text}> TRANSACTIONS </Typography>
-            <Typography className={classes.number}> 234 </Typography>
+            <Typography className={classes.number}> {value.totalTransaction} </Typography>
           </div>
         </div>
         
@@ -159,7 +207,7 @@ export default function Donations(props) {
           <Icon className={classes.nairaIcon}>₦</Icon>
           <div className={classes.textContainer2}>
             <Typography className={classes.text}> AMOUNT </Typography>
-            <Typography className={classes.number}> 3,000,000 </Typography>
+            <Typography className={classes.number}> {value.totalAmount} </Typography>
           </div>
         </div>
       </div>

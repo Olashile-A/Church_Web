@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   table: {
     // minWidth: 650,
     width: 'inherit',
-    height: 325
+    height: 205
   },
 });
 
@@ -27,9 +27,10 @@ export default function DenseTable(props) {
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell align="left">Date</TableCell>
+            <TableCell align="center">Date</TableCell>
             <TableCell align="center">Donor</TableCell>
-            <TableCell align="center">Amount&nbsp;(₦)</TableCell>
+            <TableCell align="center">Donation</TableCell>
+            <TableCell align="right">Amount&nbsp;(₦)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -39,6 +40,7 @@ export default function DenseTable(props) {
                 {moment(row.date).format('DD MMM YYYY')}
               </TableCell>
               <TableCell align="right">{row.memberId.fullName}</TableCell>
+              <TableCell align="center">{row.churchId.name}</TableCell>
               <TableCell align="center">{row.amount}</TableCell>
             </TableRow>
           ))}

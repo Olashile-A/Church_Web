@@ -306,6 +306,10 @@ const LiveStreamForm = () => {
       views: false
     })
   }
+
+  const handleback = () => {
+    router.push('/dashboard/liveStream')
+  }
   
   console.log('value', value);
   
@@ -314,7 +318,7 @@ const LiveStreamForm = () => {
     <div className={classes.root}>
         {view.form && 
           <Container className={classes.cardGrid} maxWidth="sm">
-            <Button className={classes.backButton} startIcon={<ArrowBackIcon />}>
+            <Button className={classes.backButton} onClick={handleback} startIcon={<ArrowBackIcon />}>
               Back
             </Button>
             <Card className={classes.card}>

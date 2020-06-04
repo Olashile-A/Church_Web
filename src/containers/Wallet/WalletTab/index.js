@@ -120,6 +120,16 @@ const WalletTab = () => {
     })
   }
 
+  const handleConfirmGoBack = () => {
+    setView({
+      main: false,
+      wallet: true,
+      confirm: false,
+      otp: false,
+      complete: false,
+    })
+  }
+
 
   return (
     <div className={classes.root}>
@@ -160,6 +170,7 @@ const WalletTab = () => {
               view.confirm && (
               <DetailsConfirmation 
                 handleConfirmContinue={handleConfirmContinue}
+                handleConfirmGoBack={handleConfirmGoBack}
               />
             )}
             {

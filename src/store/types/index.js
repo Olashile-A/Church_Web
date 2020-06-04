@@ -4,3 +4,4 @@ export const WITHDRAW_ROUTE = "WITHDRAW_ROUTE";
 export const RESET = "RESET";
 export const PRAYER_REQUEST = "PRAYER_REQUEST";
 export const WALLET = "WALLET";
+export const LINK_DETAILS = "LINK_DETAILS";

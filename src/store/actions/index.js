@@ -1,4 +1,4 @@
-import { LINK_ROUTE, TRANSFER_ROUTE, WITHDRAW_ROUTE, RESET, PRAYER_REQUEST, WALLET } from '../types'
+import { LINK_ROUTE, TRANSFER_ROUTE, WITHDRAW_ROUTE, RESET, PRAYER_REQUEST, WALLET, LINK_DETAILS } from '../types'
 
 // set all wallet route 
 export const setLinkRoute = (route) =>  {
@@ -44,6 +44,14 @@ export const setPrayerRequest = (request) =>  {
 export const setWallet = (request) =>  {
     return {
         type: WALLET,
+        payload: request
+    };
+       
+}
+
+export const setLinkDetails = (request) =>  {
+    return {
+        type: LINK_DETAILS,
         payload: request
     };
        

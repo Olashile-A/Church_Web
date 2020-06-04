@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Paper from '@material-ui/core/Paper';
@@ -61,7 +61,6 @@ export default function MonthlyProgress(props) {
   const classes = useStyles();
   const {className} = props
 
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Paper className={classes.root}>

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Table from './Table';
+import axios from 'axios';
+import { endpoint } from '../../../../../endpoint';
+import { config } from '../../../../../config';
 
 const useStyles = makeStyles( (theme) =>({
   root: {
@@ -38,6 +41,32 @@ const useStyles = makeStyles( (theme) =>({
 export default function RecentDonation(props) {
   const classes = useStyles();
   const {className} = props
+  const [recentTransaction, setRecentTransaction] = React.useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = sessionStorage.getItem('token')
+      
+      if (token) {
+        try {
+          let headers = {
+            'publicToken' : config.publicToken,
+            'x-auth-token': token
+          }
+          let recent = await axios.get(endpoint.getRecentTransactions, 
+            {"headers" : headers}
+          )
+          console.log('recent', recent);
+          setRecentTransaction(recent.data)
+        } catch (error) {
+          console.log('error', error);
+          console.log('error', error.response);
+        }
+      }
+    }
+
+    fetchData();
+  }, [])
 
   return (
     <Card className={classes.root}>
@@ -52,7 +81,9 @@ export default function RecentDonation(props) {
           </div>
       </div>
       <div >
-      <Table />
+      <Table 
+        recentTransaction={recentTransaction}
+      />
       </div>
     </Card>
   );
