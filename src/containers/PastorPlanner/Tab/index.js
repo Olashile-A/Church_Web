@@ -13,12 +13,12 @@ import Card from '@material-ui/core/Card';
 import SwipeableViews from 'react-swipeable-views';
 import { withRouter } from "next/router";
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import Table from '../Table';
+// import Table from '../Table';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import InputBase from '@material-ui/core/InputBase';
 import Calender from '../Calender';
-import CreateStaffModal from '../Table/AddStaffModal';
+// import CreateStaffModal from '../Table/AddStaffModal';
 import CreateEventModal from '../Calender/CreateEvent';
 
 
@@ -331,18 +331,18 @@ function SimpleTabs(props) {
               <Calender />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <Table />
+              {/* <Table /> */}
             </TabPanel>
         </SwipeableViews>
         </Card>
       </div>
      
     </div>
-    <CreateStaffModal 
+    {/* <CreateStaffModal 
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       handleClose={handleClose}
-    />
+    /> */}
     <CreateEventModal 
       open={open}
       setOpen={setOpen}
