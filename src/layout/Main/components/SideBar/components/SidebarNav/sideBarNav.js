@@ -1,16 +1,16 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
-import React, { forwardRef } from './node_modules/react';
+import React, { forwardRef } from 'react';
 // import { NavLink as RouterLink } from 'react-router-dom';
-import clsx from './node_modules/clsx';
-import PropTypes from './node_modules/prop-types';
-import { makeStyles } from './node_modules/@material-ui/styles';
-import List from "./node_modules/@material-ui/core/List";
-import ListItem from "./node_modules/@material-ui/core/ListItem";
-import Button from "./node_modules/@material-ui/core/Button";
-import blueGrey from "./node_modules/@material-ui/core/colors/blueGrey";
-import { withRouter } from "./node_modules/next/router";
-import Typography from "./node_modules/@material-ui/core/Typography";
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Button from "@material-ui/core/Button";
+import blueGrey from "@material-ui/core/colors/blueGrey";
+import { withRouter } from "next/router";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {},

@@ -1,8 +1,8 @@
-import React from './node_modules/react';
-import clsx from './node_modules/clsx';
-import PropTypes from './node_modules/prop-types';
-import { makeStyles } from './node_modules/@material-ui/styles';
-import { Typography, Button, colors } from './node_modules/@material-ui/core';
+import React from 'react';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
+import { Typography, Button, colors } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
