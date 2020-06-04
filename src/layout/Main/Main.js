@@ -11,7 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Sidebar, Topbar, Footer } from './components';
+import { SideBar, Topbar, Footer } from './components';
 // import uuid from 'uuid';
 // import Axios from 'axios';
 // import { config } from '../../../config';
@@ -78,7 +78,7 @@ const Main = props => {
         })}
       >
         <Topbar onSidebarOpen={handleSidebarOpen} />
-        <Sidebar
+        <SideBar
           onClose={handleSidebarClose}
           open={shouldOpenSidebar}
           variant={isDesktop ? 'persistent' : 'temporary'}
