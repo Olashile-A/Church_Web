@@ -1,4 +1,4 @@
-import { TRANSFER_ROUTE } from "../../types";
+import { TRANSFER_ROUTE, TRANSFER_RESET } from "../../types";
 
 const initialstate = {
   route: "",
@@ -10,6 +10,9 @@ export default (state = initialstate, action) => {
       return Object.assign({}, state, {
         route: action.payload
       });
+    case TRANSFER_RESET:
+
+    return initialstate
     default:
       return state;
   }

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     // minWidth: 275,
     // width: 467,
-    height: 279,
+    height: 254,
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     border: '1px solid #E2E2E2',
     borderRadius: 5,
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   headerTitle: {
     color: '#616781',
     opacity: 1,
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: '500',
   },
   title: {
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: theme.spacing(2, 3, 1, 3 ),
+    padding: theme.spacing(1, 3, 1, 2 ),
     borderBottom: '1px solid grey'
   },
   subHeader: {
@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     display: 'flex',
     flexDirection: 'row',
-    padding: theme.spacing(2,9)
+    padding: theme.spacing(1,7)
     // justifyContent: 'center',
   },
   icon: {
@@ -234,7 +234,9 @@ export default function Donations(props) {
                 <Icon className={classes.nairaIcon}>₦</Icon>
                 <div className={classes.textContainer2}>
                     <Typography className={classes.text}> AMOUNT </Typography>
-                    <Typography className={classes.number}> {value.totalAmount} </Typography>
+                    <Typography className={classes.number}> 
+                      {value.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} 
+                    </Typography>
                 </div>
             </div>
           </div>
@@ -275,7 +277,9 @@ export default function Donations(props) {
                 <Icon className={classes.nairaIcon}>₦</Icon>
                 <div className={classes.textContainer2}>
                     <Typography className={classes.text}> AMOUNT </Typography>
-                    <Typography className={classes.number}> {value.totalAmount} </Typography>
+                    <Typography className={classes.number}> 
+                      {value.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} 
+                    </Typography>
                 </div>
             </div>
           </div>

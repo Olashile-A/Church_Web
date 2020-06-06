@@ -7,7 +7,7 @@ import BarChart from '../../../../components/Chart/Chart.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 340,
+    height: 284,
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     border: '1px solid #E2E2E2',
     borderRadius: 5,
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   headerText: {
     color: '#616781',
     opacity: 1,
-    fontSize: 17,
+    fontSize: 14,
     fontWeight: '500'
   },
   text: {

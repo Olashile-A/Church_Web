@@ -21,11 +21,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     // minWidth: 275,
     // width: 467,
-    height: 206,
+    height: 190,
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     border: '1px solid #E2E2E2',
     borderRadius: 5,
-    opacity: 1
+    opacity: 1,
+    padding: 5
   },
   bullet: {
     display: 'inline-block',
@@ -94,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     display: 'flex',
     flexDirection: 'row',
-    padding: theme.spacing(1,8),
+    padding: theme.spacing(0,3),
     marginTop: 5
     // justifyContent: 'center',
   },
@@ -207,7 +208,9 @@ export default function Donations(props) {
           <Icon className={classes.nairaIcon}>₦</Icon>
           <div className={classes.textContainer2}>
             <Typography className={classes.text}> AMOUNT </Typography>
-            <Typography className={classes.number}> {value.totalAmount} </Typography>
+            <Typography className={classes.number}> 
+              {value.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} 
+            </Typography>
           </div>
         </div>
       </div>

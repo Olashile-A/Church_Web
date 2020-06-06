@@ -59,10 +59,12 @@ export default function DenseTable(props) {
               {count = 0 ? count : count + 1 }
               </TableCell>
               <TableCell align="center" className={classes.tableCell}>{moment(row.date).format('DD MMM YYYY')}</TableCell>
-              <TableCell align="right" className={classes.tableCell}>XXXX{row.txRef.substr(24,29)}</TableCell>
+              <TableCell align="right" className={classes.tableCell}>XX{row.txRef.substr(29,32)}</TableCell>
               <TableCell align="center" className={classes.tableCell}>{row.modeOfPayment}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.txId}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.amount}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>XX{row.walletId.substr(20,24)}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>
+                {row.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -11,7 +11,7 @@ import Table from './Table/Table';
 const useStyles = makeStyles( (theme) =>({
   root: {
     // width: 467,
-    height: 279,
+    height: 254,
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     border: '1px solid #E2E2E2',
     borderRadius: 5,
@@ -20,7 +20,7 @@ const useStyles = makeStyles( (theme) =>({
   headerText: {
     color: '#616781',
     opacity: 1,
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: '500'
   },
   title: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles( (theme) =>({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: theme.spacing(2, 3, 1, 3 ),
+    padding: theme.spacing(1, 3, 1, 2 ),
     borderBottom: '1px solid grey'
   },
   button: {

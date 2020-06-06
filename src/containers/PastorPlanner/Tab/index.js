@@ -13,11 +13,14 @@ import Card from '@material-ui/core/Card';
 import SwipeableViews from 'react-swipeable-views';
 import { withRouter } from "next/router";
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-// import Table from '../Table';
+import Table from '../Table';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import InputBase from '@material-ui/core/InputBase';
 import Calender from '../Calender';
+import OnGoingTask from '../OnGoingTask';
+import CreateNewTask from '../CreateNewTask';
+
 // import CreateStaffModal from '../Table/AddStaffModal';
 import CreateEventModal from '../Calender/CreateEvent';
 
@@ -84,12 +87,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     background: '#FFFFFF',
     boxShadow: 'none',
-    borderBottom: '1px solid grey'
+    borderBottom: '1px solid #E2E2E2'
   },
   headerTitle: {
     color: '#101424',
     opacity: 1,
-    fontSize: 17,
+    fontSize: 14,
     fontWeight: 'bold',
     padding: theme.spacing(1)
   },
@@ -234,7 +237,6 @@ function SimpleTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
 
-    handleClickShow();
     // setShow(!show);
   };
 
@@ -264,25 +266,43 @@ function SimpleTabs(props) {
         </Typography>
         <Tabs value={value} onChange={handleChange} indicatorColor="primary"
           textColor="primary" aria-label="simple tabs example" centered >
-          <Tab label="All Tasks" {...a11yProps(0)} />
-          <Tab label="Church Staff" {...a11yProps(1)} />
-          {/* <Tab label="Replied" {...a11yProps(2)} /> */}
+          <Tab label="All Tasks" {...a11yProps(0)} style={{fontSize: 12}} />
+          <Tab label="Ongoing Task" {...a11yProps(1)} style={{fontSize: 12}}/>
+          <Tab label="Create Task" {...a11yProps(2)} style={{fontSize: 12}}/>
+          <Tab label="Church Staff" {...a11yProps(3)} style={{fontSize: 12}}/>
         </Tabs>
       </AppBar>
-      {!show ? 
-        (<div className={classes.headerTwo}>
-          <div className={classes.subHeaderTwo}>
-            <Typography className={classes.text}> May 2018 </Typography>
-            <Button className={classes.todayButton}> Today</Button>
-            <Button className={classes.taskButton} onClick={handleCreateTaskOpen}> Create Task</Button>
-          </div>
-          <div className={classes.subHeaderTwo}>
-            <Button className={classes.dropButton}> Completed</Button>
-            <Button className={classes.dropButton}> Color tags</Button>
-            <MoreHorizIcon className={classes.icon} />
-          </div>
-        </div>) :(
-          <div className={classes.headerThree}>
+        
+      <div className={classes.card}>
+        <Card className={classes.container}>
+        <SwipeableViews
+          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          index={value}
+          onChangeIndex={handleChangeIndex}
+        >
+            <TabPanel value={value} index={0} >
+              <div className={classes.headerTwo}>
+                <div className={classes.subHeaderTwo}>
+                  <Typography className={classes.text}> May 2018 </Typography>
+                  <Button className={classes.todayButton}> Today</Button>
+                  {/* <Button className={classes.taskButton} onClick={handleCreateTaskOpen}> Create Task</Button> */}
+                </div>
+                <div className={classes.subHeaderTwo}>
+                  <Button className={classes.dropButton}> Completed</Button>
+                  <Button className={classes.dropButton}> Color tags</Button>
+                  <MoreHorizIcon className={classes.icon} />
+                </div>
+              </div>
+              <Calender />
+            </TabPanel>
+            <TabPanel value={value} index={1} >
+              <OnGoingTask />
+            </TabPanel>
+            <TabPanel value={value} index={2} >
+              <CreateNewTask />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+            <div className={classes.headerThree}>
             <div className={classes.subHeaderThree}>
               <Button className={classes.taskButton} onClick={handleAddStaffOpen}> Add Staff</Button>
               <Typography className={classes.text}> Show </Typography>
@@ -319,19 +339,7 @@ function SimpleTabs(props) {
               </div>
             </div>
           </div>
-        ) }
-      <div className={classes.card}>
-        <Card className={classes.container}>
-        <SwipeableViews
-          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-          index={value}
-          onChangeIndex={handleChangeIndex}
-        >
-            <TabPanel value={value} index={0} >
-              <Calender />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              {/* <Table /> */}
+              <Table />
             </TabPanel>
         </SwipeableViews>
         </Card>

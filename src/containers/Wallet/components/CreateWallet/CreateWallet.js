@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         // minWidth: 275,
         // width: 406,
-        height: 206,
+        height: 190,
         background: docs.facebook,
         borderBottom: '1px solid #E2E2E2',
         borderLeft: '1px solid #E2E2E2',
@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
         borderRight: 0
     },
     container: {
-        height: 206,
+        height: 190,
         background: 'linear-gradient(90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1), rgba(255, 255, 255, -1))'
     },
     bodyContainer:{
-        padding: theme.spacing(4)
+        padding: theme.spacing(2,4)
         
     },
     buttonContainer:{
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0,4)      
     },
     button:{
-        font: 15,
+        fontSize: 12,
         fontWeight: 'bold',
         color: '#FFFFFF',
         width: 116,
@@ -77,8 +77,8 @@ export default function CreateWallet(props) {
         backgroundSize: '350px 320px',
         
       }}>
-      <div className={classes.container}>
-        <div className={classes.bodyContainer}>
+        <div className={classes.container}>
+            <div className={classes.bodyContainer}>
             <Typography gutterBottom className={classes.text1}> Create Wallet</Typography>
             <Typography className={classes.text2}> 
                     Easily made withdrawals by connecting your bank 

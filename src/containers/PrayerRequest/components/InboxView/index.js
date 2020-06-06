@@ -21,7 +21,7 @@ const mapStateToProps = state => ({
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(2),
   },
   container: {
     width: '60vh',
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     width: 510,
-    height: 500,
+    height: 450,
     border: '1px solid #E2E2E2',
     borderRadius: 5
   },
@@ -61,7 +61,8 @@ const useStyles = makeStyles(theme => ({
   button: {
     display: 'flex',
     justifyContent: 'flex-start',
-    padding: theme.spacing(3)
+    padding: theme.spacing(0,2,3),
+    marginBottom: 16
   },
   replyButton: {
     width: 127,
@@ -117,11 +118,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: fade('rgba(245, 245, 245)', 0.8),
-      borderRadius: 6,
-    },
-    padding:  theme.spacing(2),
+    borderBottom: '1px solid #E2E2E2',
+    padding:  theme.spacing(1,1,0,1),
   },
   body: {
     display: 'flex',

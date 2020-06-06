@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     background: '#FFFFFF',
     boxShadow: 'none',
-    borderBottom: '1px solid grey'
+    borderBottom: '1px solid #E2E2E2'
   },
   headerTitle: {
     color: '#101424',
@@ -264,8 +264,8 @@ function SimpleTabs(props) {
         </Typography>
         <Tabs value={value} onChange={handleChange} indicatorColor="primary"
           textColor="primary" aria-label="simple tabs example" centered >
-          <Tab label="All Tasks" {...a11yProps(0)} />
-          <Tab label="Church Staff" {...a11yProps(1)} />
+          <Tab label="All Tasks" {...a11yProps(0)} style={{fontSize: 12}}/>
+          <Tab label="Church Staff" {...a11yProps(1)} style={{fontSize: 12}}/>
           {/* <Tab label="Replied" {...a11yProps(2)} /> */}
         </Tabs>
       </AppBar>

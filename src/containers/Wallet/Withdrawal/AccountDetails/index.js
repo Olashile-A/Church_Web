@@ -74,16 +74,14 @@ const mapDispatchToProps ={
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // padding: theme.spacing(1),
-    // display: 'flex',
-    // flexDirection: 'row',
-    // marginLeft: theme.spacing(5)
+    paddingBottom: theme.spacing(2),
+
   },
   headerTextOne: {
     fontSize: 17,
     fontWeight: 'bold',
     color: '#101424',
-    padding: theme.spacing(1, 0),
+    paddingBottom: theme.spacing(1),
   },
   headerTextTwo: {
     fontSize: 15,
@@ -94,7 +92,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     width: 398,
-    height: 532,
+    height: 400,
     border: '1px solid #E2E2E2',
     borderRadius: 5
   },

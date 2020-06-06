@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     width: 510,
-    height: 580,
+    height: 480,
     border: '1px solid #E2E2E2',
     borderRadius: 5
   },
@@ -135,6 +135,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     cursor: 'pointer',
     padding:  theme.spacing(2),
+    boderBottom: '1px solid #E2E2E2'
   },
   body: {
     display: 'flex',
@@ -287,7 +288,7 @@ const InboxReply = (props) => {
             <TextField 
               fullWidth
               multiline
-              rows={20}
+              rows={15}
               variant="outlined"
               value={value.body}
               onChange={handleChange('body')}

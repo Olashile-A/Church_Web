@@ -16,10 +16,10 @@ const mapStateToProps = state => ({
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2)
+    // padding: theme.spacing(2)
   },
   grid: {
-    padding: theme.spacing(1, 2)
+    padding: theme.spacing(0, 2, 1)
   }
 }));
 

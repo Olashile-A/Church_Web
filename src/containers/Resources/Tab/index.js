@@ -93,8 +93,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
-    height: 600,
-    weidth: '100%',
+    height: 500,
+    weidth: 500,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -138,7 +138,7 @@ function SimpleTabs(props) {
           index={value}
           onChangeIndex={handleChangeIndex}
         >
-            <TabPanel value={value} index={0} >
+            <TabPanel value={value} index={0}>
               <Audio />
             </TabPanel>
             <TabPanel value={value} index={1}>

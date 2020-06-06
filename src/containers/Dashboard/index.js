@@ -12,7 +12,7 @@ import {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2)
+    padding: '5px 30px 0px'
   }
 }));
 

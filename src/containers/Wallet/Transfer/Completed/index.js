@@ -14,16 +14,17 @@ const mapDispatchToProps ={
 const useStyles = makeStyles(theme => ({
   root: {
     // padding: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
   },
   headerText: {
     fontSize: 17,
     fontWeight: 'bold',
     color: '#101424',
-    padding: theme.spacing(1, 0),
+    paddingBottom: theme.spacing(1),
   },
   card: {
-    width: 398,
-    height: 532,
+    width: 380,
+    height: 410,
     border: '1px solid #E2E2E2',
     borderRadius: 5,
     display: 'flex',
@@ -47,13 +48,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     width: 78,
-    height: 78,
+    height: 100,
     border: '2px solid #83C03F',
     borderRadius: '50%',
-    marginTop: theme.spacing(5)
+    // marginTop: theme.spacing(5)
   },
   VerifyButton: {
-    width: 124,
     height: 40,
     background: '#FD0E31 0% 0% no-repeat padding-box',
     borderRadius: 4,

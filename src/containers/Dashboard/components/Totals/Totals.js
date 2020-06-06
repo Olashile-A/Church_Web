@@ -12,7 +12,7 @@ import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 75,
+    height: 65,
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     border: '1px solid #E2E2E2',
     borderRadius: 5,
@@ -55,7 +55,8 @@ const useStyles = makeStyles((theme) => ({
   contentContainner: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent:  'space-between'
+    justifyContent:  'space-between',
+    paddingTop: 8
   }
 }));
 

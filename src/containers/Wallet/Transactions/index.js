@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -10,6 +10,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Table from './Table';
 import DownloadReport from './Table/DownloadReportModal';
 import FilterModal from './Table/FilterTableModal';
+import axios from 'axios';
+import { endpoint } from '../../../../endpoint';
+import { config } from '../../../../config';
 
 const count = [
     {
@@ -136,6 +139,32 @@ const Transactions = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [drop, setDrop] = React.useState(5);
   const [open, setOpen] = React.useState(false);
+  const [allTransactions, setAllTransactions] = React.useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = sessionStorage.getItem('token')
+      
+      if (token) {
+        try {
+          let headers = {
+            'publicToken' : config.publicToken,
+            'x-auth-token': token
+          }
+          let transaction = await axios.get(endpoint.getAllTransactionHistory, 
+            {"headers" : headers}
+          )
+          console.log('transaction', transaction);
+          setAllTransactions(transaction.data.transaction)
+        } catch (error) {
+          console.log('error', error);
+          console.log('error', error.response);
+        }
+      }
+    }
+
+    fetchData();
+  }, [])
 
   const handleDownloadReport = () => {
     setIsOpen(true)
@@ -192,7 +221,9 @@ const Transactions = () => {
               </div>
             </div>
         </div>
-      <Table />
+      <Table 
+        allTransactions={allTransactions}
+      />
       <DownloadReport
         isOpen={isOpen}
         setIsOpen={setIsOpen}

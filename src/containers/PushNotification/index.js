@@ -18,7 +18,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 
 const useStyles = makeStyles(theme => ({
   root: {
-     padding: theme.spacing(4),
+     padding: theme.spacing(2),
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     width: 398,
-    height: 532,
+    height: 500,
     border: '1px solid #E2E2E2',
     borderRadius: 5
   },
@@ -100,7 +100,7 @@ const SendPushNotification = (props) => {
             <Typography className={classes.headerText}> Send Push Notification </Typography>
             <Card className={classes.card}>
             <CardContent>
-                <Grid container spacing={2} justify='center' align='center'>
+                <Grid container spacing={2} justify='center'>
                 <Grid item  xs={12} >
                     <TextField
                         // accept="image/*"
@@ -179,7 +179,7 @@ const SendPushNotification = (props) => {
                         aria-label="position"
                         name="position"
                         value={value.type}
-                        // onChange={this.handleChanges("type")}
+                        onChange={handleChange("type")}
                         defaultValue="top"
                     >
                     <FormControlLabel

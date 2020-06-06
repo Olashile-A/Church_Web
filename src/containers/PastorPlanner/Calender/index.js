@@ -23,17 +23,25 @@ const useStyles = theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: theme.spacing(2)
+    padding: theme.spacing(1)
+  },
+  headerTwo: {
+    // display: 'flex',
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    padding: theme.spacing(0,2)
   },
   body: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: theme.spacing(0,2,1,2)
+    padding: theme.spacing(0,0,1,0)
   },
   paper: {
     width: 180,
-    height: 100
+    height: 100,
+    marginLeft: 8,
+    marginRight: 8
   }
 });
 class Calendar extends React.Component {
@@ -70,7 +78,7 @@ class Calendar extends React.Component {
 
     for (let i = 0; i < 7; i++) {
       days.push(
-        <div className={classes.header} key={i}>
+        <div className={classes.headerTwo} key={i}>
           {format(addDays(startDate, i), dateFormat)}
         </div>
       );
@@ -122,7 +130,7 @@ class Calendar extends React.Component {
       );
       days = [];
     }
-    return <div className="body">{rows}</div>;
+    return <div >{rows}</div>;
   }
 
   // onDateClick = day => {

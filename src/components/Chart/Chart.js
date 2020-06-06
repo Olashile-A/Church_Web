@@ -7,51 +7,51 @@ import { config } from '../../../config';
 const count = [
   {
     value: 1,
-    label: 'jan'
+    label: 'Jan'
   },
   {
     value: 2,
-    label: 'feb'
+    label: 'Feb'
   },
   {
     value: 3,
-    label: 'mar'
+    label: 'Mar'
   },
   {
     value: 4,
-    label: 'apr'
+    label: 'Apr'
   },
   {
     value: 5,
-    label: 'may'
+    label: 'May'
   },
   {
     value: 6,
-    label: 'jun'
+    label: 'Jun'
   },
   {
     value: 7,
-    label: 'jul'
+    label: 'Jul'
   },
   {
     value: 8,
-    label: 'aug'
+    label: 'Aug'
   },
   {
     value: 9,
-    label: 'sep'
+    label: 'Sep'
   },
   {
     value: 10,
-    label: 'oct'
+    label: 'Oct'
   },
   {
     value: 11,
-    label: 'nov'
+    label: 'Nov'
   },
   {
     value: 12,
-    label: 'dec'
+    label: 'Dec'
   },
 ]
 
@@ -159,7 +159,7 @@ export default class BarChart extends React.Component {
     }
     };
     return (
-      <div style={{height: 250, padding: 10}}>
+      <div style={{height: 230, padding: 10}}>
         <Bar
             data={this.state.chartData}
             width={null}

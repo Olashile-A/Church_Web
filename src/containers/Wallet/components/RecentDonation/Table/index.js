@@ -15,6 +15,12 @@ const useStyles = makeStyles({
     width: 'inherit',
     height: 325
   },
+  tableCell: {
+    fontSize: 11
+  },
+  tableHeadCell: {
+    fontSize: 12
+  },
 });
 
 
@@ -27,19 +33,21 @@ export default function DenseTable(props) {
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell align="left">Date</TableCell>
-            <TableCell align="center">Donor</TableCell>
-            <TableCell align="center">Amount&nbsp;(₦)</TableCell>
+            <TableCell className={classes.tableHeadCell} align="left">Date</TableCell>
+            <TableCell className={classes.tableHeadCell} align="center">Donor</TableCell>
+            <TableCell className={classes.tableHeadCell} align="center">Amount&nbsp;(₦)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {recentTransaction.map((row) => (
             <TableRow key={row._id} >
-              <TableCell component="th" scope="row">
+              <TableCell className={classes.tableCell} component="th" scope="row">
                 {moment(row.date).format('DD MMM YYYY')}
               </TableCell>
-              <TableCell align="right">{row.memberId.fullName}</TableCell>
-              <TableCell align="center">{row.amount}</TableCell>
+              <TableCell className={classes.tableCell} align="right">{row.memberId.fullName}</TableCell>
+              <TableCell className={classes.tableCell} align="center">
+                {row.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

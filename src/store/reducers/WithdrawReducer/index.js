@@ -1,4 +1,4 @@
-import { WITHDRAW_ROUTE } from "../../types";
+import { WITHDRAW_ROUTE, WITHDRAW_RESET } from "../../types";
 
 const initialstate = {
   route: "detail",
@@ -10,6 +10,9 @@ export default (state = initialstate, action) => {
       return Object.assign({}, state, {
         route: action.payload
       });
+    case WITHDRAW_RESET:
+
+    return initialstate
     default:
       return state;
   }

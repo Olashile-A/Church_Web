@@ -37,11 +37,11 @@ const count = [
 
 const useStyles = makeStyles(theme => ({ 
   root: {
-    height: 790
+    height: 650,
   },
   root2: {
-    width: '100%',
-    height: 720
+    height: 650,
+    width: 500
   },
   header: {
     display: 'flex',
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: theme.spacing(0, 1, 3, 3 ),
+    padding: theme.spacing(1, 0, 2, 4 ),
   },
   text: {
     textAlign: 'left',
@@ -63,12 +63,17 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     width: '100%',
-    height: 40,
-    margin: 5
+    height: 30,
+    margin: 6
   },
   textFieldM: {
     width: '100%',
-    margin: 5
+    margin: '6px 6px 0px'
+  },
+  textFields: {
+    width: '100%',
+    height: 30,
+    margin: '0px 6px 6px'
   },
   buttonOne: {
     width: 127,
@@ -185,7 +190,7 @@ export default function ResponsiveDialog(props) {
         <DialogTitle id="responsive-dialog-title" >
           <div className={classes.header}>
           <Typography className={classes.text}> Create Event</Typography>
-          <CancelOutlinedIcon className={classes.icon} />
+          <CancelOutlinedIcon onClick={handleClose} className={classes.icon} />
           </div>
         </DialogTitle>
         <Divider />
@@ -304,7 +309,7 @@ export default function ResponsiveDialog(props) {
                     label="Published date"
                     fullWidth
                     variant="outlined"
-                    className={classes.textField}
+                    className={classes.textFields}
                   />
                 </Grid>
             </Grid>

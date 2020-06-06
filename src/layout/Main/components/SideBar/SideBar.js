@@ -35,10 +35,10 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
   },
   rootTwo: {
-    padding: theme.spacing(2),
+    padding: 5,
   },
   nav: {
-    marginBottom: theme.spacing(2)
+    // marginBottom: theme.spacing(2)
   }
 }));
 

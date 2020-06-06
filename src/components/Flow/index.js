@@ -22,27 +22,16 @@ subContainers: {
   paddingTop: theme.spacing(2)
 },
 text: {
-  marginLeft: theme.spacing(2)
+  marginLeft: theme.spacing(2),
+  color: '#FD0E31'
 },
 icon: {
-  color: 'grey'
+  color: '#FD0E31'
 }
 }));
 
-const steps = ['Accoun details', 'Details Confirmation', 'OTP Verification' , 'Completed'];
+const steps = ['Account details', 'Details Confirmation', 'OTP Verification' , 'Completed'];
 
-// function getStepContent(step) {
-//   switch (step) {
-//     case 0:
-//       return <AddressForm />;
-//     case 1:
-//       return <PaymentForm />;
-//     case 2:
-//       return <Review />;
-//     default:
-//       throw new Error('Unknown step');
-//   }
-// }
 
 export default function Flow() {
   const classes = useStyles();

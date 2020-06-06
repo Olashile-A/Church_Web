@@ -79,7 +79,7 @@ const city = [
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(1),
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -111,7 +111,7 @@ const useStyles = makeStyles(theme => ({
     margin: '9px 0px'
   },
   card: {
-    height: 550,
+    height: 510,
     width: 456,
     border: '1px solid #E2E2E2',
     borderRadius: 5
@@ -129,7 +129,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1)
   },
   buttonContainer: {
-    padding: theme.spacing(3, 1)
+    padding: theme.spacing(1, 1)
   },
   continueButton: {
     margin: '8px 10px',

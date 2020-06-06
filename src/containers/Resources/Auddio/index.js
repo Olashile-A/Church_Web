@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 const useStyles = makeStyles(theme => ({
   root: {
     // padding: theme.spacing(2)
-    width: '100'
+    // width: '100'
   },
   img: {
     width: 103,
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
     fontSize: 17,
     color: '#101424',
-    margin: theme.spacing(2, 4 , 2, 0)
+    margin: theme.spacing(2,0)
   },
   button: {
     width: 131,
@@ -33,6 +33,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     textAlign: 'center'
   },
+  imgCon: {
+    display: 'flex',
+    justifyContent: 'center'
+  }
 
 }));
 
@@ -49,11 +53,17 @@ const Audio = () => {
   };
 
   return (
-    <div  className={classes.root}>
+    <Container maxWidth="lg" className={classes.root}>
+      <div className={classes.imgCon}>
+
       <img  src={docs.folder} className={classes.img}/>
+      </div>
       <Typography className={classes.text}> Resources Archive Empty </Typography>
+      <div className={classes.imgCon}>
+
       <Button className={classes.button} onClick={handleUpload}> Upload File </Button>
-    </div>
+      </div>
+    </Container>
   );
 }; 
 

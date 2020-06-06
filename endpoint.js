@@ -18,6 +18,7 @@ export const endpoint = {
   getRecentTransactions: api + '/transaction/recent',
   getTransactionActivityYear: api + '/transaction/activity',
   getTransactionByMember: api + '/transaction/member',
+  getAllTransactionHistory: api + '/transaction',
   getAllBanks: api + '/transaction/bank/list',
   linkBank: api + '/bank',
   bankVerify: api + '/bank/verify',

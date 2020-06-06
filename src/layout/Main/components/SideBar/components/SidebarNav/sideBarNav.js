@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
-import React, { forwardRef } from 'react';
+import React, { useRef, useEffect, forwardRef } from 'react';
 // import { NavLink as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -26,9 +26,9 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'none', 
     letterSpacing: 0,
     width: '100%',
-    height: 38,
-    marginLeft: theme.spacing(3.5),
-    '&: hover': {
+    height: 35,
+    marginLeft: theme.spacing(3),
+    '&:hover': {
       color: theme.palette.primary.main
     },
   },
@@ -46,10 +46,13 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
     opacity: 1,
     fontSize: 12,
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
+    '&:hover': {
+      color: theme.typography.fontWeightMedium
+    },
   },
   active: {
-    color: theme.palette.primary.main,
+    color: '#FFFFFF',
     fontWeight: theme.typography.fontWeightMedium,
     '& $icon': {
       color: '#FD0E31'
@@ -59,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: theme.typography.fontWeightMedium,
     },
     borderRight: '3px solid #FD0E31',
-    borderRadius: 0
+    borderRadius: 0,
+    backgroundColor: theme.palette.action.selected
   },
 }));
 
@@ -69,6 +73,13 @@ const SidebarNav = props => {
   console.log("router", router);
   
   const classes = useStyles(props);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      
+    fetchData();
+    }
+  }, [])
   
   return (
     <List {...rest} className={clsx(classes.root, className)}>
@@ -81,8 +92,9 @@ const SidebarNav = props => {
             href={page.href}
           >
             <div className={classes.icon}>{page.icon}</div>
+            {/* <div  >{page.title}</div> */}
             <div>
-                <Typography className={clsx(classes.title, classes.titleActive)}>
+                <Typography className={clsx(classes.title, classes.activ)}>
                 {page.title}
                 </Typography>
             </div>

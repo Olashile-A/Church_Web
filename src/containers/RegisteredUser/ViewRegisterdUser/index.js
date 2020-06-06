@@ -14,7 +14,7 @@ import Table from './Table';
 import axios from 'axios';
 import { endpoint } from '../../../../endpoint';
 import { config } from '../../../../config';
-import { Card, CardContent, Container } from '@material-ui/core';
+import { Card, CardContent, Container, Grid } from '@material-ui/core';
 import { withRouter } from 'next/router';
 
 const count = [
@@ -39,7 +39,7 @@ const count = [
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(3, 9)
+    padding: theme.spacing(3, 5)
   },
   CardContent: {
     display: 'flex',
@@ -48,11 +48,11 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center'
   },
   cardTwo: {
-    width: 300,
+    // width: 300,
     // height: 366
   },
   cardThree: {
-    width: 690,
+    // width: 570,
     // height: 366
   },
   text: {
@@ -166,39 +166,42 @@ const ViewRegisteredUser = (props) => {
                 {/* <Typography className={classes.text}> Adeniran Yemi</Typography> */}
             </div>
             <div className={classes.body}>
-                <Container disableGutters maxWidth="xs">
-                    <Card className={classes.cardTwo} >
-                        <CardContent className={classes.CardContent}>
-                          <div className={classes.imageContainer}>
-                              <img  src={docs.image} className={classes.image}/>
-                          </div>
-                          <Typography className={classes.text}> {users.fullName}</Typography>
-                          <Typography className={classes.bodyText}> {users.email}</Typography>
-                          <Typography className={classes.bodyText}> +{users.countryCode + ' ' + users.phoneNumber}</Typography>
-                          <Typography className={classes.badgeText}> Zone 4</Typography>
-                          <div >
-                              <FormControl component="fieldset" className={classes.switch}>
-                                  <FormGroup aria-label="position" row>
-                                      <FormControlLabel
-                                      value="start"
-                                      control={<Switch color="primary" />}
-                                      label="Active"
-                                      labelPlacement="start"
-                                      />
-                                  </FormGroup>
-                              </FormControl>
-                          </div>
-                        </CardContent>
-                    </Card>
-                </Container>
-                <Container disableGutters maxWidth="xl" >
-                    <Card className={classes.cardThree}>
-                        <Typography className={classes.headerText}> User Activity & Transactions</Typography>
-                        <Table 
-                          memerTransaction={memerTransaction}
-                        />
-                    </Card>
-                </Container>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={4}>
+                  <Card className={classes.cardTwo} >
+                    <CardContent className={classes.CardContent}>
+                      <div className={classes.imageContainer}>
+                        <img  src={docs.image} className={classes.image}/>
+                      </div>
+                      <Typography className={classes.text}> {users.fullName}</Typography>
+                      <Typography className={classes.bodyText}> {users.email}</Typography>
+                      <Typography className={classes.bodyText}> +{users.countryCode + ' ' + users.phoneNumber}</Typography>
+                      <Typography className={classes.badgeText}> Zone 4</Typography>
+                      <div >
+                        <Typography className={classes.switch}> Active </Typography>
+                        {/* <FormControl component="fieldset" className={classes.switch}>
+                          <FormGroup aria-label="position" row>
+                            <FormControlLabel
+                              value="start"
+                              control={<Switch color="primary" />}
+                              label="Active"
+                              labelPlacement="start"
+                            />
+                          </FormGroup>
+                        </FormControl> */}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                  <Card className={classes.cardThree}>
+                    <Typography className={classes.headerText}> User Activity & Transactions</Typography>
+                    <Table 
+                      memerTransaction={memerTransaction}
+                    />
+                  </Card>
+                </Grid>
+              </Grid>
             </div>
         </Paper>
     </div>

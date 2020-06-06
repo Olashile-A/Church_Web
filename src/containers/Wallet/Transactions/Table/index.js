@@ -7,6 +7,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import moment from 'moment';
+
 
 const useStyles = makeStyles({
   table: {
@@ -33,40 +35,20 @@ const useStyles = makeStyles({
   }
 });
 
-function createData( number, date, reference, paymentMethod, mode, amount) {
-  return { number, date, reference, paymentMethod, mode, amount };
-}
-
-
-const rows = [
-  createData(1, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(2, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(3, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(4, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(5, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(6, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(7, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(8, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(9, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(10, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(11, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(12, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(13, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(14, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-  createData(15, '18th May 2020', '#CL0056XLK', 'Credit Card', 'Withdrawal', '$40,000.00'),
-];
-
-export default function DenseTable() {
+export default function DenseTable(props) {
   const classes = useStyles();
-
+  const {allTransactions} = props;
+  console.log('props', props);
+  
+ let count = 0;
   return (
     <TableContainer>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell align="left" className={classes.tableHeadCell}>S/N</TableCell>
-            <TableCell align="right" className={classes.tableHeadCell}>Date</TableCell>
-            <TableCell align="right" className={classes.tableHeadCell}>Reference</TableCell>
+            <TableCell align="center" className={classes.tableHeadCell}>Date</TableCell>
+            <TableCell align="center" className={classes.tableHeadCell}>Reference</TableCell>
             <TableCell align="center" className={classes.tableHeadCell}>Payment Method</TableCell>
             <TableCell align="center" className={classes.tableHeadCell}>Mode</TableCell>
             <TableCell align="center" className={classes.tableHeadCell}>Amount</TableCell>
@@ -74,16 +56,18 @@ export default function DenseTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name} >
+          {allTransactions.map((row) => (
+            <TableRow key={row._id} >
               <TableCell className={classes.tableCell} component="th" scope="row">
-                {row.number}
+                {count = 0 ? count : count + 1 }
               </TableCell>
-              <TableCell align="right" className={classes.tableCell}>{row.date}</TableCell>
-              <TableCell align="right" className={classes.tableCell}>{row.reference}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.paymentMethod}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.mode}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.amount}</TableCell>
+              <TableCell align="right" className={classes.tableCell}>{moment(row.date).format('DD MMM YYYY')}</TableCell>
+              <TableCell align="right" className={classes.tableCell}>XX{row.txRef.substr(29,32)}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{row.type}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{row.modeOfPayment}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>
+                {row.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+              </TableCell>
               <TableCell align="center" className={classes.tableCell}>
                 <Button className={classes.button}>
                     View

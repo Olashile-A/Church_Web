@@ -207,9 +207,9 @@ function SimpleTabs(props) {
         </Typography>
         <Tabs value={value} onChange={handleChange} indicatorColor="primary"
           textColor="primary" aria-label="simple tabs example" centered >
-          <Tab label="All Request" {...a11yProps(0)} />
-          <Tab label="Inbox" {...a11yProps(1)} />
-          <Tab label="Replied" {...a11yProps(2)} />
+          <Tab label="All Request" {...a11yProps(0)} style={{fontSize: 12}}/>
+          <Tab label="Inbox" {...a11yProps(1)} style={{fontSize: 12}}/>
+          <Tab label="Replied" {...a11yProps(2)} style={{fontSize: 12}}/>
         </Tabs>
         <div className={classes.search}>
             <div className={classes.searchIcon}>

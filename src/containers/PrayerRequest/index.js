@@ -15,7 +15,7 @@ const mapDispatchToProps = {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2,4)
+    padding: theme.spacing(0,4)
   },
   
  
@@ -103,27 +103,29 @@ const PrayerRequest = (props) => {
     fetchData();
   }, [])
   return (
-    <div className={classes.root}>
+    <div>
       {view.general && 
+      <div className={classes.root}>
         <Tab 
           allPrayer={allPrayer}
           inboxPrayer={inboxPrayer}
           repliedPrayer={repliedPrayer}
           handleViewMessage={handleViewMessage}
-        />}
+        />
+      </div>}
       {view.inboxView && 
-        <InboxView
-          handleReplyMessage={handleReplyMessage}
-          handleViewBack={handleViewBack}
-        />
-      }
-      {view.inboxReply && 
-        <InboxReply 
-          handleReplyBack={handleReplyBack}
-        />
-      }
-        
+          <InboxView
+            handleReplyMessage={handleReplyMessage}
+            handleViewBack={handleViewBack}
+          />
+        }
+        {view.inboxReply && 
+          <InboxReply 
+            handleReplyBack={handleReplyBack}
+          />
+        }
     </div>
+    
   );
 };
 

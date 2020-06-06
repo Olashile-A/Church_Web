@@ -22,7 +22,7 @@ import Transfer from '../Transfer';
 import Withdrawal from '../Withdrawal';
 import Transactions from '../Transactions';
 import { connect } from 'react-redux';
-import { setReset } from '../../../store/actions'
+import { setReset, setWithdrawReset, setTransferReset } from '../../../store/actions'
 
 
 const count = [
@@ -45,7 +45,9 @@ const count = [
 ];
 
 const mapDispatchToProps ={
-  setReset
+  setReset,
+  setWithdrawReset,
+  setTransferReset,
 };
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -99,13 +101,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     padding: theme.spacing(2),
   },
-  headerTwo: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: theme.spacing(1, 3, 1, 1 ),
-    borderBottom: '1px solid grey',
-    background: '#FCFCFC 0% 0% no-repeat padding-box'
+  container: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
   },
 }));
 
@@ -119,8 +117,10 @@ function SimpleTabs(props) {
   };
 
   const handleReset = () => {
-    const { setReset } = props;
+    const { setReset, setWithdrawReset, setTransferReset } = props;
     setReset()
+    setWithdrawReset()
+    setTransferReset()
   }
   
   const handleChangeIndex = (index) => {
@@ -138,12 +138,11 @@ function SimpleTabs(props) {
           textColor="primary" aria-label="simple tabs example" centered >
           <Tab label="Wallet" {...a11yProps(0)}  />
           <Tab label="Link Acount" {...a11yProps(1)} onClick={handleReset}/>
-          <Tab label="Transfer" {...a11yProps(2)} />
-          <Tab label="Withdrawal" {...a11yProps(3)} />
-          <Tab label="Transaction" {...a11yProps(4)} />
+          <Tab label="Transfer" {...a11yProps(2)} onClick={handleReset}/>
+          <Tab label="Withdrawal" {...a11yProps(3)} onClick={handleReset}/>
+          <Tab label="Transaction" {...a11yProps(4)} onClick={handleReset}/>
         </Tabs>
       </AppBar>
-      
       <div className={classes.card}>
         <Card className={classes.container}>
         <SwipeableViews

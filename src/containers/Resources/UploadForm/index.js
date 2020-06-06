@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     width: 398,
-    height: 532,
+    height: 450,
     border: '1px solid #E2E2E2',
     borderRadius: 5
   },
@@ -73,16 +73,20 @@ const UploadForm = (props) => {
     router.push('/dashboard/resources/upload-form')
   };
 
+  const handleBack = () => {
+    router.push('/dashboard/resources')
+  };
+
   return (
     <div className={classes.root}>
         <Container maxWidth="sm">
-        <Button className={classes.backButton} startIcon={<ArrowBackIcon />}>
+        <Button className={classes.backButton} onClick={handleBack} startIcon={<ArrowBackIcon />}>
             Back
         </Button>
         <Card className={classes.card}>
           <Typography className={classes.headerText}> Upload Resource </Typography>
           <CardContent>
-            <Grid container spacing={1} justify='center' align='center'>
+            <Grid container spacing={1} justify='center'>
               <Grid item  xs={12} >
                 <TextField
                     // accept="image/*"
