@@ -73,7 +73,7 @@ export default function DenseTable(props) {
               <TableCell align="right" className={classes.tableCell}>{row.email}</TableCell>
               <TableCell align="center" className={classes.tableCell}>XXXX{row._id.substr(19,24)}</TableCell>
               <TableCell align="center" className={classes.tableCell}>{row.phoneNumber}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{moment(row.date).format('HH:MM')}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{moment(row.updatedAt).format('HH:MM')}</TableCell>
               <TableCell align="center" className={classes.tableCell}>
                 <Button onClick={handleView(row._id)} className={classes.button}>
                     View

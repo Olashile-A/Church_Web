@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PaymentActivity(props) {
   const classes = useStyles();
-  const {className} = props
+  const {className, name} = props
 
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -67,7 +67,7 @@ export default function PaymentActivity(props) {
     <Paper className={classes.root}>
       <div className={classes.header}>
         <Typography className={classes.headerText} color="textSecondary" gutterBottom>
-          Payment Activity
+          {name + ' '}Payment Activity
         </Typography>
       </div>
       <BarChart />

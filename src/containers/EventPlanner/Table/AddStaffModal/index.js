@@ -10,7 +10,13 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Typography, Divider } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Alert from "@material-ui/lab/Alert";
+import isEmail from "validator/lib/isEmail";
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import {endpoint} from '../../../../../endpoint';
+import {config} from '../../../../../config';
 
 const useStyles = makeStyles(theme => ({ 
   form: {
@@ -65,7 +71,8 @@ const useStyles = makeStyles(theme => ({
   icon: {
     width:  20,
     height: 20,
-    color: '#E2E2E2'
+    color: '#E2E2E2',
+    cursor: 'pointer'
     // marginLeft: theme.spacing(3)
   },
   cssLabel: {
@@ -88,14 +95,16 @@ const useStyles = makeStyles(theme => ({
 
 export default function ResponsiveDialog(props) {
   const classes = useStyles();
+  const theme = useTheme();
+  const router = useRouter();
   const {isOpen, setIsopen, handleClose} = props;
 
   const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [value, setValue] = React.useState({
     firstName: "",
     lastName: "",
+    email: "",
     title: "",
   });
   const [alert, setAlert] = React.useState({
@@ -118,10 +127,17 @@ export default function ResponsiveDialog(props) {
   //   setOpen(!isOpen);
   // };
 
-  const handleCreateStaff = (event) => {
+  const handleCreateStaff = async (event) => {
     event.preventDefault();
+    let token = sessionStorage.getItem('token')
 
-    if (value.firstName) {
+    setAlert({
+      err: "",
+      msg: "",
+      isLoading: true
+    })
+
+    if (value.firstName === "") {
       setAlert({
         err: "firstName",
         msg: "firstName can't be empty",
@@ -137,12 +153,54 @@ export default function ResponsiveDialog(props) {
       return;
     }
 
+    if (!isEmail(value.email)) {
+      setAlert({
+        err: "email",
+        msg: "invalid email",
+      });
+      return;
+    }
+
     if (value.title === "") {
+      setAlert({
+        err: "title",
+        msg: "title can't be empty",
+      });
+      return;
+    }
+
+    if (token) {
+      try {
+        const request = {
+          firstName: value.firstName,
+          lastName: value.lastName,
+          email: value.email,
+          title: value.title,
+        }
+        let headers = {
+          'publicToken' : config.publicToken,
+          'x-auth-token': token
+        }
+        let addStaff = await axios.post(endpoint.createStaff,
+          request, 
+          {"headers" : headers}
+        )
+        console.log('addStaff', addStaff);
+        
+        router.reload()
+
         setAlert({
-          err: "title",
-          msg: "title can't be empty",
-        });
-        return;
+          isLoading: false
+        })
+      } catch (error) {
+        console.log('error', error);
+        console.log('error', error.response);
+        setAlert({
+          err: "others",
+          msg: error.response,
+          isLoading: false
+        })
+      }
     }
   };
 
@@ -158,27 +216,28 @@ export default function ResponsiveDialog(props) {
         <DialogTitle id="responsive-dialog-title" >
           <div className={classes.header}>
           <Typography className={classes.text}> Add Staff</Typography>
-          <CancelOutlinedIcon className={classes.icon} />
+          <CancelOutlinedIcon className={classes.icon} onClick={handleClose}/>
           </div>
         </DialogTitle>
         <Divider />
         <DialogContent>
           <DialogContentText>
             <form className={classes.form} onSubmit={handleCreateStaff} noValidate>
-                <TextField
+              {alert.err === "others" && <Alert severity="warning">{alert.msg}</Alert>}
+              <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
                 value={value.firstName}
                 className={classes.textField}
-                onChange={handleChange("email")}
-                id="email"
+                onChange={handleChange("firstName")}
+                id="firstName"
                 label="First Name"
-                name="email"
+                name="firstName"
                 autoFocus
-                error={alert.err === "email"}
-                helperText={alert.err === "email" && alert.msg}
+                error={alert.err === "firstName"}
+                helperText={alert.err === "firstName" && alert.msg}
                 InputProps={{
                     classes: {
                     root: classes.cssOutlinedInput,
@@ -192,8 +251,8 @@ export default function ResponsiveDialog(props) {
                     focused: classes.cssFocused,
                     },
                 }} 
-                />
-                <TextField
+              />
+              <TextField
                 variant="outlined"
                 margin="normal"
                 required
@@ -220,8 +279,36 @@ export default function ResponsiveDialog(props) {
                     focused: classes.cssFocused,
                     },
                 }} 
-                />
-                <TextField
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                value={value.email}
+                className={classes.textField}
+                onChange={handleChange("email")}
+                id="email"
+                label="email"
+                name="email"
+                autoFocus
+                error={alert.err === "email"}
+                helperText={alert.err === "email" && alert.msg}
+                InputProps={{
+                    classes: {
+                    root: classes.cssOutlinedInput,
+                    focused: classes.cssFocused,
+                    notchedOutline: classes.notchedOutline,
+                    },
+                }}
+                InputLabelProps={{
+                    classes: {
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                    },
+                }} 
+              />
+              <TextField
                 variant="outlined"
                 margin="normal"
                 required
@@ -248,13 +335,13 @@ export default function ResponsiveDialog(props) {
                     focused: classes.cssFocused,
                     },
                 }} 
-                />
+              />
             </form>
           </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.buttonContainer}>
-          <Button className={classes.buttonOne} onClick={handleCreateStaff} autoFocus>
-            Add Staff
+          <Button disabled={alert.isLoading} className={classes.buttonOne} onClick={handleCreateStaff} autoFocus>
+           {alert.isLoading ? <CircularProgress className={classes.progress}/> : "Add staff"}
           </Button>
           <Button className={classes.buttonTwo} onClick={handleClose} color="primary" autoFocus>
             Close

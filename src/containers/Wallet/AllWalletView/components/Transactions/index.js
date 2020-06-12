@@ -37,12 +37,12 @@ const useStyles = makeStyles( (theme) =>({
 
 export default function Transactions(props) {
   const classes = useStyles();
-  const {className} = props
+  const {className, name } = props
 
   return (
     <Card className={classes.root}>
       <div className={classes.header}>
-          <Typography className={classes.headerText}>Transactions</Typography>
+          <Typography className={classes.headerText}>{name + ' '}Transactions</Typography>
           <div>
             <Button
             className={classes.button}

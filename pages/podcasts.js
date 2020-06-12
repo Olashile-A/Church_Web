@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import MainLayout from "../src/layout/Main";
-import ResourcesLayout from "../src/containers/Resources";
+import PodcastsLayout from "../src/containers/Podcasts";
 
-class Resources extends Component {
+class Podcasts extends Component {
 
  
   render() {
     return (
       <MainLayout>
-        <ResourcesLayout />
+        <PodcastsLayout />
       </MainLayout>
     );
   }
 }
 
-export default Resources;
+export default Podcasts;

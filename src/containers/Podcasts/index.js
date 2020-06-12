@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-const Resources = () => {
+const Podcasts = () => {
   const classes = useStyles();
 
   return (
@@ -25,4 +25,4 @@ const Resources = () => {
   );
 };
 
-export default Resources;
+export default Podcasts;

@@ -80,6 +80,8 @@ const AllWalletView = (props) => {
   const classes = useStyles();
   const router = useRouter();
   const [wallet, setWallet] = React.useState([])
+  const [view, setView] = React.useState(true)
+  const [datas, setDatas] = React.useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,58 +112,105 @@ const AllWalletView = (props) => {
     router.push('/dashboard/wallet')
   }
 
-  const handleWalletSwitch = () => {
+  const handleWalletSwitch = id =>() => {
     let data=[]
-    wallet.map(detail => {
-      data.push({ value: detail.name})
+    wallet
+      .filter((dat) => dat._id === id)
+      .map(detail => {
+      data.push({ 
+        amount: detail.amount,
+        total: detail.totalTx,
+        currency: detail.currency,
+        name: detail.name
+      })
     })
 
-    for (var i = 0; i < data.length; i++){
-     console.log('data', data[i]);
-    }
-
-    // if(data.[0] === 'offer' )
+    setDatas(data);
+    console.log('data', data);
+    setView(false)
   }
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Typography className={classes.headerTitle} >
+        <Typography className={classes.headerTitle}>
           Wallet
         </Typography>
         <Button className={classes.backButton} onClick={handleGoBack} startIcon={<ArrowBackIcon />}>
           Back
         </Button>
         <div className={classes.container}>
+        <Grid container spacing={2}>
+         <Grid item xs={12} sm={3}>
           <Wallets 
             titles={titles}
             wallet={wallet}
             handleWalletSwitch={handleWalletSwitch}
           />
-          <Container maxWidth="md">
-            {wallet.map((detail) => (
+          </Grid>
+          <Grid xs={12} sm={9}>
+            {datas.map((detail) => (
               <Grid container spacing={1} key={detail._id}  direction='row'>
                 <Grid item sm={6} xs={12} >
                   <Donations 
-                    total={detail.totalTx}
                     amount={detail.amount}
-                    currency={detail.currency}
-                    name={detail.name}
+                    totalTx={detail.total}
+                    currency={detail.currency.symbol}
                   />
                 </Grid>
                 <Grid item sm={6} xs={12} >
-                  <PaymentTrend />
+                  <PaymentTrend 
+                    name={detail.name}
+                  />
                 </Grid>
                 <Grid item xs={12} >
-                  <PaymentActivity />
+                  <PaymentActivity 
+                    name={detail.name}
+                    totalTx={detail.totalTx}
+                  />
                 </Grid>
                 <Grid item xs={12} >
-                  <Transactions />
+                  <Transactions 
+                    name={detail.name}
+                  />
                 </Grid>
               </Grid>
             ))}
-           
-          </Container>
+            {view && 
+              <div>
+                {wallet
+                .filter(view => view.name === 'Offering')
+                .map((detail) => (
+                <Grid container spacing={1} key={detail._id}  direction='row'>
+                  <Grid item sm={6} xs={12} >
+                    <Donations 
+                      amount={detail.amount}
+                      totalTx={detail.totalTx}
+                      currency={detail.currency.symbol}
+                    />
+                  </Grid>
+                  <Grid item sm={6} xs={12} >
+                    <PaymentTrend 
+                      name={detail.name}
+                    />
+                  </Grid>
+                  <Grid item xs={12} >
+                    <PaymentActivity 
+                      name={detail.name}
+                      totalTx={detail.totalTx}
+                    />
+                  </Grid>
+                  <Grid item xs={12} >
+                    <Transactions 
+                      name={detail.name}
+                    />
+                  </Grid>
+                </Grid>
+              ))}
+              </div>
+            }
+          </Grid>
+          </Grid>
         </div>
       </Paper>
     </div>

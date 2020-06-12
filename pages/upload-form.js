@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MainLayout from "../src/layout/Main";
-import UploadFormLayout from "../src/containers/Resources/UploadForm";
+import UploadFormLayout from "../src/containers/Podcasts/UploadForm";
 
 class UploadForm extends Component {
 

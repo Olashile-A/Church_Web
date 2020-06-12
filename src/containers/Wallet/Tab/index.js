@@ -136,11 +136,11 @@ function SimpleTabs(props) {
         </Typography>
         <Tabs value={value} onChange={handleChange} indicatorColor="primary"
           textColor="primary" aria-label="simple tabs example" centered >
-          <Tab label="Wallet" {...a11yProps(0)}  />
-          <Tab label="Link Acount" {...a11yProps(1)} onClick={handleReset}/>
-          <Tab label="Transfer" {...a11yProps(2)} onClick={handleReset}/>
-          <Tab label="Withdrawal" {...a11yProps(3)} onClick={handleReset}/>
-          <Tab label="Transaction" {...a11yProps(4)} onClick={handleReset}/>
+          <Tab label="Wallet" {...a11yProps(0)}  style={{fontSize: 12, minWidth: 25}}/>
+          <Tab label="Link Acount" {...a11yProps(1)} onClick={handleReset} style={{fontSize: 12, minWidth: 25}}/>
+          <Tab label="Transfer" {...a11yProps(2)} onClick={handleReset} style={{fontSize: 12, minWidth: 25}}/>
+          <Tab label="Withdrawal" {...a11yProps(3)} onClick={handleReset} style={{fontSize: 12, minWidth: 25}}/>
+          <Tab label="Transaction" {...a11yProps(4)} onClick={handleReset} style={{fontSize: 12, minWidth: 25}}/>
         </Tabs>
       </AppBar>
       <div className={classes.card}>

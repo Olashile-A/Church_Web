@@ -78,8 +78,8 @@ const Sidebar = props => {
 
     },
     {
-      title: "Resources",
-      href: "/dashboard/resources",
+      title: "Podcasts",
+      href: "/dashboard/podcasts",
       icon: <HeadsetIcon />
 
     },

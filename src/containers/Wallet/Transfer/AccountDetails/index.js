@@ -147,7 +147,7 @@ const AccountDetails = (props) => {
           <Card className={classes.card}>
             <Typography className={classes.headerTextTwo}> Set Account Details </Typography>
             <CardContent>
-              <Grid container spacing={1} justify='center' align='center'>
+              <Grid container spacing={1} justify='center'>
                 <Grid item  xs={12} >
                   <TextField
                     id="outlined-select-state"

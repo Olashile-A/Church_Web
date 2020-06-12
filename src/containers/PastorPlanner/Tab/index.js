@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {fade, makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -20,8 +20,11 @@ import InputBase from '@material-ui/core/InputBase';
 import Calender from '../Calender';
 import OnGoingTask from '../OnGoingTask';
 import CreateNewTask from '../CreateNewTask';
-
-// import CreateStaffModal from '../Table/AddStaffModal';
+import moment from 'moment'
+import { endpoint } from '../../../../endpoint';
+import { config } from '../../../../config';
+import axios from 'axios';
+import {format} from "date-fns";
 import CreateEventModal from '../Calender/CreateEvent';
 
 
@@ -220,6 +223,34 @@ function SimpleTabs(props) {
   const [drop, setDrop] = React.useState(5);
   const [isOpen, setIsOpen] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [tasks, setTasks] = React.useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = sessionStorage.getItem('token')
+      let currentMonth = new Date()
+      let newMonth = format(currentMonth, 'M')
+      let newYear = format(currentMonth, 'yyyy')
+      if (token) {
+        try {
+          let headers = {
+            'publicToken' : config.publicToken,
+            'x-auth-token': token
+          }
+          let task = await axios.get(endpoint.getTask + '?month=' + newMonth  + '&year=' + newYear, 
+            {"headers" : headers}
+          )
+          console.log('task', task);
+            setTasks(task.data)
+        } catch (error) {
+          console.log('error', error);
+          console.log('error', error.response);
+        }
+      }
+    }
+
+    fetchData();
+  }, [])
 
   const handleAddStaffOpen = () => {
     setIsOpen(true)
@@ -283,7 +314,7 @@ function SimpleTabs(props) {
             <TabPanel value={value} index={0} >
               <div className={classes.headerTwo}>
                 <div className={classes.subHeaderTwo}>
-                  <Typography className={classes.text}> May 2018 </Typography>
+                  <Typography className={classes.text}> {moment().format('MMMM yyyy')} </Typography>
                   <Button className={classes.todayButton}> Today</Button>
                   {/* <Button className={classes.taskButton} onClick={handleCreateTaskOpen}> Create Task</Button> */}
                 </div>
@@ -293,10 +324,14 @@ function SimpleTabs(props) {
                   <MoreHorizIcon className={classes.icon} />
                 </div>
               </div>
-              <Calender />
+              <Calender 
+                tasks={tasks}
+              />
             </TabPanel>
             <TabPanel value={value} index={1} >
-              <OnGoingTask />
+              <OnGoingTask 
+                tasks={tasks}
+              />
             </TabPanel>
             <TabPanel value={value} index={2} >
               <CreateNewTask />

@@ -1,4 +1,4 @@
-const api = 'http://api.churchesapp.com/api/v1';
+const api = 'https://api.churchesapp.com/api/v1';
 
 export const endpoint = {
   login: api + '/auth',
@@ -22,5 +22,12 @@ export const endpoint = {
   getAllBanks: api + '/transaction/bank/list',
   linkBank: api + '/bank',
   bankVerify: api + '/bank/verify',
-  walletVerify: api + '/wallet/verify'
+  walletVerify: api + '/wallet/verify',
+  createStaff: api + '/staff',
+  getStaff: api + '/staff',
+  createResource: api + '/resource',
+  createEvent: api + '/events',
+  createTask: api + '/task',
+  getEvent: api + '/events',
+  getTask: api + '/task',
 };

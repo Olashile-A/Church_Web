@@ -298,7 +298,7 @@ const InboxReply = (props) => {
             />
           </div>
           <div className={classes.footerContainer}>
-            <div className={classes.attach}>
+            {/* <div className={classes.attach}>
               <div className={classes.button}>
                 <PictureAsPdfIcon /> 
                 <Typography className={classes.bibleText}>Bible verse</Typography>
@@ -311,7 +311,7 @@ const InboxReply = (props) => {
                 
               </div>
               
-            </div>
+            </div> */}
             <div className={classes.cardAction}>
               <div className={classes.button}>
                 <Button

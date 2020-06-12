@@ -47,18 +47,18 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(3)
   },
   text: {
-    letterSpacing: 0.53,
+    letterSpacing: 0.25,
     color: '#616781',
     opacity: 1,
     fontSize: 12,
   },
   number: {
-    letterSpacing: 0.53,
     color: '#101424',
     opacity: 1,
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 'bold',
-    padding: theme.spacing(1,0)
+    padding: theme.spacing(1,0),
+    width: '80%'
   },
   header: {
     display: 'flex',
@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: theme.spacing(1)
+    padding: theme.spacing(1, 0)
   },
   footer: {
     display: 'flex',
@@ -96,8 +96,8 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     color: '#FD0E31',
     marginTop: 10,
-    width: 35,
-    height: 35,
+    width: 32,
+    height: 32,
   },
   footerIconOne: {
     color: '#FD0E31',
@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
   nairaIcon: {
     color: '#FD0E31',
     marginTop: 10,
-    width: 35,
+    width: 20,
     height: 40,
   },
   textContainer: {
@@ -133,7 +133,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Donations(props) {
   const classes = useStyles();
-  const {className} = props
+  const {className, totalTx, amount, currency } = props
+  console.log('donations', props);
+  
 
   return (
     <Paper className={classes.root}>
@@ -142,16 +144,18 @@ export default function Donations(props) {
           <PaymentIcon className={classes.icon}/>
           <div className={classes.textContainer}>
             <Typography className={classes.text}> TRANSACTIONS </Typography>
-            <Typography className={classes.number}> 234 </Typography>
+            <Typography className={classes.number}> {totalTx} </Typography>
           </div>
         </div>
         
 
         <div className={classes.body}>
-          <Icon className={classes.nairaIcon}>₦</Icon>
+          <Icon className={classes.nairaIcon}>{currency}</Icon>
           <div className={classes.textContainer2}>
             <Typography className={classes.text}> AMOUNT </Typography>
-            <Typography className={classes.number}> 3,000,000 </Typography>
+            <Typography className={classes.number}> 
+             {amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}  
+            </Typography>
           </div>
         </div>
       </div>

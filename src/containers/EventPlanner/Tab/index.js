@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {fade, makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -20,7 +20,10 @@ import InputBase from '@material-ui/core/InputBase';
 import Calender from '../Calender';
 import CreateStaffModal from '../Table/AddStaffModal';
 import CreateEventModal from '../Calender/CreateEvent';
-
+import moment from 'moment';
+import axios from 'axios';
+import {endpoint} from '../../../../endpoint';
+import {config} from '../../../../config';
 
 const count = [
   {
@@ -217,6 +220,32 @@ function SimpleTabs(props) {
   const [drop, setDrop] = React.useState(5);
   const [isOpen, setIsOpen] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [staffs, setStaffs] = React.useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = sessionStorage.getItem('token')
+      
+      if (token) {
+        try {
+          let headers = {
+            'publicToken' : config.publicToken,
+            'x-auth-token': token
+          }
+          let staff = await axios.get(endpoint.getStaff, 
+            {"headers" : headers}
+          )
+          console.log('staff', staff);
+          setStaffs(staff.data)
+        } catch (error) {
+          console.log('error', error);
+          console.log('error', error.response);
+        }
+      }
+    }
+
+    fetchData();
+  }, [])
 
   const handleAddStaffOpen = () => {
     setIsOpen(true)
@@ -272,7 +301,7 @@ function SimpleTabs(props) {
       {!show ? 
         (<div className={classes.headerTwo}>
           <div className={classes.subHeaderTwo}>
-            <Typography className={classes.text}> May 2018 </Typography>
+            <Typography className={classes.text}> {moment().format('MMMM yyyy')} </Typography>
             <Button className={classes.todayButton}> Today</Button>
             <Button className={classes.taskButton} onClick={handleCreateTaskOpen}> Create Task</Button>
           </div>
@@ -331,7 +360,9 @@ function SimpleTabs(props) {
               <Calender />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <Table />
+              <Table 
+                staffs={staffs}
+              />
             </TabPanel>
         </SwipeableViews>
         </Card>

@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import moment from 'moment'
 
 const useStyles = makeStyles({
   table: {
@@ -33,33 +34,20 @@ const useStyles = makeStyles({
   }
 });
 
-function createData( number, fullName, email, title, id, lastSeen) {
-  return { number, fullName, email, title, id, lastSeen };
-}
 
-
-const rows = [
-  createData(1, 'Musa Saka', 'm.saka@gmail.com', 'Accountant', 'CL001EXLT', '2:00 AM (2 mins ago)'),
-  createData(2, 'Musa Saka', 'm.saka@gmail.com', 'Accountant', 'CL001EXLT', '2:00 AM (2 mins ago)'),
-  createData(3, 'Musa Saka', 'm.saka@gmail.com', 'Accountant', 'CL001EXLT', '2:00 AM (2 mins ago)'),
-  createData(4, 'Musa Saka', 'm.saka@gmail.com', 'Accountant', 'CL001EXLT', '2:00 AM (2 mins ago)'),
-  createData(5, 'Musa Saka', 'm.saka@gmail.com', 'Accountant', 'CL001EXLT', '2:00 AM (2 mins ago)'),
-  createData(6, 'Musa Saka', 'm.saka@gmail.com', 'Accountant', 'CL001EXLT', '2:00 AM (2 mins ago)'),
-  createData(7, 'Musa Saka', 'm.saka@gmail.com', 'Accountant', 'CL001EXLT', '2:00 AM (2 mins ago)'),
-  createData(8, 'Musa Saka', 'm.saka@gmail.com', 'Accountant', 'CL001EXLT', '2:00 AM (2 mins ago)'),
-];
-
-export default function DenseTable() {
+export default function DenseTable(props) {
   const classes = useStyles();
+  const {staffs} = props;
 
+  let count = 0;
   return (
     <TableContainer>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell align="left" className={classes.tableHeadCell}>S/N</TableCell>
-            <TableCell align="right" className={classes.tableHeadCell}>Full Name</TableCell>
-            <TableCell align="right" className={classes.tableHeadCell}>Email Address</TableCell>
+            <TableCell align="center" className={classes.tableHeadCell}>Full Name</TableCell>
+            <TableCell align="center" className={classes.tableHeadCell}>Email Address</TableCell>
             <TableCell align="center" className={classes.tableHeadCell}>Title</TableCell>
             <TableCell align="center" className={classes.tableHeadCell}>User ID</TableCell>
             <TableCell align="center" className={classes.tableHeadCell}>Last seen</TableCell>
@@ -67,16 +55,16 @@ export default function DenseTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name} >
+          {staffs.map((row) => (
+            <TableRow key={row._id} >
               <TableCell className={classes.tableCell} component="th" scope="row">
-                {row.number}
+                {count = 0 ? count : count + 1 }
               </TableCell>
-              <TableCell align="right" className={classes.tableCell}>{row.fullName}</TableCell>
-              <TableCell align="right" className={classes.tableCell}>{row.email}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{row.fullName}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{row.email}</TableCell>
               <TableCell align="center" className={classes.tableCell}>{row.title}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.id}</TableCell>
-              <TableCell align="center" className={classes.tableCell}>{row.lastSeen}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>XXXX{row._id.substr(19,24)}</TableCell>
+              <TableCell align="center" className={classes.tableCell}>{moment(row.updatedAt).format('HH:MM')}</TableCell>
               <TableCell align="center" className={classes.tableCell}>
                 <Button className={classes.button}>
                     View

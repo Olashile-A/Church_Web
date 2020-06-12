@@ -13,9 +13,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useRouter } from 'next/router';
-import { endpoint } from '../../../../endpoint';
-import { config } from '../../../../config';
-import axios from 'axios';
+import moment from 'moment';
+import Notes from './Notes'
+import EventNoteIcon from '@material-ui/icons/EventNote';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: theme.spacing(2, 0)
+    padding: theme.spacing(2, 0, 0)
   },
   assigned: {
     display: 'flex',
@@ -67,7 +67,10 @@ const useStyles = makeStyles(theme => ({
   },
     marginLeft: 16,
   gridContainer:{
-    padding: theme.spacing(2, 0)
+    padding: theme.spacing(2, 0, 0, 0)
+  },
+  gridContainerTwo:{
+    // padding: theme.spacing(2, 0, 0, 0)
   },
   pray: {
     border: '1px solid #E2E2E2',
@@ -98,6 +101,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
   },
+  eventIcon: {
+    color: '#FD0E31'
+  },
   timeline: {
     border: '1px solid #E2E2E2',
     height: 40,
@@ -119,56 +125,95 @@ const docs = {
   instagram: '/static/images/instagram.png'
 }
 
-const OngoingTask = () => {
+const OngoingTask = (props) => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false)
+  const [notes, setNotes] = React.useState(false)
+  const {tasks} = props;
 
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleOpen = note => () => {
+    setNotes(note)
+    setOpen(true)
+  }
 
   return (
     <div className={classes.root}>
       <Container className={classes.cardGrid} maxWidth="xl">
         <div className={classes.weekContainer}>
-            <Typography className={classes.badgeText}>12th May, 2020</Typography>
+          <Typography className={classes.badgeText}>12th May, 2020</Typography>
         </div>
-        <Grid container spacing={1} className={classes.gridContainer}>
+          <Grid container spacing={1} className={classes.gridContainer}>
           <Grid item xs={12} sm={3} className={classes.grid}>
-            <Typography className={classes.text}>Description </Typography>
-            <div className={classes.pray}>
-            <Typography className={classes.textTwo}> Opening Prayer </Typography>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={2}>
-            <Typography className={classes.text}> Status </Typography>
-            <div className={classes.status}>
-             <Typography className={classes.textTwo}> Opening Prayer </Typography>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={2} >
-            <Typography className={classes.text}> Due Date </Typography>
-            <div className={classes.date}>
-             <Typography className={classes.textTwo}> Opening Prayer </Typography>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={2}>
-            <Typography className={classes.text}> Assigned </Typography>
-            <div className={classes.assigned}>
-              <img src={docs.facebook} className={classes.img}/>
-              <Typography className={classes.textTwo}> #Joshua </Typography>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={1}>
-            <Typography className={classes.text}> Note </Typography>
-            <div className={classes.note}>
-             <Typography className={classes.textTwo}> Opening </Typography>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={2}>
-            <Typography className={classes.text}> Timeline </Typography>
-            <div className={classes.timeline}>
-             <Typography className={classes.textTwo}> Opening Prayer </Typography>
-            </div>
-          </Grid>
-        </Grid>
+              <Typography className={classes.text}>Description </Typography>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Typography className={classes.text}> Status </Typography>
+            </Grid>
+            <Grid item xs={12} sm={2} >
+              <Typography className={classes.text}> Due Date </Typography>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Typography className={classes.text}> Assigned </Typography>
+            </Grid>
+            <Grid item xs={12} sm={1}>
+              <Typography className={classes.text}> Note </Typography>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Typography className={classes.text}> Timeline </Typography>
+            </Grid>
+            </Grid>
+
+            {tasks.map((detail => 
+              <Grid container spacing={1} className={classes.gridContainerTwo}>
+                <Grid item xs={12} sm={3} className={classes.grid}>
+                  {/* <Typography className={classes.text}>Description </Typography> */}
+                  <div className={classes.pray}>
+                  <Typography className={classes.textTwo}> {detail.name} </Typography>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  {/* <Typography className={classes.text}> Status </Typography> */}
+                  <div className={classes.status}>
+                  <Typography className={classes.textTwo}> {detail.status} </Typography>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={2} >
+                  {/* <Typography className={classes.text}> Due Date </Typography> */}
+                  <div className={classes.date}>
+                  <Typography className={classes.textTwo}> {moment(detail.endDate).format('MMM DD')} </Typography>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  {/* <Typography className={classes.text}> Assigned </Typography> */}
+                  <div className={classes.assigned}>
+                    <img src={docs.facebook} className={classes.img}/>
+                    <Typography className={classes.textTwo}> #{detail.staffId.lastName} </Typography>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={1}>
+                  {/* <Typography className={classes.text}> Note </Typography> */}
+                  <div className={classes.note} onClick={handleOpen(detail.notes)}>
+                  <EventNoteIcon className={classes.eventIcon}> Note </EventNoteIcon>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  {/* <Typography className={classes.text}> Timeline </Typography> */}
+                  <div className={classes.timeline}>
+                  <Typography className={classes.textTwo}>{moment(detail.startDate).format('MMM DD') + ' - ' + moment(detail.endDate).format('MMM DD')}</Typography>
+                  </div>
+                </Grid>
+              </Grid>
+            ))}
       </Container>
+      <Notes 
+        open={open}
+        handleClose={handleClose}
+        notes={notes}
+      />
     </div>
   );
 };

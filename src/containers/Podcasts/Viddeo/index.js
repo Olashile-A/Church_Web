@@ -44,12 +44,12 @@ const useStyles = makeStyles(theme => ({
 const docs = {
     folder: '/static/images/empty-folder.png'
 }
-const Audio = () => {
+const Video = () => {
   const classes = useStyles();
   const router = useRouter();
 
   const handleUpload = () => {
-    router.push('/dashboard/resources/upload-form')
+    router.push('/dashboard/podcasts/upload-form')
   };
 
   return (
@@ -58,7 +58,7 @@ const Audio = () => {
 
       <img  src={docs.folder} className={classes.img}/>
       </div>
-      <Typography className={classes.text}> Resources Archive Empty </Typography>
+      <Typography className={classes.text}> Podcast Archive Empty </Typography>
       <div className={classes.imgCon}>
 
       <Button className={classes.button} onClick={handleUpload}> Upload File </Button>
@@ -67,4 +67,4 @@ const Audio = () => {
   );
 }; 
 
-export default Audio;
+export default Video;
